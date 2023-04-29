@@ -2,6 +2,7 @@
 
 package com.feraxhp.billmate
 
+import PrimaryUi
 import android.annotation.SuppressLint
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
@@ -46,35 +47,3 @@ class MainActivity : ComponentActivity() {
     var prueba = Fund(100.0, "No se")
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Composable
-fun PrimaryUi() {
-    BillmateTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.surface
-        ) {
-            Scaffold(
-                bottomBar = {
-                    bottomLayout(
-                        Names = listOf("Home", "Accounts", "Debts", "Overview"),
-                        Icons = listOf(Icons.Rounded.Home, Icons.Rounded.Person, Icons.Rounded.Lock, Icons.Rounded.Face),
-                        modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
-                    )
-                }
-            ) {
-
-            }
-
-        }
-    }
-}
-
-@Preview(showSystemUi = true)
-@Preview(showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
-@Composable
-fun PrimaryUiPreview() {
-    PrimaryUi()
-}

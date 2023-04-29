@@ -2,6 +2,7 @@ import android.annotation.SuppressLint
 import android.widget.ToggleButton
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.style.TextAlign
@@ -37,7 +39,8 @@ fun IconButton(
     text: String = "Button",
     modifier: Modifier = Modifier,
     buttonIcon: ImageVector = Icons.Outlined.Build,
-    ColorBackgroud: Color = MaterialTheme.colorScheme.primary
+    ColorBackgroud: Color = MaterialTheme.colorScheme.primary,
+    ShapeBackground: Shape = MaterialTheme.shapes.medium
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -45,23 +48,34 @@ fun IconButton(
             /*.padding(0.dp)*/
             .clickable { onClick() }
     ) {
-        Icon(imageVector = buttonIcon,
-            contentDescription = text,
-            Modifier
-                .padding(10.dp)
-                .size(20.dp)
-//                .background(color = ColorBackgroud)
-        )
+        Box(
+            contentAlignment = Alignment.Center
+        ){
+            Text(text = "",
+                modifier = Modifier
+                    .padding(top = 15.dp)
+                    .size(width = 50.dp, height = 25.dp)
+                    .background(color = ColorBackgroud, shape = ShapeBackground,)
+            )
+            Icon(
+                imageVector = buttonIcon,
+                contentDescription = text,
+                modifier = Modifier
+                    .padding(top = 15.dp)
+                    .size(25.dp)
+                    .padding(4.dp)
+            )
+        }
         Text(
             text = text,
             textAlign = TextAlign.Center,
             maxLines = 1,
+            style = MaterialTheme.typography.bodySmall,
             modifier = Modifier/*.clickable() { onClick() }*/
-            .padding(bottom = 5.dp)
-            .padding(horizontal = 10.dp)
+                .padding(bottom = 15.dp, top = 5.dp)
+                .padding(horizontal = 10.dp)
         )
     }
-
 }
 
 @Preview()
