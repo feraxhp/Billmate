@@ -19,6 +19,7 @@ import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,27 +32,38 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun IconButton(onClick: () -> Unit, text: String = "Button", modifier: Modifier = Modifier, buttonIcon: ImageVector = Icons.Outlined.Build) {
+fun IconButton(
+    onClick: () -> Unit,
+    text: String = "Button",
+    modifier: Modifier = Modifier,
+    buttonIcon: ImageVector = Icons.Outlined.Build,
+    ColorBackgroud: Color = MaterialTheme.colorScheme.primary
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-            .padding(0.dp)
+            /*.padding(0.dp)*/
             .clickable { onClick() }
     ) {
-        Button(modifier = Modifier
-            .padding(horizontal = 10.dp)/*.padding(top = 5.dp)*/
-            .widthIn(40.dp, 70.dp)
-            .fillMaxWidth(), onClick = {  },) {
-            Icon(imageVector = buttonIcon, contentDescription = text, Modifier.fillMaxWidth())
-        }
-        Text(text = text, textAlign = TextAlign.Center, maxLines = 1,modifier = Modifier/*.clickable() { onClick() }*/
+        Icon(imageVector = buttonIcon,
+            contentDescription = text,
+            Modifier
+                .padding(10.dp)
+                .size(20.dp)
+//                .background(color = ColorBackgroud)
+        )
+        Text(
+            text = text,
+            textAlign = TextAlign.Center,
+            maxLines = 1,
+            modifier = Modifier/*.clickable() { onClick() }*/
             .padding(bottom = 5.dp)
             .padding(horizontal = 10.dp)
-            .widthIn(70.dp, 100.dp)
-            .fillMaxWidth())
+        )
     }
 
 }
+
 @Preview()
 @Composable
 fun PrimaryUiPreview() {

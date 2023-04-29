@@ -117,6 +117,6 @@ fun BillmateTheme(
         colorScheme = colorScheme,
         typography = Typography,
         content = content,
-        shapes = Shapes
+//        shapes = Shapes
     )
 }
