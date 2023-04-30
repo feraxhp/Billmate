@@ -1,24 +1,11 @@
-import android.annotation.SuppressLint
-import android.widget.ToggleButton
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Build
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.rounded.Edit
-import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material.icons.rounded.ShoppingCart
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,18 +15,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun IconButton(
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
     text: String = "Button",
-    modifier: Modifier = Modifier,
     buttonIcon: ImageVector = Icons.Outlined.Build,
-    ColorBackgroud: Color = MaterialTheme.colorScheme.primary,
+    ColorBackground: Color = MaterialTheme.colorScheme.primary,
     ShapeBackground: Shape = MaterialTheme.shapes.medium
 ) {
     Column(
@@ -50,12 +36,13 @@ fun IconButton(
     ) {
         Box(
             contentAlignment = Alignment.Center
-        ){
-            Text(text = "",
+        ) {
+            Text(
+                text = "",
                 modifier = Modifier
                     .padding(top = 15.dp)
                     .size(width = 50.dp, height = 25.dp)
-                    .background(color = ColorBackgroud.copy(alpha = .3f), shape = ShapeBackground,)
+                    .background(color = ColorBackground.copy(alpha = .3f), shape = ShapeBackground)
             )
             Icon(
                 imageVector = buttonIcon,
@@ -78,7 +65,7 @@ fun IconButton(
     }
 }
 
-@Preview()
+@Preview
 @Composable
 fun PrimaryUiPreview() {
     IconButton(onClick = { }, modifier = Modifier)
