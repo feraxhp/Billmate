@@ -55,7 +55,7 @@ fun IconButton(
                 modifier = Modifier
                     .padding(top = 15.dp)
                     .size(width = 50.dp, height = 25.dp)
-                    .background(color = ColorBackgroud, shape = ShapeBackground,)
+                    .background(color = ColorBackgroud.copy(alpha = .3f), shape = ShapeBackground,)
             )
             Icon(
                 imageVector = buttonIcon,
