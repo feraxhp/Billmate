@@ -24,6 +24,7 @@ fun IconButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     text: String = "Button",
+    backgroundVisible: Float = 1F,
     buttonIcon: ImageVector = Icons.Outlined.Build,
     ColorBackground: Color = MaterialTheme.colorScheme.primary,
     ShapeBackground: Shape = MaterialTheme.shapes.medium
@@ -42,7 +43,7 @@ fun IconButton(
                 modifier = Modifier
                     .padding(top = 15.dp)
                     .size(width = 50.dp, height = 25.dp)
-                    .background(color = ColorBackground.copy(alpha = .3f), shape = ShapeBackground)
+                    .background(color = ColorBackground.copy(alpha = .3f * backgroundVisible), shape = ShapeBackground)
             )
             Icon(
                 imageVector = buttonIcon,

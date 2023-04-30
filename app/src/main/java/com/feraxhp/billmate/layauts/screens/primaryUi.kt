@@ -28,7 +28,7 @@ fun PrimaryUi() {
         ) {
             Scaffold(
                 bottomBar = {
-                    bottomLayout(
+                    BottomLayout(
                         Names = listOf("Home", "Accounts", "Debts", "Overview"),
                         Icons = listOf(Icons.Rounded.Home, Icons.Rounded.Person, Icons.Rounded.Lock, Icons.Rounded.Face),
                         modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
@@ -45,6 +45,6 @@ fun PrimaryUi() {
 @Preview(showSystemUi = true)
 @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun preview() {
+fun Preview() {
     PrimaryUi()
 }
