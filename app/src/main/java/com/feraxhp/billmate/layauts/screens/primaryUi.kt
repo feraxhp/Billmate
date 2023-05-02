@@ -2,6 +2,7 @@ package com.feraxhp.billmate.layauts.screens
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.DrawerValue
@@ -20,8 +21,8 @@ import kotlinx.coroutines.launch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.feraxhp.billmate.layauts.TopBar
-import com.feraxhp.billmate.layauts.Bars.MyModalNavigation
-import com.feraxhp.billmate.layauts.Bars.MyNavigationBar
+import com.feraxhp.billmate.layauts.components.MyModalNavigation
+import com.feraxhp.billmate.layauts.components.MyNavigationBar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,25 +48,28 @@ fun PrimaryUi() {
                 scope = scope,
                 content = {
                     Scaffold(
-
                         topBar = {
                             val text: String
                             text = when (selectedItemValue) {
-                                0 -> "home"
-                                1 -> "accounts"
-                                2 -> "debts"
-                                3 -> "overview"
-                                else -> "home"
+                                0 -> "Billmate"
+                                1 -> "Accounts"
+                                2 -> "Debts"
+                                3 -> "Overview"
+                                else -> "Billmate"
                             }
                             TopBar(text = text,
                                 navigationAction = {
                                 scope.launch { drawerState.open() }
                             }, searchAction = {
 
-                            })
+                            }, modifier = Modifier.background(MaterialTheme.colorScheme.background.copy(alpha = 0f))
+                            )
                         },
                         content = {
-                            LazyColumn {
+
+                            LazyColumn (
+                                modifier = Modifier
+                                    ){
                                 item {
                                     for (i in 1..100) {
 

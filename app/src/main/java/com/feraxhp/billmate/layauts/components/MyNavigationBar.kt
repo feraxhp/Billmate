@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.layauts.Bars
+package com.feraxhp.billmate.layauts.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*

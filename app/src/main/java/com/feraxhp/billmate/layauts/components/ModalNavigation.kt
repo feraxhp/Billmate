@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.layauts.Bars
+package com.feraxhp.billmate.layauts.components
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
