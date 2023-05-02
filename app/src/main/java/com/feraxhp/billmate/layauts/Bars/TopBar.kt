@@ -14,11 +14,11 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(navigationAction: () -> Unit, searchAction: () -> Unit) {
+fun TopBar(text: String, navigationAction: () -> Unit, searchAction: () -> Unit) {
     TopAppBar(
         title = {
             Text(
-                "Billmate",
+                text = text,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -45,5 +45,5 @@ fun TopBar(navigationAction: () -> Unit, searchAction: () -> Unit) {
 @Preview(widthDp = 400)
 @Composable
 fun Preview() {
-    TopBar(navigationAction = {}, searchAction = {})
+    TopBar(navigationAction = {}, searchAction = {}, text = "Billmate")
 }

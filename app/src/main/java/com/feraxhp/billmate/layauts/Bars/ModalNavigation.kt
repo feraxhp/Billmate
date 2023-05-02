@@ -32,7 +32,9 @@ fun MyModalNavigation(
     selectedItem: Int, onItemClick: (Int) -> Unit,
     content: @Composable () -> Unit,
 ) {
-    ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
         ModalDrawerSheet {
             Spacer(Modifier.height(12.dp))
             items.forEach { item ->
@@ -48,7 +50,8 @@ fun MyModalNavigation(
                 )
             }
         }
-    }, content = {
+    },
+        content = {
         content()
     })
 }

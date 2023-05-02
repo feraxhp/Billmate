@@ -34,6 +34,7 @@ fun PrimaryUi() {
 
     BillmateTheme {
         // A surface container using the 'background' color from the theme
+        print("PrimaryUi")
 
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -46,8 +47,18 @@ fun PrimaryUi() {
                 scope = scope,
                 content = {
                     Scaffold(
+
                         topBar = {
-                            TopBar(navigationAction = {
+                            val text: String
+                            text = when (selectedItemValue) {
+                                0 -> "home"
+                                1 -> "accounts"
+                                2 -> "debts"
+                                3 -> "overview"
+                                else -> "home"
+                            }
+                            TopBar(text = text,
+                                navigationAction = {
                                 scope.launch { drawerState.open() }
                             }, searchAction = {
 
@@ -75,7 +86,7 @@ fun PrimaryUi() {
                                 selectedItem = selectedItemValue,
                                 onItemClick = getSelectedItem
                             )
-                        }
+                        },
                     )
                 })
 
