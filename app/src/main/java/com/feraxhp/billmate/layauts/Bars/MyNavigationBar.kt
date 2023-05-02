@@ -9,7 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 val items = listOf("Home", "Accounts", "Debs", "Overview")
-val icons = listOf(Icons.Outlined.Home, Icons.Outlined.Person, Icons.Outlined.Lock, Icons.Outlined.Face)
+val icons =
+    listOf(Icons.Outlined.Home, Icons.Outlined.Person, Icons.Outlined.Lock, Icons.Outlined.Face)
 
 @Composable
 fun MyNavigationBar(selectedItem: Int, onItemClick: (Int) -> Unit) {

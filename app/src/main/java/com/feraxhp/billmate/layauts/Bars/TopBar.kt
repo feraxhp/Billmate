@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar() {
+fun TopBar(navigationAction: () -> Unit, searchAction: () -> Unit) {
     TopAppBar(
         title = {
             Text(
@@ -24,7 +24,7 @@ fun TopBar() {
             )
         },
         navigationIcon = {
-            IconButton(onClick = { /* doSomething() */ }) {
+            IconButton(onClick = { navigationAction() }) {
                 Icon(
                     imageVector = Icons.Filled.Menu,
                     contentDescription = "Localized description"
@@ -32,7 +32,7 @@ fun TopBar() {
             }
         },
         actions = {
-            IconButton(onClick = { /* doSomething() */ }) {
+            IconButton(onClick = { searchAction() }) {
                 Icon(
                     imageVector = Icons.Filled.Search,
                     contentDescription = "Localized description"
@@ -45,5 +45,5 @@ fun TopBar() {
 @Preview(widthDp = 400)
 @Composable
 fun Preview() {
-    TopBar()
+    TopBar(navigationAction = {}, searchAction = {})
 }

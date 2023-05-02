@@ -1,13 +1,9 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.feraxhp.billmate
 
-import PrimaryUi
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.ExperimentalMaterial3Api
-import com.feraxhp.billmate.structure.*
+import com.feraxhp.billmate.layauts.screens.PrimaryUi
 
 class MainActivity : ComponentActivity() {
     //    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -17,7 +13,5 @@ class MainActivity : ComponentActivity() {
             PrimaryUi()
         }
     }
-
-    var prueba = Fund(100.0, "No se")
 }
 
