@@ -24,9 +24,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyModalNavigation(
-    items: List<ImageVector> = listOf(
-        Icons.Default.Favorite, Icons.Default.Face, Icons.Default.Email
-    ),
+    items: List<ImageVector>,
     drawerState: DrawerState,
     scope: CoroutineScope,
     selectedItem: Int, onItemClick: (Int) -> Unit,

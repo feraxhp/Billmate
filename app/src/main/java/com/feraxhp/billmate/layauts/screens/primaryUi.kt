@@ -42,6 +42,7 @@ fun PrimaryUi() {
             color = MaterialTheme.colorScheme.background
         ) {
             MyModalNavigation(
+                items = listOf(/*Icons.Filled.Home, Icons.Filled.AccountBalance, Icons.Filled.AttachMoney, Icons.Filled.Dashboard*/),
                 selectedItem = selectedItemValue,
                 onItemClick = getSelectedItem,
                 drawerState = drawerState,
@@ -92,8 +93,8 @@ fun PrimaryUi() {
                             )
                         },
                     )
-                })
-
+                }
+            )
         }
     }
 }
