@@ -14,7 +14,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.ui.tooling.preview.Preview
-import com.feraxhp.billmate.activitys.theme.BillmateTheme
+import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope

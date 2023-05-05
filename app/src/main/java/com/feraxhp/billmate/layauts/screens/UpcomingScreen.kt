@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import com.feraxhp.billmate.activitys.CommonViewActivity
 import com.feraxhp.billmate.logic.User
-import com.feraxhp.billmate.activitys.theme.BillmateTheme
+import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
 
 
 @OptIn(ExperimentalMaterial3Api::class)

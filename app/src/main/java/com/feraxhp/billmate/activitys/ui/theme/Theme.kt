@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.activitys.theme
+package com.feraxhp.billmate.activitys.ui.theme
 
 import android.app.Activity
 import android.os.Build
