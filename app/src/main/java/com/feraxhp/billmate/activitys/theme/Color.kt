@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.ui.theme
+package com.feraxhp.billmate.activitys.theme
 
 import androidx.compose.ui.graphics.Color
 

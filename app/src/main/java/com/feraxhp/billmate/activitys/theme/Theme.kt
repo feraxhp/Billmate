@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.ui.theme
+package com.feraxhp.billmate.activitys.theme
 
 import android.app.Activity
 import android.os.Build
@@ -116,6 +116,6 @@ fun BillmateTheme(
         colorScheme = colorScheme,
         typography = Typography,
         content = content,
-//        shapes = Shapes
+        shapes = Shapes
     )
 }

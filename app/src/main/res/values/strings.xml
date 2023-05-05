@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Billmate</string>
+    <string name="title_activity_common_view">CommonView</string>
 </resources>

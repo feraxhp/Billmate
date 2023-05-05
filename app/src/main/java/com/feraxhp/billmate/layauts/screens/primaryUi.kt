@@ -2,9 +2,10 @@ package com.feraxhp.billmate.layauts.screens
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -13,16 +14,19 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.ui.tooling.preview.Preview
-import com.feraxhp.billmate.ui.theme.BillmateTheme
+import com.feraxhp.billmate.activitys.theme.BillmateTheme
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.feraxhp.billmate.layauts.TopBar
+import androidx.compose.ui.unit.dp
+import com.feraxhp.billmate.layauts.MyTopBar
+import com.feraxhp.billmate.layauts.components.MyFloatingActionButton
 import com.feraxhp.billmate.layauts.components.MyModalNavigation
 import com.feraxhp.billmate.layauts.components.MyNavigationBar
+import com.feraxhp.billmate.layauts.components.tabs.HomeTab
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,15 +38,11 @@ fun PrimaryUi() {
     val scope = rememberCoroutineScope()
 
     BillmateTheme {
-        // A surface container using the 'background' color from the theme
-        print("PrimaryUi")
-
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
             MyModalNavigation(
-                items = listOf(/*Icons.Filled.Home, Icons.Filled.AccountBalance, Icons.Filled.AttachMoney, Icons.Filled.Dashboard*/),
                 selectedItem = selectedItemValue,
                 onItemClick = getSelectedItem,
                 drawerState = drawerState,
@@ -50,41 +50,41 @@ fun PrimaryUi() {
                 content = {
                     Scaffold(
                         topBar = {
-                            val text: String
-                            text = when (selectedItemValue) {
-                                0 -> "Billmate"
+                            val text = when (selectedItemValue) {
+                                0 -> "Home"
                                 1 -> "Accounts"
                                 2 -> "Debts"
                                 3 -> "Overview"
                                 else -> "Billmate"
                             }
-                            TopBar(text = text,
+                            MyTopBar(text = text,
                                 navigationAction = {
-                                scope.launch { drawerState.open() }
-                            }, searchAction = {
+                                    scope.launch { drawerState.open() }
+                                },
+                                searchAction = {
 
-                            }, modifier = Modifier.background(MaterialTheme.colorScheme.background.copy(alpha = 0f))
-                            )
+                                },
+                                opacity = 1f,
+                                )
+
                         },
-                        content = {
+                        content = {innerPadding ->
 
                             LazyColumn (
+                                contentPadding = innerPadding,
+                                verticalArrangement = Arrangement.spacedBy(8.dp),
                                 modifier = Modifier
                                     ){
                                 item {
-                                    for (i in 1..100) {
-
-                                        Text(text = "Home $i")
+                                    when (selectedItemValue) {
+                                        0 -> HomeTab()
+                                        1 -> Text(text = "accounts")
+                                        2 -> Text(text = "debts")
+                                        3 -> Text(text = "overview")
+                                        else -> Text(text = "home")
                                     }
                                 }
                             }
-//                          when (selectedItemValue) {
-//                              0 -> Text(text = "home")
-//                              1 -> Text(text = "accounts")
-//                              2 -> Text(text = "debts")
-//                              3 -> Text(text = "overview")
-//                              else -> Text(text = "home")
-//                          }
                         },
                         bottomBar = {
                             MyNavigationBar(
@@ -92,6 +92,13 @@ fun PrimaryUi() {
                                 onItemClick = getSelectedItem
                             )
                         },
+                        floatingActionButton = {
+                            MyFloatingActionButton(
+                                onClick = {
+
+                                }
+                            )
+                        }
                     )
                 }
             )

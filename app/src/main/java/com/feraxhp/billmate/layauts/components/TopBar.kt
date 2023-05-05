@@ -9,15 +9,17 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(text: String, navigationAction: () -> Unit, searchAction: () -> Unit, modifier: Modifier = Modifier) {
+fun MyTopBar(text: String,
+           opacity: Float = 0f,
+           navigationAction: () -> Unit,
+           searchAction: () -> Unit,
+) {
     TopAppBar(
-        modifier = modifier,
         title = {
             Text(
                 text = text,
@@ -47,5 +49,5 @@ fun TopBar(text: String, navigationAction: () -> Unit, searchAction: () -> Unit,
 @Preview(widthDp = 400)
 @Composable
 fun Preview() {
-    TopBar(navigationAction = {}, searchAction = {}, text = "Billmate")
+    MyTopBar(navigationAction = {}, searchAction = {}, text = "Billmate")
 }

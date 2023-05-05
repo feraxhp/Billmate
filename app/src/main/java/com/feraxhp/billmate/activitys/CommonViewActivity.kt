@@ -1,13 +1,12 @@
-package com.feraxhp.billmate
+package com.feraxhp.billmate.activitys
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
+import androidx.activity.compose.setContent
 import com.feraxhp.billmate.layauts.screens.PrimaryUi
 
-class MainActivity : ComponentActivity() {
-    //    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+class CommonViewActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -16,4 +15,3 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 }
-

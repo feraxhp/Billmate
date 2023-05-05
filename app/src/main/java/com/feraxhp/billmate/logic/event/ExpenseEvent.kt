@@ -1,7 +1,7 @@
-package com.feraxhp.billmate.structure.event
+package com.feraxhp.billmate.logic.event
 
-import com.feraxhp.billmate.structure.CashCategory
-import com.feraxhp.billmate.structure.Fund
+import com.feraxhp.billmate.logic.CashCategory
+import com.feraxhp.billmate.logic.Fund
 
 class ExpenseEvent(
     name: String,

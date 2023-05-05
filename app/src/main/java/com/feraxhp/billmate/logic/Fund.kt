@@ -1,13 +1,16 @@
-package com.feraxhp.billmate.structure
+package com.feraxhp.billmate.logic
 
-import com.feraxhp.billmate.structure.event.Event
+import android.content.Context
+import com.feraxhp.billmate.logic.event.Event
 
 class Fund(
+    context: Context,
     private var amount: Double = 0.0,
     var name: String,
     var description: String? = null/*, var associatedBank:String? = null*/
 ) {
-
+    val SHARED_NAME = "Fund"
+    val storage = context.getSharedPreferences(SHARED_NAME, Context.MODE_PRIVATE)
     private lateinit var events: ArrayList<Event>
 
     public fun addEvent(event: Event) {
