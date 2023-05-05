@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.layauts.components
+package com.feraxhp.billmate.layauts.screens.components
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -33,7 +33,11 @@ fun MyModalNavigation(
     selectedItem: Int, onItemClick: (Int) -> Unit,
     content: @Composable () -> Unit,
 ) {
-    val selection = try {items[selectedItem]} catch (_: Exception) {null}
+    val selection = try {
+        items[selectedItem]
+    } catch (_: Exception) {
+        null
+    }
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -42,14 +46,20 @@ fun MyModalNavigation(
                 items.forEach { item ->
                     val selectioned = selection == item
                     NavigationDrawerItem(
-                        icon = { Icon(if (!selectioned) item else itemsBold[items.indexOf(item)], contentDescription = null) },
+                        icon = {
+                            Icon(
+                                if (!selectioned) item else itemsBold[items.indexOf(item)],
+                                contentDescription = null
+                            )
+                        },
                         label = { Text(text = text[items.indexOf(item)]) },
                         selected = selectioned,
                         onClick = {
                             scope.launch { drawerState.close() }
                             onItemClick(items.indexOf(item))
                         },
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                        modifier = Modifier
+                            .padding(NavigationDrawerItemDefaults.ItemPadding)
                             .height(50.dp)
                     )
                 }

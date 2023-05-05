@@ -1,9 +1,9 @@
-package com.feraxhp.billmate.layauts.components.tabs.components
+package com.feraxhp.billmate.layauts.tabs.components
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.feraxhp.billmate.layauts.components.tabs.components.components.MyCards
+import com.feraxhp.billmate.layauts.tabs.components.components.MyCards
 
 
 @Composable

@@ -13,20 +13,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
-import androidx.compose.ui.tooling.preview.Preview
-import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import kotlinx.coroutines.launch
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.feraxhp.billmate.layauts.MyTopBar
-import com.feraxhp.billmate.layauts.components.MyFloatingActionButton
-import com.feraxhp.billmate.layauts.components.MyModalNavigation
-import com.feraxhp.billmate.layauts.components.MyNavigationBar
-import com.feraxhp.billmate.layauts.components.tabs.HomeTab
+import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
+import com.feraxhp.billmate.layauts.screens.components.MyFloatingActionButton
+import com.feraxhp.billmate.layauts.screens.components.MyModalNavigation
+import com.feraxhp.billmate.layauts.screens.components.MyNavigationBar
+import com.feraxhp.billmate.layauts.screens.components.MyTopBar
+import com.feraxhp.billmate.layauts.tabs.HomeTab
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,6 +34,7 @@ import com.feraxhp.billmate.layauts.components.tabs.HomeTab
 @Composable
 fun PrimaryUi() {
     val (selectedItemValue, getSelectedItem) = remember { mutableStateOf(0) }
+    val titules = listOf("Home", "Accounts", "Debts", "Overview")
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -50,14 +51,8 @@ fun PrimaryUi() {
                 content = {
                     Scaffold(
                         topBar = {
-                            val text = when (selectedItemValue) {
-                                0 -> "Home"
-                                1 -> "Accounts"
-                                2 -> "Debts"
-                                3 -> "Overview"
-                                else -> "Billmate"
-                            }
-                            MyTopBar(text = text,
+                            MyTopBar(
+                                text = titules[selectedItemValue],
                                 navigationAction = {
                                     scope.launch { drawerState.open() }
                                 },
@@ -65,16 +60,16 @@ fun PrimaryUi() {
 
                                 },
                                 opacity = 1f,
-                                )
+                            )
 
                         },
-                        content = {innerPadding ->
+                        content = { innerPadding ->
 
-                            LazyColumn (
+                            LazyColumn(
                                 contentPadding = innerPadding,
                                 verticalArrangement = Arrangement.spacedBy(8.dp),
                                 modifier = Modifier
-                                    ){
+                            ) {
                                 item {
                                     when (selectedItemValue) {
                                         0 -> HomeTab()

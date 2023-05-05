@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.layauts
+package com.feraxhp.billmate.layauts.screens.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -14,10 +14,11 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTopBar(text: String,
-           opacity: Float = 0f,
-           navigationAction: () -> Unit,
-           searchAction: () -> Unit,
+fun MyTopBar(
+    text: String,
+    opacity: Float = 0f,
+    navigationAction: () -> Unit,
+    searchAction: () -> Unit,
 ) {
     TopAppBar(
         title = {

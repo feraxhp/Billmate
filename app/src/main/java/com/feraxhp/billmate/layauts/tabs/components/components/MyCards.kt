@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.layauts.components.tabs.components.components
+package com.feraxhp.billmate.layauts.tabs.components.components
 
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
