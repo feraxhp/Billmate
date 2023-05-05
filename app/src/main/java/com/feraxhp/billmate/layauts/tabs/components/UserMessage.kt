@@ -31,7 +31,7 @@ fun UserMessage() {
             modifier = Modifier
                 .padding(start = 15.dp)
                 .background(
-                    color = MaterialTheme.colorScheme.primaryContainer,
+                    color = MaterialTheme.colorScheme.secondaryContainer,
                     shape = RoundedCornerShape(percent = 50),
                 )
                 .padding(7.dp)

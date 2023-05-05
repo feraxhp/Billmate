@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -24,7 +25,8 @@ fun ExpensesCard() {
         val text: List<String> = listOf("Expenses", "Income")
         text.forEach {
             MyCards(
-                Modifier
+                color = MaterialTheme.colorScheme.secondaryContainer,
+                modifier = Modifier
                     .padding(start = 15.dp)
                     .fillMaxHeight()
                     .weight(1f)

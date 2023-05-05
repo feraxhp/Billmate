@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun PrimaryUi() {
+fun PrimaryScreen() {
     val (selectedItemValue, getSelectedItem) = remember { mutableStateOf(0) }
     val titules = listOf("Home", "Accounts", "Debts", "Overview")
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -91,7 +91,7 @@ fun PrimaryUi() {
                             MyFloatingActionButton(
                                 onClick = {
 
-                                }
+                                },
                             )
                         }
                     )
@@ -105,5 +105,5 @@ fun PrimaryUi() {
 @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun Preview() {
-    PrimaryUi()
+    PrimaryScreen()
 }

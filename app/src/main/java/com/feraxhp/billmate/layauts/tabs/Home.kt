@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.feraxhp.billmate.layauts.tabs.components.BalanceCard
+import com.feraxhp.billmate.layauts.tabs.components.EventInfo
 import com.feraxhp.billmate.layauts.tabs.components.ExpensesCard
 import com.feraxhp.billmate.layauts.tabs.components.UserMessage
 
@@ -13,6 +14,7 @@ fun HomeTab() {
         UserMessage()
         BalanceCard()
         ExpensesCard()
+        EventInfo()
     }
 }
 

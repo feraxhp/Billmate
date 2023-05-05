@@ -7,12 +7,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun MyCards(
     modifier: Modifier = Modifier.size(100.dp),
+    color: Color = MaterialTheme.colorScheme.primaryContainer,
     components: @Composable () -> Unit = {}
 ) {
     Box(
@@ -21,7 +23,7 @@ fun MyCards(
                 elevation = 7.dp, shape = MaterialTheme.shapes.large,
             )
             .background(
-                color = MaterialTheme.colorScheme.primaryContainer,
+                color = color,
                 shape = MaterialTheme.shapes.large,
             )
     ) {
