@@ -26,14 +26,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import com.feraxhp.billmate.activitys.CommonViewActivity
-import com.feraxhp.billmate.logic.User
+import com.feraxhp.billmate.activitys.WelcomeActivity.Companion.controller
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun UpcomingScreen(user: User, context: Context) {
+fun UpcomingScreen(context: Context) {
     val (userName, setUserName) = remember { mutableStateOf("") }
 
     BillmateTheme {
@@ -66,8 +66,12 @@ fun UpcomingScreen(user: User, context: Context) {
                     )
                     Button(
                         onClick = {
-                            user.setName(if (userName == "") null else userName)
-                            startActivity(context, Intent(context, CommonViewActivity::class.java), null)
+                            controller.user.setName(if (userName == "") null else userName)
+                            startActivity(
+                                context,
+                                Intent(context, CommonViewActivity::class.java),
+                                null
+                            )
                         },
                         modifier = center.padding(top = 20.dp)
                     ) {

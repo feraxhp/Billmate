@@ -44,7 +44,7 @@ fun UserMessage() {
                 .align(Alignment.CenterVertically)
         ) {
             Text(
-                text = "${WelcomeActivity.user.getName()}",
+                text = "${WelcomeActivity.controller.user.getName()}",
                 fontSize = MaterialTheme.typography.titleMedium.fontSize * 1.3,
                 fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
                 modifier = Modifier.padding(start = 15.dp)

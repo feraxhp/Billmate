@@ -1,50 +1,72 @@
 package com.feraxhp.billmate.logic.event
 
-import com.feraxhp.billmate.logic.CashCategory
-import com.feraxhp.billmate.logic.Fund
+import android.content.Context
 
-open class Event(
-    var name: String,
-    var amount: Double,
-    var category: CashCategory,
-    var fund: Fund,
-    var Description: String? = null
+class Event(
+    context: Context
 ) {
-    protected var type: Boolean? = null
+//    protected var type: Boolean? = null
 
-    init {
-        this.fund.addEvent(this)
-        this.category.addEvent(this)
+    var store = context.getSharedPreferences("Default", Context.MODE_PRIVATE)
+
+    fun newEvent(
+        key: String,
+        name: String,
+        amount: Float,
+        category: String,
+        fund: String,
+        Description: String? = null
+    ) {
+        this.store.edit().putString(key + ".name", name).apply()
+        this.store.edit().putFloat(key + ".amount", amount).apply()
+        this.store.edit().putString(key + ".category", category).apply()
+        this.store.edit().putString(key + ".fund", fund).apply()
+        this.store.edit().putString(key + ".description", Description).apply()
     }
 
-    public fun changeName(name: String) {
-        this.modificacion { this.name = name }
+
+    // Name
+    fun setName(key: String, name: String) {
+        this.store.edit().putString(key + ".name", name).apply()
     }
 
-    public open fun changeAmount(amount: Double) {
-        this.modificacion {
-            if (this.type!!) this.amount += amount
-            else this.amount -= amount
-        }
+    fun getName(key: String): String? {
+        return store.getString(key + ".name", null)
     }
 
-    public fun changeCategory(category: CashCategory) {
-        this.modificacion { this.category = category }
+    // Amount
+    fun setAmount(key: String, amount: Float) {
+        this.store.edit().putFloat(key + ".amount", amount).apply()
     }
 
-    public fun changeFund(fund: Fund) {
-        this.modificacion {this.fund = fund}
+    fun getAmount(key: String): Float {
+        return store.getFloat(key + ".amount", 0f)
     }
 
-    public fun changeDescription(Description: String? = null) {
-        this.modificacion { this.Description = Description }
-    }
-    private fun modificacion(funcion: () -> Unit) {
-        this.fund.removeEvent(this)
-        this.category.removeEvent(this)
-        funcion()
-        this.fund.addEvent(this)
-        this.category.addEvent(this)
+    // Fund
+    fun setFund(key: String, fund: String) {
+        this.store.edit().putString(key + ".fund", fund).apply()
     }
 
+    fun getFund(key: String): String? {
+        return store.getString(key + ".fund", null)
+    }
+
+    // Category
+    fun setCategory(key: String, category: String) {
+        this.store.edit().putString(key + ".category", category).apply()
+    }
+
+    fun getCategory(key: String): String? {
+        return store.getString(key + ".category", null)
+    }
+
+    // Description
+    fun setDescription(key: String, description: String?) {
+        this.store.edit().putString(key + ".description", description).apply()
+    }
+
+    fun getDescription(key: String): String? {
+        return store.getString(key + ".description", null)
+    }
 }
