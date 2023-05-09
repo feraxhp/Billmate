@@ -1,79 +1,51 @@
 package com.feraxhp.billmate.logic.event
 
-import android.content.Context
+import com.feraxhp.billmate.logic.CashCategory
+import com.feraxhp.billmate.logic.Fund
 
-class Event(
-    val context: Context
+open class Event(
+    var name: String,
+    var amount: Double,
+    var category: CashCategory,
+    var fund: Fund,
+    var Description: String? = null
 ) {
-    fun newEvent(
-        key: String,
-        name: String,
-        amount: Float,
-        category: String,
-        fund: String,
-        Description: String? = null
-    ) {
-        val store = context.getSharedPreferences(key, Context.MODE_PRIVATE)
-        store.edit().putString(key + ".name", name).apply()
-        store.edit().putFloat(key + ".amount", amount).apply()
-        store.edit().putString(key + ".category", category).apply()
-        store.edit().putString(key + ".fund", fund).apply()
-        store.edit().putString(key + ".description", Description).apply()
+    protected var type: Boolean? = null
+
+    init {
+        this.fund.addEvent(this)
+        this.category.addEvent(this)
     }
 
-
-    // Name
-    fun setName(key: String, name: String) {
-        val store = context.getSharedPreferences(key, Context.MODE_PRIVATE)
-        store.edit().putString(key + ".name", name).apply()
+    public fun changeName(name: String) {
+        this.modificacion { this.name = name }
     }
 
-    fun getName(key: String): String? {
-        val store = context.getSharedPreferences(key, Context.MODE_PRIVATE)
-        return store.getString(key + ".name", null)
+    public open fun changeAmount(amount: Double) {
+        this.modificacion {
+            if (this.type!!) this.amount += amount
+            else this.amount -= amount
+        }
     }
 
-    // Amount
-    fun setAmount(key: String, amount: Float) {
-        val store = context.getSharedPreferences(key, Context.MODE_PRIVATE)
-        store.edit().putFloat(key + ".amount", amount).apply()
+    public fun changeCategory(category: CashCategory) {
+        this.modificacion { this.category = category }
     }
 
-    fun getAmount(key: String): Float {
-        val store = context.getSharedPreferences(key, Context.MODE_PRIVATE)
-        return store.getFloat(key + ".amount", 0f)
+    public fun changeFund(fund: Fund) {
+        this.modificacion { this.fund = fund }
     }
 
-    // Fund
-    fun setFund(key: String, fund: String) {
-        val store = context.getSharedPreferences(key, Context.MODE_PRIVATE)
-        store.edit().putString(key + ".fund", fund).apply()
+    public fun changeDescription(Description: String? = null) {
+        this.modificacion { this.Description = Description }
     }
 
-    fun getFund(key: String): String? {
-        val store = context.getSharedPreferences(key, Context.MODE_PRIVATE)
-        return store.getString(key + ".fund", null)
+    private fun modificacion(funcion: () -> Unit) {
+        this.fund.removeEvent(this)
+        this.category.removeEvent(this)
+        funcion()
+        this.fund.addEvent(this)
+        this.category.addEvent(this)
     }
 
-    // Category
-    fun setCategory(key: String, category: String) {
-        val store = context.getSharedPreferences(key, Context.MODE_PRIVATE)
-        store.edit().putString(key + ".category", category).apply()
-    }
-
-    fun getCategory(key: String): String? {
-        val store = context.getSharedPreferences(key, Context.MODE_PRIVATE)
-        return store.getString(key + ".category", null)
-    }
-
-    // Description
-    fun setDescription(key: String, description: String?) {
-        val store = context.getSharedPreferences(key, Context.MODE_PRIVATE)
-        store.edit().putString(key + ".description", description).apply()
-    }
-
-    fun getDescription(key: String): String? {
-        val store = context.getSharedPreferences(key, Context.MODE_PRIVATE)
-        return store.getString(key + ".description", null)
-    }
 }

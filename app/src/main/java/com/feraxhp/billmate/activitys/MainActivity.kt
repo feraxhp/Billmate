@@ -5,10 +5,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
-import com.feraxhp.billmate.controler.Controller
+import com.feraxhp.billmate.controller.Controller
 import com.feraxhp.billmate.layauts.screens.UpcomingScreen
 
-class WelcomeActivity : ComponentActivity() {
+class MainActivity : ComponentActivity() {
     companion object {
         lateinit var controller: Controller
     }
