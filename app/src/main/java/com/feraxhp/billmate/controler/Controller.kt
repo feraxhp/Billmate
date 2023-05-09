@@ -12,4 +12,7 @@ class Controller(context: Context) {
     private var category: CategoryController = CategoryController(context)
     private var fundController: FundController = FundController(context)
 
+    fun newTransferEvent() {
+
+    }
 }
