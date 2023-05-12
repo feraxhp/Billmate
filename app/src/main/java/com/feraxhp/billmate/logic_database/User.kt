@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.logic
+package com.feraxhp.billmate.logic_database
 
 import android.content.Context
 

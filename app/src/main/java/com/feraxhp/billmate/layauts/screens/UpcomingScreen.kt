@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import com.feraxhp.billmate.activitys.CommonViewActivity
 import com.feraxhp.billmate.activitys.MainActivity.Companion.controller
-import com.feraxhp.billmate.logic.User
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
 
 
@@ -68,7 +67,11 @@ fun UpcomingScreen(context: Context) {
                     Button(
                         onClick = {
                             controller.user.setName(if (userName == "") null else userName)
-                            startActivity(context, Intent(context, CommonViewActivity::class.java), null)
+                            startActivity(
+                                context,
+                                Intent(context, CommonViewActivity::class.java),
+                                null
+                            )
                         },
                         modifier = center.padding(top = 20.dp)
                     ) {
