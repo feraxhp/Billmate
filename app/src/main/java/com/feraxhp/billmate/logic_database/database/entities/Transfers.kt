@@ -24,6 +24,8 @@ data class Transfers(
     val id: Long = 0L,
     val name: String,
     val amount: Double,
+    val date: String,
+    val time: String,
     val description: String,
     @ColumnInfo(name = "origin_fund_id")
     val origin_fund_id: Long,

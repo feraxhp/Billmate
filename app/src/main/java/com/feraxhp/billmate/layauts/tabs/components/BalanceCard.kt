@@ -36,10 +36,8 @@ fun BalanceCard() {
                 .padding(horizontal = 15.dp)
                 .padding(top = 40.dp)
         ) {
-            val text: List<String> = listOf("Income", "Expenses")
-            text.forEach {
-                Text(text = "$it: ${0.00}")
-            }
+            Text(text = "Incomes: ${appController.getTotalIncomes()}")
+            Text(text = "Expenses: ${appController.getTotalExpenses()}")
         }
     }
 }
