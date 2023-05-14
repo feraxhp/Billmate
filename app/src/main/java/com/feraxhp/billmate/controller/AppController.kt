@@ -12,7 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class Controller(context: Context) {
+class AppController(context: Context) {
     val user = User(context)
     var billMateDatabase =
         Room.databaseBuilder(context, MyDataBase::class.java, "billmateDB").build()
@@ -25,12 +25,8 @@ class Controller(context: Context) {
 
     init {
         coroutineScope.launch {
-            actualizeFunds()
-            actualizeCategories()
-            actualizeTransfers()
-            actualizeExpenses()
-            actualizeIncomes()
-            if (funds.isEmpty() && user.isDeleted()) {
+            actualize()
+            if (funds.isEmpty() && !user.isDeleted()) {
                 funds.add(
                     Funds(
                         accountName = "Default",
@@ -41,6 +37,14 @@ class Controller(context: Context) {
                 billMateDatabase.FundsDao().insertFund(funds[0])
             }
         }
+    }
+
+    private suspend fun actualize() {
+        actualizeFunds()
+        actualizeCategories()
+        actualizeTransfers()
+        actualizeExpenses()
+        actualizeIncomes()
     }
 
     // Actualizations
@@ -73,14 +77,16 @@ class Controller(context: Context) {
     fun removeFund(fund: Funds) {
         coroutineScope.launch {
             billMateDatabase.FundsDao().removeFund(fund.id)
-            actualizeFunds()
+            billMateDatabase.EventsDao().removeEvent(fund.id)
+            actualize()
         }
     }
 
     fun removeCategory(category: Categories) {
         coroutineScope.launch {
             billMateDatabase.CategoriesDao().removeCategory(category.id)
-            actualizeCategories()
+            billMateDatabase.EventsDao().removeEvent(category.id)
+            actualize()
         }
     }
 

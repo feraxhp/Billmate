@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
 import com.feraxhp.billmate.layauts.screens.components.MyFloatingActionButton
 import com.feraxhp.billmate.layauts.screens.components.MyModalNavigation
@@ -79,7 +80,11 @@ fun PrimaryScreen() {
                         floatingActionButton = {
                             MyFloatingActionButton(
                                 onClick = {
-
+                                    when (selectedItemValue) {
+                                        0 -> viewController.startCreateNewEvents()
+                                        1 -> viewController.startCreateNewFund()
+                                        else -> {}
+                                    }
                                 },
                             )
                         }

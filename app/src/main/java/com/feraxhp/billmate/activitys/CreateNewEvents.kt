@@ -4,13 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
-import com.feraxhp.billmate.layauts.screens.PrimaryScreen
+import com.feraxhp.billmate.layauts.screens.NewEvents
 
-class CommonViewActivity : ComponentActivity() {
+class CreateNewEvents : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PrimaryScreen()
+            NewEvents()
         }
         WindowCompat.setDecorFitsSystemWindows(window, false)
     }

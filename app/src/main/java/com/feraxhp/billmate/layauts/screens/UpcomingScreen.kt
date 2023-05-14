@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
-import com.feraxhp.billmate.activitys.CommonViewActivity
+import com.feraxhp.billmate.activitys.MainActivity
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
 
@@ -49,7 +49,6 @@ fun UpcomingScreen(context: Context) {
                     modifier = Modifier
                         .align(Alignment.Center)
                         .fillMaxWidth()
-//                        .background(MaterialTheme.colorScheme.surfaceVariant)
                 ) {
                     val center = Modifier.align(CenterHorizontally)
                     Text(
@@ -69,7 +68,7 @@ fun UpcomingScreen(context: Context) {
                             appController.user.setName(if (userName == "") null else userName)
                             startActivity(
                                 context,
-                                Intent(context, CommonViewActivity::class.java),
+                                Intent(context, MainActivity::class.java),
                                 null
                             )
                         },
