@@ -7,8 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.layauts.tabs.components.BalanceCard
-import com.feraxhp.billmate.layauts.tabs.components.EventInfo
-import com.feraxhp.billmate.layauts.tabs.components.ExpensesCard
 import com.feraxhp.billmate.layauts.tabs.components.UserMessage
 
 @Composable
@@ -20,8 +18,8 @@ fun HomeTab(innerPadding: PaddingValues = PaddingValues(0.dp)) {
         item {
             UserMessage()
             BalanceCard()
-            ExpensesCard()
-            EventInfo()
+//            ExpensesCard()
+//            EventInfo()
         }
 
     }

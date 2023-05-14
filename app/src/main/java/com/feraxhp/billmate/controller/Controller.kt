@@ -20,7 +20,7 @@ class Controller(context: Context) {
         coroutineScope.launch {
             actualizeFunds()
             if (funds.isEmpty()) {
-                funds.add(Funds(name = "default", amount = 0.0, description = ""))
+                funds.add(Funds(name = "default", amount = 200.0, description = ""))
                 billMateDatabase.FundsDao().insertFund(funds[0])
             }
         }
@@ -40,4 +40,11 @@ class Controller(context: Context) {
             actualizeFunds()
         }
     }
+
+    fun getTotalBalance(): Double {
+        return funds.sumOf { it.amount }
+    }
+//    fun getTotalExpenses(): Double {
+//        return funds.sumOf { it.amount }
+//    }
 }
