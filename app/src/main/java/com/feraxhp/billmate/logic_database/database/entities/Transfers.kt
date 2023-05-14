@@ -6,7 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "transferencias", foreignKeys = [
+    tableName = "Transferencias", foreignKeys = [
         ForeignKey(
             entity = Funds::class,
             parentColumns = ["id"],
