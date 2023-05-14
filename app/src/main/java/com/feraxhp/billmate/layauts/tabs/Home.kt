@@ -18,10 +18,7 @@ fun HomeTab(innerPadding: PaddingValues = PaddingValues(0.dp)) {
         item {
             UserMessage()
             BalanceCard()
-//            ExpensesCard()
-//            EventInfo()
         }
-
     }
 }
 

@@ -30,11 +30,13 @@ fun BalanceCard() {
                 .padding(15.dp)
         )
         Row(
-            horizontalArrangement = Arrangement.Start,
+            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 15.dp)
+                .padding(top = 40.dp)
         ) {
-            val text: List<String> = listOf("Expenses", "Income")
+            val text: List<String> = listOf("Income", "Expenses")
             text.forEach {
                 Text(text = "$it: ${0.00}")
             }
