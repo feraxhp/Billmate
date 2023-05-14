@@ -22,6 +22,9 @@ import androidx.room.PrimaryKey
 data class Events(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
+    val date: String,
+    val time: String,
+    val type: Boolean, // TRUE = Income, FALSE = Expense
     val name: String,
     val amount: Double,
     val description: String,

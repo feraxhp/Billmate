@@ -67,7 +67,7 @@ fun FundsTab(innerPadding: PaddingValues = PaddingValues(0.dp)) {
                             .size(18.dp)
                     )
                     Column() {
-                        Text(text = fund.name, fontSize = 18.sp, modifier = Modifier)
+                        Text(text = fund.accountName, fontSize = 18.sp, modifier = Modifier)
                         Text(text = fund.description)
                     }
                     Text(

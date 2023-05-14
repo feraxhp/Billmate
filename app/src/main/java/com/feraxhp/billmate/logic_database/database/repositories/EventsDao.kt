@@ -8,8 +8,11 @@ import com.feraxhp.billmate.logic_database.database.entities.Events
 
 @Dao
 interface EventsDao {
-    @Query("SELECT * FROM Events")
-    suspend fun getAllEvents(): List<Events>
+    @Query("SELECT * FROM Events WHERE type = :type")
+    suspend fun getAllIncomes(type: Boolean = true): List<Events>
+
+    @Query("SELECT * FROM Events WHERE type = :type")
+    suspend fun getAllExpenses(type: Boolean = false): List<Events>
 
     @Query("SELECT * FROM Events WHERE id = :id")
     suspend fun getEventById(id: Long): Events
