@@ -43,35 +43,71 @@ class Controller(context: Context) {
         }
     }
 
+    // Actualizations
     private suspend fun actualizeFunds() {
+        funds.clear()
         funds = billMateDatabase.FundsDao().getAllFunds() as MutableList<Funds>
     }
 
     private suspend fun actualizeCategories() {
+        categories.clear()
         categories = billMateDatabase.CategoriesDao().getAllCategories() as MutableList<Categories>
     }
 
     private suspend fun actualizeTransfers() {
+        transfers.clear()
         transfers = billMateDatabase.TransfersDao().getAllTransfers() as MutableList<Transfers>
     }
 
     private suspend fun actualizeExpenses() {
+        expenses.clear()
         expenses = billMateDatabase.EventsDao().getAllExpenses() as MutableList<Events>
     }
 
     private suspend fun actualizeIncomes() {
+        incomes.clear()
         incomes = billMateDatabase.EventsDao().getAllIncomes() as MutableList<Events>
     }
 
-    fun getAllFunds(): List<Funds> {
-        return funds
-    }
-
+    // Removals
     fun removeFund(fund: Funds) {
         coroutineScope.launch {
             billMateDatabase.FundsDao().removeFund(fund.id)
             actualizeFunds()
         }
+    }
+
+    fun removeCategory(category: Categories) {
+        coroutineScope.launch {
+            billMateDatabase.CategoriesDao().removeCategory(category.id)
+            actualizeCategories()
+        }
+    }
+
+    fun removeTransfer(transfer: Transfers) {
+        coroutineScope.launch {
+            billMateDatabase.TransfersDao().removeTransfer(transfer.id)
+            actualizeTransfers()
+        }
+    }
+
+    fun removeExpense(expense: Events) {
+        coroutineScope.launch {
+            billMateDatabase.EventsDao().removeEvent(expense.id)
+            actualizeExpenses()
+        }
+    }
+
+    fun removeIncome(income: Events) {
+        coroutineScope.launch {
+            billMateDatabase.EventsDao().removeEvent(income.id)
+            actualizeIncomes()
+        }
+    }
+
+    // Getters
+    fun getAllFunds(): List<Funds> {
+        return funds
     }
 
     fun getTotalBalance(): Double {
@@ -85,4 +121,7 @@ class Controller(context: Context) {
     fun getTotalIncomes(): Double {
         return incomes.sumOf { it.amount }
     }
+    // Additions
+
+
 }

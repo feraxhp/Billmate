@@ -12,17 +12,17 @@ interface CategoriesDao {
     suspend fun getAllCategories(): List<Categories>
 
     @Query("SELECT * FROM Categories WHERE id = :id")
-    suspend fun getCategorieById(id: Long): Categories
+    suspend fun getCategoryById(id: Long): Categories
 
     @Insert
-    suspend fun insertCategorie(Categorie: Categories)
+    suspend fun insertCategory(Categorie: Categories)
 
     @Insert
     suspend fun insertCategories(Categories: List<Categories>)
 
     @Update
-    suspend fun updateCategorie(Categorie: Categories)
+    suspend fun updateCategory(Category: Categories)
 
     @Query("DELETE FROM Categories WHERE id = :id")
-    suspend fun removeCategorie(id: Long)
+    suspend fun removeCategory(id: Long)
 }
