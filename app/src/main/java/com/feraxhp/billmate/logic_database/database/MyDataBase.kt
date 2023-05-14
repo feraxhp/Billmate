@@ -19,7 +19,7 @@ import com.feraxhp.billmate.logic_database.database.repositories.TransfersDao
         Transfers::class],
     version = 1
 )
-abstract class DataBas : RoomDatabase() {
+abstract class MyDataBase : RoomDatabase() {
     abstract fun FundsDao(): FundsDao
     abstract fun CategoriesDao(): CategoriesDao
     abstract fun EventsDao(): EventsDao

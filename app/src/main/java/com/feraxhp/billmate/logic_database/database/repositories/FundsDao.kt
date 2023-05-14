@@ -8,7 +8,7 @@ import com.feraxhp.billmate.logic_database.database.entities.Funds
 
 @Dao
 interface FundsDao {
-
+    //    @ColumnInfo
     @Query("SELECT * FROM funds")
     suspend fun getAllFunds(): List<Funds>
 
@@ -18,6 +18,12 @@ interface FundsDao {
     @Insert
     suspend fun insertFund(fund: Funds)
 
+    @Insert
+    suspend fun insertFunds(funds: List<Funds>)
+
     @Update
     suspend fun updateFund(fund: Funds)
+
+    @Query("DELETE FROM funds WHERE id = :id")
+    suspend fun removeFund(id: Long)
 }

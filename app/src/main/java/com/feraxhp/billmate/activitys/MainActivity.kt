@@ -10,15 +10,15 @@ import com.feraxhp.billmate.layauts.screens.UpcomingScreen
 
 class MainActivity : ComponentActivity() {
     companion object {
-        lateinit var controller: Controller
+        lateinit var appController: Controller
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContent {
-            controller = Controller(this)
-            if (controller.user.getName() == null) {
+            appController = Controller(this)
+            if (appController.user.getName() == null) {
                 UpcomingScreen(this)
             } else {
                 startActivity(Intent(this, CommonViewActivity::class.java), null)

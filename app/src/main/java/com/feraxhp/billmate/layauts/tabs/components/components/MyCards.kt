@@ -2,6 +2,7 @@ package com.feraxhp.billmate.layauts.tabs.components.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -26,6 +27,7 @@ fun MyCards(
                 color = color,
                 shape = MaterialTheme.shapes.large,
             )
+            .padding(10.dp)
     ) {
         components()
     }

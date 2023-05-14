@@ -17,10 +17,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
 
-val items = listOf("Home", "Accounts", "Debs", "Overview")
-val icons =
+val items = listOf("Home", "Funds", "CashFlow", "Categories")
+private val icons =
     listOf(Icons.Outlined.Home, Icons.Outlined.Person, Icons.Outlined.Lock, Icons.Outlined.Face)
-val iconsSelected =
+private val iconsSelected =
     listOf(Icons.Filled.Home, Icons.Filled.Person, Icons.Filled.Lock, Icons.Filled.Face)
 
 @Composable

@@ -1,20 +1,29 @@
 package com.feraxhp.billmate.layauts.tabs
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.layauts.tabs.components.BalanceCard
 import com.feraxhp.billmate.layauts.tabs.components.EventInfo
 import com.feraxhp.billmate.layauts.tabs.components.ExpensesCard
 import com.feraxhp.billmate.layauts.tabs.components.UserMessage
 
 @Composable
-fun HomeTab() {
-    Column {
-        UserMessage()
-        BalanceCard()
-        ExpensesCard()
-        EventInfo()
+fun HomeTab(innerPadding: PaddingValues = PaddingValues(0.dp)) {
+    LazyColumn(
+        contentPadding = innerPadding,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        item {
+            UserMessage()
+            BalanceCard()
+            ExpensesCard()
+            EventInfo()
+        }
+
     }
 }
 

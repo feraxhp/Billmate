@@ -2,9 +2,7 @@ package com.feraxhp.billmate.layauts.screens
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,12 +17,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
 import com.feraxhp.billmate.layauts.screens.components.MyFloatingActionButton
 import com.feraxhp.billmate.layauts.screens.components.MyModalNavigation
 import com.feraxhp.billmate.layauts.screens.components.MyNavigationBar
 import com.feraxhp.billmate.layauts.screens.components.MyTopBar
+import com.feraxhp.billmate.layauts.tabs.FundsTab
 import com.feraxhp.billmate.layauts.tabs.HomeTab
 import kotlinx.coroutines.launch
 
@@ -34,7 +32,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun PrimaryScreen() {
     val (selectedItemValue, getSelectedItem) = remember { mutableStateOf(0) }
-    val titules = listOf("Home", "Accounts", "Debts", "Overview")
+    val titules = listOf("Home", "Funds", "CashFlow", "Categories")
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -64,21 +62,12 @@ fun PrimaryScreen() {
 
                         },
                         content = { innerPadding ->
-
-                            LazyColumn(
-                                contentPadding = innerPadding,
-                                verticalArrangement = Arrangement.spacedBy(8.dp),
-                                modifier = Modifier
-                            ) {
-                                item {
-                                    when (selectedItemValue) {
-                                        0 -> HomeTab()
-                                        1 -> Text(text = "accounts")
-                                        2 -> Text(text = "debts")
-                                        3 -> Text(text = "overview")
-                                        else -> Text(text = "home")
-                                    }
-                                }
+                            when (selectedItemValue) {
+                                0 -> HomeTab(innerPadding)
+                                1 -> FundsTab(innerPadding)
+                                2 -> Text(text = "CashFlow")
+                                3 -> Text(text = "Categories")
+                                else -> {}
                             }
                         },
                         bottomBar = {

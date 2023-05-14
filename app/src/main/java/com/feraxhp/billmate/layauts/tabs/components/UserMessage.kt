@@ -17,7 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.feraxhp.billmate.activitys.MainActivity.Companion.controller
+import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 
 @Composable
 fun UserMessage() {
@@ -44,7 +44,7 @@ fun UserMessage() {
                 .align(Alignment.CenterVertically)
         ) {
             Text(
-                text = "${controller.user.getName()}",
+                text = "${appController.user.getName()}",
                 fontSize = MaterialTheme.typography.titleMedium.fontSize * 1.3,
                 fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
                 modifier = Modifier.padding(start = 15.dp)
