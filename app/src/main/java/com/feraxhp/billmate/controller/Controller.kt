@@ -79,6 +79,10 @@ class Controller(context: Context) {
     }
 
     fun getTotalExpenses(): Double {
-        return funds.sumOf { it.amount }
+        return expenses.sumOf { it.amount }
+    }
+
+    fun getTotalIncomes(): Double {
+        return incomes.sumOf { it.amount }
     }
 }
