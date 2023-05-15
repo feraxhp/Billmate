@@ -6,6 +6,7 @@
             android:allowBackup="true"
             android:dataExtractionRules="@xml/data_extraction_rules"
             android:fullBackupContent="@xml/backup_rules"
+            android:enableOnBackInvokedCallback="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
@@ -18,11 +19,6 @@
         <activity
                 android:name=".activitys.CreateNewFund"
                 android:exported="false" />
-        <activity
-                android:name=".activitys.CommonViewActivity"
-                android:exported="false"
-                android:label="@string/title_activity_common_view"
-                android:theme="@style/Theme.Billmate" />
         <activity
                 android:name=".activitys.MainActivity"
                 android:exported="true"

@@ -1,5 +1,6 @@
 package com.feraxhp.billmate.activitys
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,8 +12,9 @@ import com.feraxhp.billmate.layauts.screens.UpcomingScreen
 
 class MainActivity : ComponentActivity() {
     companion object {
-        lateinit var appController: AppController
+        @SuppressLint("StaticFieldLeak")
         lateinit var viewController: ViewController
+        lateinit var appController: AppController
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

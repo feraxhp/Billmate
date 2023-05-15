@@ -12,5 +12,5 @@ data class Funds(
     val accountName: String,
     val titularName: String = appController.user.getName()!!,
     val amount: Double,
-    val description: String
+    val description: String = ""
 )

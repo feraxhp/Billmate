@@ -7,7 +7,7 @@ import com.feraxhp.billmate.activitys.CreateNewEvents
 import com.feraxhp.billmate.activitys.CreateNewFund
 import com.feraxhp.billmate.activitys.MainActivity
 
-class ViewController(val context: Context) {
+class ViewController(private val context: Context) {
     fun startMainActivity() {
         ContextCompat.startActivity(
             context, Intent(context, MainActivity::class.java),

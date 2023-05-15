@@ -127,7 +127,39 @@ class AppController(context: Context) {
     fun getTotalIncomes(): Double {
         return incomes.sumOf { it.amount }
     }
+
     // Additions
+    fun addFund(
+        accountName: String,
+        titularName: String,
+        amount: String,
+        description: String
+    ): Boolean {
+        var realAmount = amount
+        if (accountName.equals("")) return false
+        if (realAmount.equals("")) realAmount = "0.0"
+        coroutineScope.launch {
+            val fund = when (titularName.equals("")) {
+                true -> {
+                    Funds(
+                        accountName = accountName,
+                        amount = realAmount.toDouble(),
+                        description = description
+                    )
+                }
 
-
+                false -> {
+                    Funds(
+                        accountName = accountName,
+                        amount = realAmount.toDouble(),
+                        description = description,
+                        titularName = titularName
+                    )
+                }
+            }
+            billMateDatabase.FundsDao().insertFund(fund)
+            actualize()
+        }
+        return true
+    }
 }
