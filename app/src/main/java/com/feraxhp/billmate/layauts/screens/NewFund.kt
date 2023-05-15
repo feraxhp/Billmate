@@ -2,9 +2,9 @@ package com.feraxhp.billmate.layauts.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -35,6 +35,10 @@ fun NewFund() {
     val (titularName, setTitularName) = remember { mutableStateOf("") }
     val (amount, setAmount) = remember { mutableStateOf("") }
     val (description, setDescription) = remember { mutableStateOf("") }
+    val values = listOf<String>(accountName, titularName, amount, description)
+    val setters =
+        listOf<(String) -> Unit>(setAccountName, setTitularName, setAmount, setDescription)
+    val labels = listOf<String>("Account Name", "Titular Name", "Amount", "Description")
     BillmateTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -61,49 +65,40 @@ fun NewFund() {
                         }
                     )
                 },
-                content = {
-                    Column(
+                content = { paddingValues ->
+                    LazyColumn(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceEvenly,
+                        verticalArrangement = Arrangement.Top,
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(it)
+                            .padding(paddingValues)
                     ) {
-                        OutlinedTextField(
-                            value = accountName,
-                            onValueChange = setAccountName,
-                            placeholder = { Text("Account Name") }
-                        )
-                        OutlinedTextField(
-                            value = titularName,
-                            onValueChange = setTitularName,
-                            placeholder = { Text("Titular Name") }
-                        )
-                        OutlinedTextField(
-                            value = amount,
-                            onValueChange = setAmount,
-                            placeholder = { Text("Amount") }
-                        )
-                        OutlinedTextField(
-                            value = description,
-                            onValueChange = setDescription,
-                            placeholder = { Text("Description") }
-                        )
-                        Button(onClick = {
-                            if (appController.addFund(
-                                    accountName = accountName,
-                                    titularName = titularName,
-                                    amount = amount,
-                                    description = description
-                                )
-                            ) {
-                                viewController.startMainActivity()
-                            } else {
-                                return@Button
-                            }
-                        }) {
-                            Text(text = "Submit")
+                        items(labels.size) { position ->
+                            OutlinedTextField(
+                                value = values[position],
+                                onValueChange = setters[position],
+                                label = { Text(labels[position]) },
+                                shape = MaterialTheme.shapes.small,
+                            )
                         }
+                        item {
+                            Button(onClick = {
+                                if (appController.addFund(
+                                        accountName = accountName,
+                                        titularName = titularName,
+                                        amount = amount,
+                                        description = description
+                                    )
+                                ) {
+                                    viewController.startMainActivity()
+                                } else {
+                                    return@Button
+                                }
+                            }) {
+                                Text(text = "Submit")
+                            }
+                        }
+
                     }
                 },
             )
