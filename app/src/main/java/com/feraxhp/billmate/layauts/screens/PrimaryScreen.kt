@@ -83,6 +83,8 @@ fun PrimaryScreen() {
                                     when (selectedItemValue) {
                                         0 -> viewController.startCreateNewEvents()
                                         1 -> viewController.startCreateNewFund()
+                                        2 -> viewController.startCreateNewCashFlow()
+                                        3 -> viewController.startCreateNewCategory()
                                         else -> {}
                                     }
                                 },
