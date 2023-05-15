@@ -1,10 +1,10 @@
 package com.feraxhp.billmate.layauts.tabs
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,11 +33,10 @@ fun FundsTab(innerPadding: PaddingValues = PaddingValues(0.dp)) {
     var list by remember { mutableStateOf(appController.getAllFunds()) }
     LazyRow(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primaryContainer),
+            .fillMaxWidth(),
+        /*.background(MaterialTheme.colorScheme.primaryContainer)*/
         contentPadding = innerPadding,
         verticalAlignment = Alignment.CenterVertically,
-//        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(list.toMutableList()) { fund ->
             MyCardsFunds(
@@ -63,16 +61,29 @@ fun FundsTab(innerPadding: PaddingValues = PaddingValues(0.dp)) {
                                     .toMutableList()
                                     .apply { remove(fund) }
                             }
-                            .padding(top = 4.dp)
+                            .padding(top = 10.dp, end = 5.dp)
                             .size(18.dp)
                     )
-                    Column() {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp)
+                    ) {
                         Text(text = fund.accountName, fontSize = 18.sp, modifier = Modifier)
-                        Text(text = fund.description)
+                        Text(text = fund.titularName, fontSize = 14.sp, modifier = Modifier)
                     }
                     Text(
+                        text = fund.description,
+                        fontSize = 12.sp,
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                            .align(Alignment.CenterStart)
+                    )
+                    Text(
                         text = "Balance: ${fund.amount}",
-                        modifier = Modifier.align(Alignment.BottomStart)
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .padding(10.dp)
                     )
                 }
             }

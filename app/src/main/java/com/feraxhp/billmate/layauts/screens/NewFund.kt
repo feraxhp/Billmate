@@ -19,7 +19,8 @@ fun NewFund() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            
+//            var value by remember { mutableStateOf("") }
+//            TextField(value = value, onValueChange = )
         }
     }
 }
