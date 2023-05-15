@@ -46,7 +46,7 @@ fun NewFund() {
                     TopAppBar(
                         title = {
                             Text(
-                                text = "New Events",
+                                text = "New Funds",
                                 color = MaterialTheme.colorScheme.onBackground,
                                 fontWeight = MaterialTheme.typography.titleLarge.fontWeight
                             )
@@ -72,19 +72,23 @@ fun NewFund() {
                         OutlinedTextField(
                             value = accountName,
                             onValueChange = setAccountName,
-                            placeholder = { Text("Account Name") })
+                            placeholder = { Text("Account Name") }
+                        )
                         OutlinedTextField(
                             value = titularName,
                             onValueChange = setTitularName,
-                            placeholder = { Text("Titular Name") })
+                            placeholder = { Text("Titular Name") }
+                        )
                         OutlinedTextField(
                             value = amount,
                             onValueChange = setAmount,
-                            placeholder = { Text("Amount") })
+                            placeholder = { Text("Amount") }
+                        )
                         OutlinedTextField(
                             value = description,
                             onValueChange = setDescription,
-                            placeholder = { Text("Description") })
+                            placeholder = { Text("Description") }
+                        )
                         Button(onClick = {
                             if (appController.addFund(
                                     accountName = accountName,
