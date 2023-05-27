@@ -128,6 +128,18 @@ class AppController(context: Context) {
         return incomes.sumOf { it.amount }
     }
 
+    fun getAllCategories(): List<Categories> {
+        return categories
+    }
+
+    fun getAllIncomes(): List<Events> {
+        return incomes
+    }
+
+    fun getAllExpenses(): List<Events> {
+        return expenses
+    }
+
     // Additions
     fun addFund(
         accountName: String,

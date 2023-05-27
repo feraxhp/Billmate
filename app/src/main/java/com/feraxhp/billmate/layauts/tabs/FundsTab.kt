@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -31,12 +31,12 @@ import com.feraxhp.billmate.layauts.tabs.components.components.MyCardsFunds
 @Composable
 fun FundsTab(innerPadding: PaddingValues = PaddingValues(0.dp)) {
     var list by remember { mutableStateOf(appController.getAllFunds()) }
-    LazyRow(
+    LazyColumn(
         modifier = Modifier
             .fillMaxWidth(),
-        /*.background(MaterialTheme.colorScheme.primaryContainer)*/
         contentPadding = innerPadding,
-        verticalAlignment = Alignment.CenterVertically,
+//        verticalAlignment = Alignment.CenterVertically,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         items(list.toMutableList()) { fund ->
             MyCardsFunds(

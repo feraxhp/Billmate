@@ -9,7 +9,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +22,8 @@ import com.feraxhp.billmate.layauts.screens.components.MyFloatingActionButton
 import com.feraxhp.billmate.layauts.screens.components.MyModalNavigation
 import com.feraxhp.billmate.layauts.screens.components.MyNavigationBar
 import com.feraxhp.billmate.layauts.screens.components.MyTopBar
+import com.feraxhp.billmate.layauts.tabs.CashFlowTab
+import com.feraxhp.billmate.layauts.tabs.CategoryTab
 import com.feraxhp.billmate.layauts.tabs.FundsTab
 import com.feraxhp.billmate.layauts.tabs.HomeTab
 import kotlinx.coroutines.launch
@@ -66,8 +67,8 @@ fun PrimaryScreen() {
                             when (selectedItemValue) {
                                 0 -> HomeTab(innerPadding)
                                 1 -> FundsTab(innerPadding)
-                                2 -> Text(text = "CashFlow")
-                                3 -> Text(text = "Categories")
+                                2 -> CashFlowTab(innerPadding)
+                                3 -> CategoryTab(innerPadding)
                                 else -> {}
                             }
                         },
