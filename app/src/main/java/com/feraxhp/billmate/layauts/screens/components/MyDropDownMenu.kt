@@ -40,6 +40,7 @@ fun MyDropDownMenu(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 10.dp)
+//                .background(MaterialTheme.colorScheme.secondaryContainer)
                 .border(
                     width = 1.dp,
                     color = MaterialTheme.colorScheme.onSurface,
@@ -50,15 +51,19 @@ fun MyDropDownMenu(
             readOnly = true,
             value = selectedOptionText,
             onValueChange = {},
-            label = { Text(label) },
+            label = {
+                Text(
+                    label
+                )
+            },
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(
                     expanded = expanded
                 )
             },
             colors = ExposedDropdownMenuDefaults.textFieldColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                textColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 focusedIndicatorColor = MaterialTheme.colorScheme.primary.copy(
                     alpha = 0f
                 ),
