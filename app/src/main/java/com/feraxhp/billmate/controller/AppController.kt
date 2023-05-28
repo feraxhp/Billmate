@@ -116,6 +116,10 @@ class AppController(context: Context) {
         return funds
     }
 
+    fun getAllFundsOnString(): List<String> {
+        return funds.map { "${it.accountName}: ${it.amount}" }
+    }
+
     fun getTotalBalance(): Double {
         return funds.sumOf { it.amount }
     }
@@ -130,6 +134,10 @@ class AppController(context: Context) {
 
     fun getAllCategories(): List<Categories> {
         return categories
+    }
+
+    fun getAllCategoriesOnString(): List<String> {
+        return categories.map { "${it.name}: ${it.amount}" }
     }
 
     fun getAllIncomes(): List<Events> {
@@ -191,4 +199,6 @@ class AppController(context: Context) {
         }
         return true
     }
+
+
 }

@@ -11,9 +11,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -21,8 +23,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
+import com.feraxhp.billmate.layauts.screens.components.MyDropDownMenu
+import com.feraxhp.billmate.layauts.screens.components.MyFloatingActionButton
 import com.feraxhp.billmate.layauts.screens.components.SegmentedButtons
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,13 +36,47 @@ import com.feraxhp.billmate.layauts.screens.components.SegmentedButtons
 @Composable
 fun NewEvents() {
     BillmateTheme {
-        val labels = listOf("Category Name", "Amount", "Description")
-        val (categoryName, setCategoryName) = remember { mutableStateOf("") }
+        // Texts
+        val labels = listOf("Events Name", "Amount", "Description")
+        val (eventName, setEventName) = remember { mutableStateOf("") }
         val (amount, setAmount) = remember { mutableStateOf("") }
         val (description, setDescription) = remember { mutableStateOf("") }
-        val values = listOf(categoryName, amount, description)
-        val setters = listOf(setCategoryName, setAmount, setDescription)
+        val values = listOf(eventName, amount, description)
+        val setters = listOf(setEventName, setAmount, setDescription)
         val error = remember { mutableStateOf(false) }
+        val (selectedEventValue, setSelectedEventValue) = remember { mutableStateOf(0) }
+
+        // Dropdown
+        // Funds origin
+        val (expandedFundsOrigin, setExpandedFundsOrigin) = remember { mutableStateOf(false) }
+        val optionsFunds = appController.getAllFundsOnString()
+        val (selectedOptionFundOriginText, setSelectedOptionFundOriginText) = remember {
+            mutableStateOf(
+                optionsFunds[0]
+            )
+        }
+        //Funds destination
+        val (expandedFundsDestination, setExpandedFundsDestination) = remember {
+            mutableStateOf(
+                false
+            )
+        }
+        val (selectedOptionFundDestinationText, setSelectedOptionFundDestinationText) = remember {
+            mutableStateOf(
+                optionsFunds[0]
+            )
+        }
+        // Categories
+        val (expandedCategories, setExpandedCategories) = remember { mutableStateOf(false) }
+        val optionsCategories = appController.getAllCategoriesOnString()
+        val (selectedOptionCategoryText, setSelectedOptionCategoryText) = remember {
+            mutableStateOf(
+                optionsCategories[0]
+            )
+        }
+
+
+
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
@@ -47,7 +87,7 @@ fun NewEvents() {
                     TopAppBar(
                         title = {
                             Text(
-                                text = "New Funds",
+                                text = "New Events",
                                 color = MaterialTheme.colorScheme.onBackground,
                                 fontWeight = MaterialTheme.typography.titleLarge.fontWeight
                             )
@@ -63,7 +103,6 @@ fun NewEvents() {
                     )
                 },
                 content = { paddingValues ->
-                    val (selectedItemValue, getSelectedItem) = remember { mutableStateOf(0) }
                     LazyColumn(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Top,
@@ -74,45 +113,81 @@ fun NewEvents() {
                         item {
                             SegmentedButtons(
                                 buttonNames = listOf("Expense", "Income", "Transfer"),
-                                selectedValue = selectedItemValue,
-                                onItemClick = getSelectedItem
+                                selectedValue = selectedEventValue,
+                                onItemClick = setSelectedEventValue
                             )
                         }
-//                        items(labels.size) { position ->
-//                            OutlinedTextField(
-//                                value = values[position],
-//                                onValueChange = {
-//                                    setters[position](it)
-//                                    error.value = false
-//                                },
-//                                colors = TextFieldDefaults.outlinedTextFieldColors(
-//                                    errorBorderColor = MaterialTheme.colorScheme.error,
-//                                ),
-//                                label = { Text(labels[position]) },
-//                                shape = MaterialTheme.shapes.small,
-//                                isError = position == 0 && error.value,
-//                                modifier = Modifier
-//                                    .fillParentMaxWidth()
-//                                    .padding(horizontal = 10.dp)
-//                                    .padding(top = 10.dp)
-//                            )
-//                        }
+                        items(labels.size) { position ->
+                            OutlinedTextField(
+                                value = values[position],
+                                onValueChange = {
+                                    setters[position](it)
+                                    error.value = false
+                                },
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    errorBorderColor = MaterialTheme.colorScheme.error,
+                                ),
+                                label = { Text(labels[position]) },
+                                shape = MaterialTheme.shapes.small,
+                                isError = position == 0 && error.value,
+                                modifier = Modifier
+                                    .fillParentMaxWidth()
+                                    .padding(horizontal = 10.dp)
+                                    .padding(top = 10.dp)
+                            )
+                        }
+                        item {
+                            MyDropDownMenu(
+                                label = "Fund",
+                                expanded = expandedFundsOrigin,
+                                setExpanded = setExpandedFundsOrigin,
+                                selectedOptionText = selectedOptionFundOriginText,
+                                setSelectedOptionText = setSelectedOptionFundOriginText,
+                                options = optionsFunds,
+                                modifier = Modifier
+                                    .padding(top = 10.dp)
+                            )
+                            if (selectedEventValue == 2) {
+                                MyDropDownMenu(
+                                    label = "Fund",
+                                    expanded = expandedFundsDestination,
+                                    setExpanded = setExpandedFundsDestination,
+                                    selectedOptionText = selectedOptionFundDestinationText,
+                                    setSelectedOptionText = setSelectedOptionFundDestinationText,
+                                    options = optionsFunds
+                                )
+                            } else {
+                                MyDropDownMenu(
+                                    label = "Category",
+                                    expanded = expandedCategories,
+                                    setExpanded = setExpandedCategories,
+                                    selectedOptionText = selectedOptionCategoryText,
+                                    setSelectedOptionText = setSelectedOptionCategoryText,
+                                    options = optionsCategories
+                                )
+                            }
+                        }
                     }
+
                 },
                 floatingActionButton = {
-//                    MyFloatingActionButton(
-//                        onClick = {
-//                            if (MainActivity.appController.addCategory(
-//                                    categoryName, amount, description
-//                                )
-//                            ) {
-//                                error.value = false
-//                                viewController.startMainActivity()
-//                            } else {
-//                                error.value = true
-//                            }
-//                        },
-//                    )
+                    MyFloatingActionButton(
+                        onClick = {
+                            when (selectedEventValue) {
+                                0 -> {
+
+                                }
+
+                                1 -> {
+
+                                }
+
+                                2 -> {
+
+                                }
+                            }
+                        },
+                    )
                 }
             )
         }
