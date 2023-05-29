@@ -26,7 +26,7 @@ class AppController(context: Context) {
     init {
         coroutineScope.launch {
             actualize()
-            if (funds.isEmpty() && !user.isDeleted()) {
+            if (funds.isEmpty() && !user.isDeleted() && user.getName() != null) {
                 funds.add(
                     Funds(
                         accountName = "Default",

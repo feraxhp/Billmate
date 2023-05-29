@@ -1,22 +1,25 @@
 package com.feraxhp.billmate.layauts.screens
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +32,7 @@ import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
 import com.feraxhp.billmate.layauts.screens.components.MyDropDownMenu
 import com.feraxhp.billmate.layauts.screens.components.MyFloatingActionButton
+import com.feraxhp.billmate.layauts.screens.components.MyTimePicker
 import com.feraxhp.billmate.layauts.screens.components.SegmentedButtons
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,6 +78,10 @@ fun NewEvents() {
                 optionsCategories[0]
             )
         }
+        // Clock
+        var state = rememberTimePickerState()
+        val openDialog = remember { mutableStateOf(true) }
+
 
 
 
@@ -124,7 +132,7 @@ fun NewEvents() {
                                     setters[position](it)
                                     error.value = false
                                 },
-                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                colors = OutlinedTextFieldDefaults.colors(
                                     errorBorderColor = MaterialTheme.colorScheme.error,
                                 ),
                                 label = { Text(labels[position]) },
@@ -166,6 +174,25 @@ fun NewEvents() {
                                     options = optionsCategories
                                 )
                             }
+                            Text(
+                                text = "Time ${state.hour}:${state.minute}",
+                                modifier = Modifier
+                                    .clickable {
+                                        openDialog.value = true
+                                    }
+                            )
+                            if (openDialog.value) {
+                                AlertDialog(
+                                    onDismissRequest = {
+
+                                    }
+                                ) {
+                                    MyTimePicker(
+                                        state = state,
+                                        setState = { state = it },
+                                        setDialog = { openDialog.value = it })
+                                }
+                            }
                         }
                     }
 
@@ -175,7 +202,6 @@ fun NewEvents() {
                         onClick = {
                             when (selectedEventValue) {
                                 0 -> {
-
                                 }
 
                                 1 -> {
