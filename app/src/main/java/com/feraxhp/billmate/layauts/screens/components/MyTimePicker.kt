@@ -14,17 +14,23 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.TimePickerState
-import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,7 +40,30 @@ fun MyTimePicker(
     setState: (TimePickerState) -> Unit = {},
     setDialog: (Boolean) -> Unit = {}
 ) {
-    var internalState = rememberTimePickerState()
+    val rechargeable = remember {
+        mutableStateOf(0)
+    }
+    val currentTime = remember { mutableStateOf("") }
+    currentTime.value = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
+    var initialMinute: Int
+    var initialHour: Int
+
+    if (rechargeable.value != 0) {
+        initialMinute = currentTime.value.substring(3, 5).toInt()
+        initialHour = currentTime.value.substring(0, 2).toInt()
+    }else{
+        initialMinute = state.minute
+        initialHour = state.hour
+    }
+    val internalState by remember(key1 = rechargeable.value){
+        mutableStateOf(
+            TimePickerState(
+                initialMinute = initialMinute,
+                initialHour = initialHour,
+                is24Hour = state.is24hour
+            )
+        )
+    }
 
     Column(
         horizontalAlignment = Alignment.Start,
@@ -71,7 +100,10 @@ fun MyTimePicker(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.padding(24.dp)
             ) {
-                IconButton(onClick = { }) {
+                IconButton(
+                    onClick = {
+                        rechargeable.value += 1
+                    }) {
                     Icon(
                         imageVector = Icons.Default.Refresh,
                         contentDescription = "",
@@ -84,27 +116,44 @@ fun MyTimePicker(
                     horizontalArrangement = Arrangement.End,
                     modifier = Modifier.weight(2f)
                 ) {
-                    Text(
-                        text = "Cancel",
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier
-                            .padding(10.dp)
-                            .clickable {
-                                setDialog(false)
-                            }
-                    )
-                    Text(
-                        text = "OK",
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier
-                            .padding(10.dp)
-                            .clickable {
-                                setState(internalState)
-                                setDialog(false)
-                            }
-                    )
+                    TextButton(onClick = { setDialog(false) }) {
+                        Text(
+                            text = "Cancel",
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier
+                                .padding(10.dp)
+                        )
+                    }
+                    TextButton(onClick = {
+                        setState(internalState)
+                        setDialog(false)
+                    }) {
+                        Text(
+                            text = "OK",
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier
+                                .padding(10.dp)
+                        )
+                    }
                 }
             }
         }
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TimePickerState.copy(
+    initialMinute: Int,
+    initialHour: Int,
+    is24hour: Boolean
+): TimePickerState = rememberSaveable(
+    saver = TimePickerState.Saver()
+) {
+    TimePickerState(
+        initialHour = initialHour,
+        initialMinute = initialMinute,
+        is24Hour = is24hour,
+    )
+}
+

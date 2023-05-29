@@ -1,7 +1,6 @@
 package com.feraxhp.billmate.layauts.screens
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,6 +17,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -34,6 +34,9 @@ import com.feraxhp.billmate.layauts.screens.components.MyDropDownMenu
 import com.feraxhp.billmate.layauts.screens.components.MyFloatingActionButton
 import com.feraxhp.billmate.layauts.screens.components.MyTimePicker
 import com.feraxhp.billmate.layauts.screens.components.SegmentedButtons
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -78,9 +81,16 @@ fun NewEvents() {
                 optionsCategories[0]
             )
         }
+
+
         // Clock
-        var state = rememberTimePickerState()
-        val openDialog = remember { mutableStateOf(true) }
+        val currentTime = remember { mutableStateOf("") }
+        currentTime.value = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
+        var state = rememberTimePickerState(
+            initialMinute = currentTime.value.substring(3, 5).toInt(),
+            initialHour = currentTime.value.substring(0, 2).toInt()
+        )
+        val openDialog = remember { mutableStateOf(false) }
 
 
 
@@ -111,89 +121,157 @@ fun NewEvents() {
                     )
                 },
                 content = { paddingValues ->
-                    LazyColumn(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Top,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(paddingValues)
-                    ) {
-                        item {
-                            SegmentedButtons(
-                                buttonNames = listOf("Expense", "Income", "Transfer"),
-                                selectedValue = selectedEventValue,
-                                onItemClick = setSelectedEventValue
-                            )
-                        }
-                        items(labels.size) { position ->
-                            OutlinedTextField(
-                                value = values[position],
-                                onValueChange = {
-                                    setters[position](it)
-                                    error.value = false
-                                },
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    errorBorderColor = MaterialTheme.colorScheme.error,
-                                ),
-                                label = { Text(labels[position]) },
-                                shape = MaterialTheme.shapes.small,
-                                isError = position == 0 && error.value,
-                                modifier = Modifier
-                                    .fillParentMaxWidth()
-                                    .padding(horizontal = 10.dp)
-                                    .padding(top = 10.dp)
-                            )
-                        }
-                        item {
-                            MyDropDownMenu(
-                                label = "Fund",
-                                expanded = expandedFundsOrigin,
-                                setExpanded = setExpandedFundsOrigin,
-                                selectedOptionText = selectedOptionFundOriginText,
-                                setSelectedOptionText = setSelectedOptionFundOriginText,
-                                options = optionsFunds,
-                                modifier = Modifier
-                                    .padding(top = 10.dp)
-                            )
-                            if (selectedEventValue == 2) {
-                                MyDropDownMenu(
-                                    label = "Fund",
-                                    expanded = expandedFundsDestination,
-                                    setExpanded = setExpandedFundsDestination,
-                                    selectedOptionText = selectedOptionFundDestinationText,
-                                    setSelectedOptionText = setSelectedOptionFundDestinationText,
-                                    options = optionsFunds
-                                )
-                            } else {
-                                MyDropDownMenu(
-                                    label = "Category",
-                                    expanded = expandedCategories,
-                                    setExpanded = setExpandedCategories,
-                                    selectedOptionText = selectedOptionCategoryText,
-                                    setSelectedOptionText = setSelectedOptionCategoryText,
-                                    options = optionsCategories
+                    if (optionsCategories[0] != "" && optionsFunds[0] != "") {
+                        LazyColumn(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Top,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(paddingValues)
+                        ) {
+                            item {
+                                SegmentedButtons(
+                                    buttonNames = listOf("Expense", "Income", "Transfer"),
+                                    selectedValue = selectedEventValue,
+                                    onItemClick = setSelectedEventValue
                                 )
                             }
-                            Text(
-                                text = "Time ${state.hour}:${state.minute}",
-                                modifier = Modifier
-                                    .clickable {
-                                        openDialog.value = true
+                            items(labels.size) { position ->
+                                OutlinedTextField(
+                                    value = values[position],
+                                    onValueChange = {
+                                        setters[position](it)
+                                        error.value = false
+                                    },
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        errorBorderColor = MaterialTheme.colorScheme.error,
+                                    ),
+                                    label = { Text(labels[position]) },
+                                    shape = MaterialTheme.shapes.small,
+                                    isError = position == 0 && error.value,
+                                    modifier = Modifier
+                                        .fillParentMaxWidth()
+                                        .padding(horizontal = 10.dp)
+                                        .padding(top = 10.dp)
+                                )
+                            }
+                            item {
+                                MyDropDownMenu(
+                                    label = "Fund",
+                                    expanded = expandedFundsOrigin,
+                                    setExpanded = setExpandedFundsOrigin,
+                                    selectedOptionText = selectedOptionFundOriginText,
+                                    setSelectedOptionText = setSelectedOptionFundOriginText,
+                                    options = optionsFunds,
+                                    modifier = Modifier
+                                        .padding(top = 10.dp)
+                                )
+                                if (selectedEventValue == 2) {
+                                    MyDropDownMenu(
+                                        label = "Fund",
+                                        expanded = expandedFundsDestination,
+                                        setExpanded = setExpandedFundsDestination,
+                                        selectedOptionText = selectedOptionFundDestinationText,
+                                        setSelectedOptionText = setSelectedOptionFundDestinationText,
+                                        options = optionsFunds
+                                    )
+                                } else {
+                                    MyDropDownMenu(
+                                        label = "Category",
+                                        expanded = expandedCategories,
+                                        setExpanded = setExpandedCategories,
+                                        selectedOptionText = selectedOptionCategoryText,
+                                        setSelectedOptionText = setSelectedOptionCategoryText,
+                                        options = optionsCategories
+                                    )
+                                }
+                                TextButton(onClick = { openDialog.value = true }) {
+                                    Text(
+                                        text = "Time ${state.hour}:${state.minute}",
+                                        modifier = Modifier
+                                    )
+                                }
+                                if (openDialog.value) {
+                                    AlertDialog(
+                                        onDismissRequest = {}
+                                    ) {
+                                        MyTimePicker(
+                                            state = state,
+                                            setState = { state = it },
+                                            setDialog = { openDialog.value = it })
                                     }
-                            )
-                            if (openDialog.value) {
-                                AlertDialog(
-                                    onDismissRequest = {
-
-                                    }
-                                ) {
-                                    MyTimePicker(
-                                        state = state,
-                                        setState = { state = it },
-                                        setDialog = { openDialog.value = it })
                                 }
                             }
                         }
+                    }
+                    if (optionsCategories[0] == "") {
+                        AlertDialog(
+                            onDismissRequest = {},
+                            title = {
+                                Text(text = "No Categories found!")
+                            },
+                            text = {
+                                Text(text = "You must create a category first!")
+                            },
+                            confirmButton = {
+                                TextButton(
+                                    onClick = {
+                                        viewController.startCreateNewCategory()
+                                    }
+                                ) {
+                                    Text("Create")
+                                }
+                            },
+                            dismissButton = {
+                                TextButton(
+                                    onClick = {
+                                        appController.addCategory(
+                                            "Default",
+                                            "0.0",
+                                            "Default Category"
+                                        )
+                                        viewController.startCreateNewEvents()
+                                    }
+                                ) {
+                                    Text("Use default")
+                                }
+                            }
+                        ) // AlertDialog
+                    }
+                    if (optionsFunds[0] == "") {
+                        AlertDialog(
+                            onDismissRequest = {},
+                            title = {
+                                Text(text = "No Funds found!")
+                            },
+                            text = {
+                                Text(text = "You must create a fund first!")
+                            },
+                            confirmButton = {
+                                TextButton(
+                                    onClick = {
+                                        viewController.startCreateNewFund()
+                                    }
+                                ) {
+                                    Text("Create")
+                                }
+                            },
+                            dismissButton = {
+                                TextButton(
+                                    onClick = {
+                                        appController.addFund(
+                                            "Default",
+                                            "",
+                                            "0.0",
+                                            "Default Fund"
+                                        )
+                                        viewController.startCreateNewEvents()
+                                    }
+                                ) {
+                                    Text("Use default")
+                                }
+                            }
+                        ) // AlertDialog
                     }
 
                 },
@@ -202,6 +280,7 @@ fun NewEvents() {
                         onClick = {
                             when (selectedEventValue) {
                                 0 -> {
+
                                 }
 
                                 1 -> {

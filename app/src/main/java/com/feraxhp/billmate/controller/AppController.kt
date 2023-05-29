@@ -79,6 +79,7 @@ class AppController(context: Context) {
             billMateDatabase.FundsDao().removeFund(fund.id)
             billMateDatabase.EventsDao().removeEvent(fund.id)
             actualize()
+            user.setDeleted(true)
         }
     }
 
@@ -117,7 +118,11 @@ class AppController(context: Context) {
     }
 
     fun getAllFundsOnString(): List<String> {
-        return funds.map { "${it.accountName}: ${it.amount}" }
+        return if (funds.isNotEmpty()) {
+            funds.map { "${it.accountName}: ${it.amount}" }
+        } else {
+            listOf("")
+        }
     }
 
     fun getTotalBalance(): Double {
@@ -137,7 +142,9 @@ class AppController(context: Context) {
     }
 
     fun getAllCategoriesOnString(): List<String> {
-        return categories.map { "${it.name}: ${it.amount}" }
+        return if (categories.isNotEmpty()) categories.map { "${it.name}: ${it.amount}" } else {
+            listOf("")
+        }
     }
 
     fun getAllIncomes(): List<Events> {
@@ -200,5 +207,8 @@ class AppController(context: Context) {
         return true
     }
 
+    fun addEvent() {
+
+    }
 
 }

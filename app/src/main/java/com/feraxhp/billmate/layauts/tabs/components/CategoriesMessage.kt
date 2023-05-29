@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CategoriesMessage(name: String = "Example", amount: Double = 0.0) {
+fun CategoriesMessage(name: String = "Example", amount: Double = 0.0, onClick: () -> Unit = {}) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
@@ -35,7 +36,7 @@ fun CategoriesMessage(name: String = "Example", amount: Double = 0.0) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 width = 1.dp,
                 shape = MaterialTheme.shapes.small
-                )
+            )
             .background(
                 color = MaterialTheme.colorScheme.surfaceVariant
             )
@@ -64,13 +65,15 @@ fun CategoriesMessage(name: String = "Example", amount: Double = 0.0) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        Icon(
-            imageVector = Icons.Filled.KeyboardArrowRight,
-            contentDescription = "",
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier
-                .padding(10.dp)
-        )
+        IconButton(onClick = { onClick() }) {
+            Icon(
+                imageVector = Icons.Filled.KeyboardArrowRight,
+                contentDescription = "",
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier
+                    .padding(10.dp)
+            )
+        }
     }
 }
 
