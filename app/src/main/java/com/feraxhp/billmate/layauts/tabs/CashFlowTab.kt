@@ -26,7 +26,7 @@ fun CashFlowTab(padding: PaddingValues = PaddingValues(0.dp)) {
                 type = listIncomes[it].type,
                 name = listIncomes[it].name,
                 amount = listIncomes[it].amount,
-                date = listIncomes[it].date,
+                date = listIncomes[it].date.toString(),
                 time = listIncomes[it].time
             )
         }
