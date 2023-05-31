@@ -1,7 +1,6 @@
 package com.feraxhp.billmate.layauts.screens.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -45,17 +43,17 @@ fun MyTimePicker(
     }
     val currentTime = remember { mutableStateOf("") }
     currentTime.value = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
-    var initialMinute: Int
-    var initialHour: Int
+    val initialMinute: Int
+    val initialHour: Int
 
     if (rechargeable.value != 0) {
         initialMinute = currentTime.value.substring(3, 5).toInt()
         initialHour = currentTime.value.substring(0, 2).toInt()
-    }else{
+    } else {
         initialMinute = state.minute
         initialHour = state.hour
     }
-    val internalState by remember(key1 = rechargeable.value){
+    val internalState by remember(key1 = rechargeable.value) {
         mutableStateOf(
             TimePickerState(
                 initialMinute = initialMinute,
