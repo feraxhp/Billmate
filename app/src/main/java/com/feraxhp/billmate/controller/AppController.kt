@@ -78,6 +78,14 @@ class AppController(context: Context) {
     // Removals
     fun removeFund(fund: Funds) {
         coroutineScope.launch {
+            val currentEvents = billMateDatabase.EventsDao().getEventsByFund(fund.id)
+            currentEvents.forEach {
+                val category = billMateDatabase.CategoriesDao().getCategoryById(it.category_id)
+                category.amount =
+                    if (it.type) category.amount - it.amount else category.amount + it.amount
+                billMateDatabase.CategoriesDao().updateCategory(category)
+            }
+            billMateDatabase.EventsDao().removeFundEvents(fund.id)
             billMateDatabase.FundsDao().removeFund(fund.id)
             billMateDatabase.EventsDao().removeEvent(fund.id)
             actualize()
@@ -87,6 +95,13 @@ class AppController(context: Context) {
 
     fun removeCategory(category: Categories) {
         coroutineScope.launch {
+            val currentEvents = billMateDatabase.EventsDao().getEventsByCategory(category.id)
+            currentEvents.forEach {
+                val fund = billMateDatabase.FundsDao().getFundById(it.fund_id)
+                fund.amount = if (it.type) fund.amount - it.amount else fund.amount + it.amount
+                billMateDatabase.FundsDao().updateFund(fund)
+            }
+            billMateDatabase.EventsDao().removeCategoryEvents(category.id)
             billMateDatabase.CategoriesDao().removeCategory(category.id)
             billMateDatabase.EventsDao().removeEvent(category.id)
             actualize()

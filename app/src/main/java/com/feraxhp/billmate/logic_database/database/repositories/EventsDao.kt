@@ -17,6 +17,12 @@ interface EventsDao {
     @Query("DELETE FROM Events WHERE category_id = :id")
     suspend fun removeCategoryEvents(id: Long)
 
+    @Query("SELECT * FROM Events WHERE category_id = :id")
+    suspend fun getEventsByCategory(id: Long): List<Events>
+
+    @Query("SELECT * FROM Events WHERE fund_id = :id")
+    suspend fun getEventsByFund(id: Long): List<Events>
+    
     @Query("SELECT * FROM Events WHERE id = :id")
     suspend fun getEventById(id: Long): Events
 
