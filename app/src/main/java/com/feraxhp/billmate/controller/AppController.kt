@@ -16,7 +16,10 @@ class AppController(context: Context) {
     val user = User(context)
     var billMateDatabase =
         Room.databaseBuilder(context, MyDataBase::class.java, "billmateDB").build()
-    private var funds = mutableListOf<Funds>()
+    private var Funds = mutableListOf<Funds>()
+    private var normalFunds = mutableListOf<Funds>()
+    private var savesFunds = mutableListOf<Funds>()
+    private var loansFunds = mutableListOf<Funds>()
     private var categories = mutableListOf<Categories>()
     private var transfers = mutableListOf<Transfers>()
     private var expenses = mutableListOf<Events>()
@@ -26,15 +29,15 @@ class AppController(context: Context) {
     init {
         coroutineScope.launch {
             actualize()
-            if (funds.isEmpty() && !user.isDeleted() && user.getName() != null) {
-                funds.add(
+            if (normalFunds.isEmpty() && !user.isDeleted() && user.getName() != null) {
+                normalFunds.add(
                     Funds(
                         accountName = "Default",
                         amount = 0.0,
                         description = "This is how it will show up"
                     )
                 )
-                billMateDatabase.FundsDao().insertFund(funds[0])
+                billMateDatabase.FundsDao().insertFund(normalFunds[0])
             }
         }
     }
@@ -49,8 +52,14 @@ class AppController(context: Context) {
 
     // Actualizations
     private suspend fun actualizeFunds() {
-        funds.clear()
-        funds = billMateDatabase.FundsDao().getAllFunds() as MutableList<Funds>
+        Funds.clear()
+        normalFunds.clear()
+        savesFunds.clear()
+        loansFunds.clear()
+        normalFunds = billMateDatabase.FundsDao().getFundsByType(0) as MutableList<Funds>
+        savesFunds = billMateDatabase.FundsDao().getFundsByType(1) as MutableList<Funds>
+        loansFunds = billMateDatabase.FundsDao().getFundsByType(3) as MutableList<Funds>
+        Funds = (normalFunds + savesFunds + loansFunds) as MutableList<Funds>
     }
 
     private suspend fun actualizeCategories() {
@@ -114,19 +123,19 @@ class AppController(context: Context) {
 
     // Getters
     fun getAllFunds(): List<Funds> {
-        return funds
+        return normalFunds
     }
 
     fun getAllFundsOnString(): List<String> {
-        return if (funds.isNotEmpty()) {
-            funds.map { "${it.accountName}: ${it.amount}" }
+        return if (normalFunds.isNotEmpty()) {
+            normalFunds.map { "${it.accountName}: ${it.amount}" }
         } else {
             listOf("")
         }
     }
 
     fun getTotalBalance(): Double {
-        return funds.sumOf { it.amount }
+        return normalFunds.sumOf { it.amount }
     }
 
     fun getTotalExpenses(): Double {
@@ -160,7 +169,8 @@ class AppController(context: Context) {
         accountName: String,
         titularName: String,
         amount: String,
-        description: String
+        description: String,
+        type: Int = 0
     ): Boolean {
         var realAmount = amount
         if (accountName == "") return false
@@ -171,7 +181,8 @@ class AppController(context: Context) {
                     Funds(
                         accountName = accountName,
                         amount = realAmount.toDouble(),
-                        description = description
+                        description = description,
+                        type = type
                     )
                 }
 
@@ -180,7 +191,8 @@ class AppController(context: Context) {
                         accountName = accountName,
                         amount = realAmount.toDouble(),
                         description = description,
-                        titularName = titularName
+                        titularName = titularName,
+                        type = type
                     )
                 }
             }

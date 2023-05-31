@@ -275,11 +275,13 @@ fun NewEvents() {
                             dismissButton = {
                                 TextButton(
                                     onClick = {
-                                        appController.addCategory(
-                                            "Default",
-                                            "0.0",
-                                            "Default Category"
-                                        )
+                                        if (appController.getAllCategoriesOnString() == listOf("")) {
+                                            appController.addCategory(
+                                                "Default",
+                                                "0.0",
+                                                "Default Category"
+                                            )
+                                        }
                                         viewController.startCreateNewEvents()
                                     }
                                 ) {
@@ -309,12 +311,14 @@ fun NewEvents() {
                             dismissButton = {
                                 TextButton(
                                     onClick = {
-                                        appController.addFund(
-                                            "Default",
-                                            "",
-                                            "0.0",
-                                            "Default Fund"
-                                        )
+                                        if (appController.getAllFundsOnString() == listOf("")) {
+                                            appController.addFund(
+                                                "Default",
+                                                "",
+                                                "0.0",
+                                                "Default Fund"
+                                            )
+                                        }
                                         viewController.startCreateNewEvents()
                                     }
                                 ) {
