@@ -60,7 +60,8 @@ fun NewEvents() {
     val (description, setDescription) = remember { mutableStateOf("") }
     val values = listOf(eventName, amount, description)
     val setters = listOf(setEventName, setAmount, setDescription)
-    val error = remember { mutableStateOf(false) }
+    val errorName = remember { mutableStateOf(false) }
+    val errorAmount = remember { mutableStateOf(false) }
     val (selectedEventValue, setSelectedEventValue) = remember { mutableStateOf(0) }
 
     // Dropdown
@@ -171,14 +172,15 @@ fun NewEvents() {
                                     value = values[position],
                                     onValueChange = {
                                         setters[position](it)
-                                        error.value = false
+                                        if (position == 0) errorName.value = false
+                                        if (position == 1) errorAmount.value = false
                                     },
                                     colors = OutlinedTextFieldDefaults.colors(
                                         errorBorderColor = MaterialTheme.colorScheme.error,
                                     ),
                                     label = { Text(labels[position]) },
                                     shape = MaterialTheme.shapes.small,
-                                    isError = position == 0 && error.value,
+                                    isError = (position == 0 && errorName.value) || (position == 1 && errorAmount.value),
                                     modifier = Modifier
                                         .fillParentMaxWidth()
                                         .padding(horizontal = 10.dp)
@@ -333,12 +335,36 @@ fun NewEvents() {
                     MyFloatingActionButton(
                         onClick = {
                             when (selectedEventValue) {
-                                0 -> {
+                                0, 1 -> {
+                                    val response = appController.addEvent(
+                                        date = dateState.selectedDateMillis!!,
+                                        time = "${timeState.hour}:${timeState.minute}",
+                                        category = optionsCategories.indexOf(
+                                            selectedOptionCategoryText
+                                        ),
+                                        fund = optionsFunds.indexOf(
+                                            selectedOptionFundDestinationText
+                                        ),
+                                        name = values[0],
+                                        amount = values[1],
+                                        description = values[2],
+                                        type = selectedEventValue == 1,
+                                    )
+                                    when (response) {
+                                        1 -> {
+                                            errorName.value = true
+                                        }
 
-                                }
+                                        2 -> {
+                                            errorAmount.value = true
+                                        }
 
-                                1 -> {
-
+                                        else -> {
+                                            errorName.value = false
+                                            errorAmount.value = false
+                                            viewController.startMainActivity()
+                                        }
+                                    }
                                 }
 
                                 2 -> {
@@ -352,7 +378,6 @@ fun NewEvents() {
         }
     }
 }
-
 
 @Preview
 @Composable

@@ -10,6 +10,6 @@ data class Categories(
     val id: Long = 0L,
     val name: String,
     val icon: Int,
-    val amount: Double,
+    var amount: Double,
     val description: String
 )

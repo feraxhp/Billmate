@@ -14,16 +14,15 @@ import kotlinx.coroutines.launch
 
 class AppController(context: Context) {
     val user = User(context)
-    var billMateDatabase =
+    private var billMateDatabase =
         Room.databaseBuilder(context, MyDataBase::class.java, "billmateDB").build()
-    private var Funds = mutableListOf<Funds>()
+    private var funds = mutableListOf<Funds>()
     private var normalFunds = mutableListOf<Funds>()
     private var savesFunds = mutableListOf<Funds>()
     private var loansFunds = mutableListOf<Funds>()
     private var categories = mutableListOf<Categories>()
     private var transfers = mutableListOf<Transfers>()
-    private var expenses = mutableListOf<Events>()
-    private var incomes = mutableListOf<Events>()
+    private var events = mutableListOf<Events>()
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
     init {
@@ -46,20 +45,19 @@ class AppController(context: Context) {
         actualizeFunds()
         actualizeCategories()
         actualizeTransfers()
-        actualizeExpenses()
-        actualizeIncomes()
+        actualizeEvents()
     }
 
     // Actualizations
     private suspend fun actualizeFunds() {
-        Funds.clear()
+        funds.clear()
         normalFunds.clear()
         savesFunds.clear()
         loansFunds.clear()
         normalFunds = billMateDatabase.FundsDao().getFundsByType(0) as MutableList<Funds>
         savesFunds = billMateDatabase.FundsDao().getFundsByType(1) as MutableList<Funds>
         loansFunds = billMateDatabase.FundsDao().getFundsByType(3) as MutableList<Funds>
-        Funds = (normalFunds + savesFunds + loansFunds) as MutableList<Funds>
+        funds = (normalFunds + savesFunds + loansFunds) as MutableList<Funds>
     }
 
     private suspend fun actualizeCategories() {
@@ -72,14 +70,9 @@ class AppController(context: Context) {
         transfers = billMateDatabase.TransfersDao().getAllTransfers() as MutableList<Transfers>
     }
 
-    private suspend fun actualizeExpenses() {
-        expenses.clear()
-        expenses = billMateDatabase.EventsDao().getAllExpenses() as MutableList<Events>
-    }
-
-    private suspend fun actualizeIncomes() {
-        incomes.clear()
-        incomes = billMateDatabase.EventsDao().getAllIncomes() as MutableList<Events>
+    private suspend fun actualizeEvents() {
+        events.clear()
+        events = billMateDatabase.EventsDao().getAllEvents() as MutableList<Events>
     }
 
     // Removals
@@ -107,17 +100,21 @@ class AppController(context: Context) {
         }
     }
 
-    fun removeExpense(expense: Events) {
+    fun removeEvent(event: Events) {
         coroutineScope.launch {
-            billMateDatabase.EventsDao().removeEvent(expense.id)
-            actualizeExpenses()
-        }
-    }
+            val currentCategorie =
+                billMateDatabase.CategoriesDao().getCategoryById(event.category_id)
+            val currentFund = billMateDatabase.FundsDao().getFundById(event.fund_id)
 
-    fun removeIncome(income: Events) {
-        coroutineScope.launch {
-            billMateDatabase.EventsDao().removeEvent(income.id)
-            actualizeIncomes()
+            currentCategorie.amount =
+                if (event.type) currentCategorie.amount - event.amount else currentCategorie.amount + event.amount
+            currentFund.amount =
+                if (event.type) currentFund.amount - event.amount else currentFund.amount + event.amount
+
+            billMateDatabase.CategoriesDao().updateCategory(currentCategorie)
+            billMateDatabase.FundsDao().updateFund(currentFund)
+            billMateDatabase.EventsDao().removeEvent(event.id)
+            actualize()
         }
     }
 
@@ -139,11 +136,11 @@ class AppController(context: Context) {
     }
 
     fun getTotalExpenses(): Double {
-        return expenses.sumOf { it.amount }
+        return events.sumOf { if (!it.type) it.amount else 0.0 }
     }
 
     fun getTotalIncomes(): Double {
-        return incomes.sumOf { it.amount }
+        return events.sumOf { if (it.type) it.amount else 0.0 }
     }
 
     fun getAllCategories(): List<Categories> {
@@ -156,12 +153,8 @@ class AppController(context: Context) {
         }
     }
 
-    fun getAllIncomes(): List<Events> {
-        return incomes
-    }
-
-    fun getAllExpenses(): List<Events> {
-        return expenses
+    fun getAllEvents(): List<Events> {
+        return events
     }
 
     // Additions
@@ -176,7 +169,7 @@ class AppController(context: Context) {
         if (accountName == "") return false
         if (realAmount == "") realAmount = "0.0"
         coroutineScope.launch {
-            val fund = when (titularName.equals("")) {
+            val fund = when (titularName == "") {
                 true -> {
                     Funds(
                         accountName = accountName,
@@ -219,8 +212,44 @@ class AppController(context: Context) {
         return true
     }
 
-    fun addEvent() {
+    fun addEvent(
+        date: Long,
+        time: String,
+        type: Boolean,
+        name: String,
+        amount: String,
+        description: String,
+        fund: Int,
+        category: Int
+    ): Int {
+        val currentFund = this.funds[fund]
+        val currentCategory = this.categories[category]
 
+        if (name == "") return 1
+        if (amount == "") return 2
+
+        coroutineScope.launch {
+            val event = Events(
+                date = date,
+                time = time,
+                type = type,
+                name = name,
+                amount = amount.toDouble(),
+                description = description,
+                fund_id = currentFund.id,
+                category_id = currentCategory.id
+            )
+            currentFund.amount =
+                if (type) currentFund.amount + amount.toDouble() else currentFund.amount - amount.toDouble()
+            currentCategory.amount =
+                if (type) currentCategory.amount + amount.toDouble() else currentCategory.amount - amount.toDouble()
+            billMateDatabase.EventsDao().insertEvent(event)
+            billMateDatabase.FundsDao().updateFund(currentFund)
+            billMateDatabase.CategoriesDao().updateCategory(currentCategory)
+            actualize()
+        }
+        return 0
     }
+
 
 }

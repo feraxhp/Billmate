@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,8 +26,10 @@ fun EventsCard(
     type: Boolean = true,
     name: String = "Example",
     amount: Double = 0.0,
+    description: String = "Example",
     date: String = "2019-08-26",
     time: String = "15:00",
+    onClick: () -> Unit = {}
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -49,21 +51,24 @@ fun EventsCard(
                 .weight(2f)
         ) {
             Text(
-                text = name,
+                text = "$name: $amount",
                 fontSize = 20.sp,
                 color = if (type) Color(0XFF008C37) else Color(0xFF8C2746)
             )
             Text(
-                text = "Amount: $amount   ~   $date   ~   $time",
+                text = " ${if (description == "") "Description" else description} ~   $date   ~   $time",
             )
         }
-        Icon(
-            imageVector = if (type) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
-            contentDescription = "",
-            tint = if (type) Color(0XFF008C37) else Color(0xFF8C2746),
-            modifier = Modifier
-                .padding(10.dp)
-        )
+        IconButton(onClick = { onClick() }) {
+            Icon(
+                imageVector = if (type) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
+                contentDescription = "",
+                tint = if (type) Color(0XFF008C37) else Color(0xFF8C2746),
+                modifier = Modifier
+                    .padding(10.dp)
+            )
+        }
+
     }
 }
 
