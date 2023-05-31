@@ -14,6 +14,12 @@ interface TransfersDao {
     @Query("SELECT * FROM Transfers WHERE id = :id")
     suspend fun getTransferById(id: Long): Transfers
 
+    @Query("SELECT * FROM Transfers WHERE origin_fund_id = :id")
+    suspend fun getTransfersByOriginFundId(id: Long): List<Transfers>
+
+    @Query("SELECT * FROM Transfers WHERE target_fund_id = :id")
+    suspend fun getTransfersByDestinationFundId(id: Long): List<Transfers>
+
     @Insert
     suspend fun insertTransfer(Transfer: Transfers)
 

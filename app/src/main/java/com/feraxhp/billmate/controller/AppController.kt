@@ -85,6 +85,23 @@ class AppController(context: Context) {
                     if (it.type) category.amount - it.amount else category.amount + it.amount
                 billMateDatabase.CategoriesDao().updateCategory(category)
             }
+            val currentOriginTransfers =
+                billMateDatabase.TransfersDao().getTransfersByOriginFundId(fund.id)
+            val currentTargetTransfers =
+                billMateDatabase.TransfersDao().getTransfersByDestinationFundId(fund.id)
+
+            currentOriginTransfers.forEach { transfer ->
+                val originFund = billMateDatabase.FundsDao().getFundById(transfer.origin_fund_id)
+                originFund.amount = originFund.amount + transfer.amount
+                billMateDatabase.FundsDao().updateFund(originFund)
+                billMateDatabase.TransfersDao().removeTransfer(transfer.id)
+            }
+            currentTargetTransfers.forEach { transfer ->
+                val targetFund = billMateDatabase.FundsDao().getFundById(transfer.target_fund_id)
+                targetFund.amount = targetFund.amount - transfer.amount
+                billMateDatabase.FundsDao().updateFund(targetFund)
+                billMateDatabase.TransfersDao().removeTransfer(transfer.id)
+            }
             billMateDatabase.EventsDao().removeFundEvents(fund.id)
             billMateDatabase.FundsDao().removeFund(fund.id)
             billMateDatabase.EventsDao().removeEvent(fund.id)
@@ -110,8 +127,14 @@ class AppController(context: Context) {
 
     fun removeTransfer(transfer: Transfers) {
         coroutineScope.launch {
+            val originFund = billMateDatabase.FundsDao().getFundById(transfer.origin_fund_id)
+            val targetFund = billMateDatabase.FundsDao().getFundById(transfer.target_fund_id)
+            originFund.amount = originFund.amount + transfer.amount
+            targetFund.amount = targetFund.amount - transfer.amount
+            billMateDatabase.FundsDao().updateFund(originFund)
+            billMateDatabase.FundsDao().updateFund(targetFund)
             billMateDatabase.TransfersDao().removeTransfer(transfer.id)
-            actualizeTransfers()
+            actualize()
         }
     }
 
@@ -136,6 +159,10 @@ class AppController(context: Context) {
     // Getters
     fun getAllFunds(): List<Funds> {
         return normalFunds
+    }
+
+    fun getFundByID(originFundId: Long): Funds? {
+        return funds.find { it.id == originFundId }
     }
 
     fun getAllFundsOnString(): List<String> {
@@ -170,6 +197,10 @@ class AppController(context: Context) {
 
     fun getAllEvents(): List<Events> {
         return events
+    }
+
+    fun getAllTransfers(): List<Transfers> {
+        return transfers
     }
 
     // Additions
@@ -261,6 +292,38 @@ class AppController(context: Context) {
             billMateDatabase.EventsDao().insertEvent(event)
             billMateDatabase.FundsDao().updateFund(currentFund)
             billMateDatabase.CategoriesDao().updateCategory(currentCategory)
+            actualize()
+        }
+        return 0
+    }
+
+    fun addTransfer(
+        originFund: Int,
+        targetFund: Int,
+        amount: String,
+        date: Long,
+        time: String,
+        description: String
+    ): Int {
+        val currentOriginFund = this.funds[originFund]
+        val currentTargetFund = this.funds[targetFund]
+
+        if (amount == "") return 1
+
+        coroutineScope.launch {
+            val transfer = Transfers(
+                origin_fund_id = currentOriginFund.id,
+                target_fund_id = currentTargetFund.id,
+                amount = amount.toDouble(),
+                date = date,
+                time = time,
+                description = description
+            )
+            currentOriginFund.amount = currentOriginFund.amount - amount.toDouble()
+            currentTargetFund.amount = currentTargetFund.amount + amount.toDouble()
+            billMateDatabase.FundsDao().updateFund(currentOriginFund)
+            billMateDatabase.FundsDao().updateFund(currentTargetFund)
+            billMateDatabase.TransfersDao().insertTransfer(transfer)
             actualize()
         }
         return 0

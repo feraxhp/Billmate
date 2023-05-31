@@ -22,7 +22,6 @@ import androidx.room.PrimaryKey
 data class Transfers(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
-    val name: String,
     val amount: Double,
     val date: Long,
     val time: String,

@@ -168,6 +168,7 @@ fun NewEvents() {
                                 )
                             }
                             items(labels.size) { position ->
+                                if (selectedEventValue == 2 && position == 0) return@items
                                 OutlinedTextField(
                                     value = values[position],
                                     onValueChange = {
@@ -368,7 +369,28 @@ fun NewEvents() {
                                 }
 
                                 2 -> {
+                                    val response = appController.addTransfer(
+                                        description = values[2],
+                                        amount = values[1],
+                                        date = dateState.selectedDateMillis!!,
+                                        time = "${timeState.hour}:${timeState.minute}",
+                                        originFund = optionsFunds.indexOf(
+                                            selectedOptionFundOriginText
+                                        ),
+                                        targetFund = optionsFunds.indexOf(
+                                            selectedOptionFundDestinationText
+                                        )
+                                    )
+                                    when (response) {
+                                        1 -> {
+                                            errorAmount.value = true
+                                        }
 
+                                        else -> {
+                                            errorAmount.value = false
+                                            viewController.startMainActivity()
+                                        }
+                                    }
                                 }
                             }
                         },

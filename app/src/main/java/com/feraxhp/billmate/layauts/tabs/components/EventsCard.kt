@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,6 +32,7 @@ fun EventsCard(
     time: String = "15:00",
     onClick: () -> Unit = {}
 ) {
+    val color = if (type) Color(0XFF008C37) else Color(0xFF8C3700)
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
@@ -42,7 +44,7 @@ fun EventsCard(
                 id = R.drawable.baseline_clear_24
             ),
             contentDescription = "",
-            tint = if (type) Color(0XFF008C37) else Color(0xFF8C2746),
+            tint = color,
             modifier = Modifier
                 .padding(10.dp)
         )
@@ -53,17 +55,18 @@ fun EventsCard(
             Text(
                 text = "$name: $amount",
                 fontSize = 20.sp,
-                color = if (type) Color(0XFF008C37) else Color(0xFF8C2746)
+                color = color
             )
             Text(
-                text = " ${if (description == "") "Description" else description} ~   $date   ~   $time",
+                text = " ${if (description == "") "Description" else description} ~ $date ~ $time",
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
         IconButton(onClick = { onClick() }) {
             Icon(
                 imageVector = if (type) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
                 contentDescription = "",
-                tint = if (type) Color(0XFF008C37) else Color(0xFF8C2746),
+                tint = color,
                 modifier = Modifier
                     .padding(10.dp)
             )

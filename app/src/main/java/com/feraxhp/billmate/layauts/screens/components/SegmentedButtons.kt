@@ -4,12 +4,16 @@ import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -26,6 +30,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SegmentedButtons(
+    modifier: Modifier = Modifier,
     buttonNames: List<String> = listOf("Selected", "Enable", "Enable"),
     selectedValue: Int = 1,
     onItemClick: (Int) -> Unit = {},
@@ -33,7 +38,7 @@ fun SegmentedButtons(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(10.dp)
             .background(
@@ -51,15 +56,20 @@ fun SegmentedButtons(
                 selectedValue -> MaterialTheme.colorScheme.onSecondaryContainer
                 else -> MaterialTheme.colorScheme.onSurface
             }
-            val borderModifier: Modifier = if (
-                index != 0 &&
-                index != buttonNames.size - 1
-            ) {
-                Modifier.border(width = .5.dp, color = MaterialTheme.colorScheme.onSurface)
-            } else {
-                Modifier
+            if (index != 0) {
+                Box(
+                    modifier = Modifier
+                        .width(1.dp)
+                        .height(48.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.onSurface,
+                            shape = RoundedCornerShape(50.dp)
+                        )
+                ) {
+
+                }
             }
-            var backgroundModifier: Modifier  = Modifier
+            var backgroundModifier: Modifier = Modifier
             if (index == selectedValue) {
                 backgroundModifier = when (index) {
                     0 -> {
@@ -89,13 +99,17 @@ fun SegmentedButtons(
 
 
             Box(
-                modifier = borderModifier
-                    .then(backgroundModifier)
+                contentAlignment = Alignment.Center,
+                modifier = backgroundModifier
                     .weight(1f),
             ) {
-                IconButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = { onItemClick(index) }
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxWidth()
+                        .height(48.dp)
+                        .clickable(indication = null, interactionSource = MutableInteractionSource()) {
+                            onItemClick(index)
+                        },
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -125,7 +139,7 @@ fun SegmentedButtons(
     }
 }
 
-@Preview( uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun SegmentedButtonsPreview() {
     SegmentedButtons()
