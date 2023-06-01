@@ -257,7 +257,10 @@ fun NewEvents() {
                                 }
                                 if (openDateDialog.value) {
                                     AlertDialog(
-                                        onDismissRequest = {}
+                                        onDismissRequest = {},
+                                        modifier = Modifier
+                                            .fillParentMaxWidth()
+                                            .padding(horizontal = 10.dp)
                                     ) {
                                         MyDatePicker(
                                             state = dateState,
