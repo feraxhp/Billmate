@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -221,11 +222,28 @@ fun NewEvents() {
                                         options = optionsCategories
                                     )
                                 }
-                                TextButton(onClick = { openTimeDialog.value = true }) {
-                                    Text(
-                                        text = "Time ${timeState.hour}:${timeState.minute}",
-                                        modifier = Modifier
-                                    )
+                                Row(
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    TextButton(onClick = { openTimeDialog.value = true }) {
+                                        Text(
+                                            text = if (timeState.is24hour) "Time: ${timeState.hour}:${timeState.minute}" else "Time: ${
+                                                changeFrom24hto12h(
+                                                    timeState.hour,
+                                                    timeState.minute
+                                                )
+                                            }",
+                                            modifier = Modifier
+                                        )
+                                    }
+                                    calendar.timeInMillis = dateState.selectedDateMillis!!
+                                    TextButton(onClick = { openDateDialog.value = true }) {
+                                        Text(
+                                            text = "Date: ${calendar[Calendar.DAY_OF_MONTH]}/${calendar[Calendar.MONTH] + 1}/${calendar[Calendar.YEAR]}",
+                                            modifier = Modifier
+                                        )
+                                    }
                                 }
                                 if (openTimeDialog.value) {
                                     AlertDialog(
@@ -236,13 +254,6 @@ fun NewEvents() {
                                             setState = { timeState = it },
                                             setDialog = { openTimeDialog.value = it })
                                     }
-                                }
-                                calendar.timeInMillis = dateState.selectedDateMillis!!
-                                TextButton(onClick = { openDateDialog.value = true }) {
-                                    Text(
-                                        text = "Date: ${calendar[Calendar.DAY_OF_MONTH]}/${calendar[Calendar.MONTH] + 1}/${calendar[Calendar.YEAR]}",
-                                        modifier = Modifier
-                                    )
                                 }
                                 if (openDateDialog.value) {
                                     AlertDialog(
@@ -403,6 +414,23 @@ fun NewEvents() {
         }
     }
 }
+
+fun changeFrom24hto12h(hour: Int, minute: Int): String {
+    var returnTime = "${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} AM"
+    if (hour > 12) {
+        returnTime =
+            "${(hour - 12).toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} PM"
+    }
+    if (hour == 12) {
+        returnTime = "${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} M"
+    }
+    if (hour == 0) {
+        returnTime =
+            "${(hour + 12).toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} AM"
+    }
+    return returnTime
+}
+
 
 @Preview
 @Composable
