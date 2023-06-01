@@ -273,7 +273,9 @@ fun NewEvents() {
                     }
                     if (optionsCategories[0] == "") {
                         AlertDialog(
-                            onDismissRequest = {},
+                            onDismissRequest = {
+                                viewController.startMainActivity()
+                            },
                             title = {
                                 Text(text = "No Categories found!")
                             },
@@ -309,7 +311,9 @@ fun NewEvents() {
                     }
                     if (optionsFunds[0] == "") {
                         AlertDialog(
-                            onDismissRequest = {},
+                            onDismissRequest = {
+                                viewController.startMainActivity()
+                            },
                             title = {
                                 Text(text = "No Funds found!")
                             },
