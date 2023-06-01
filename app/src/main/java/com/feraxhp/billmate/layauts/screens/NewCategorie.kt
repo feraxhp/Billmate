@@ -12,10 +12,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -24,7 +24,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.feraxhp.billmate.activitys.MainActivity
+import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
+import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
 import com.feraxhp.billmate.layauts.screens.components.MyFloatingActionButton
 
@@ -39,7 +40,8 @@ fun NewCategory() {
         val (description, setDescription) = remember { mutableStateOf("") }
         val values = listOf(categoryName, amount, description)
         val setters = listOf(setCategoryName, setAmount, setDescription)
-        val error = remember { mutableStateOf(false) }
+        val errorName = remember { mutableStateOf(false) }
+        val errorAmount = remember { mutableStateOf(false) }
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
@@ -58,7 +60,7 @@ fun NewCategory() {
                         navigationIcon = {
                             IconButton(
                                 onClick = {
-                                    MainActivity.viewController.startMainActivity()
+                                    viewController.startMainActivity()
                                 }) {
                                 Icon(Icons.Filled.ArrowBack, contentDescription = "")
                             }
@@ -78,14 +80,15 @@ fun NewCategory() {
                                 value = values[position],
                                 onValueChange = {
                                     setters[position](it)
-                                    error.value = false
+                                    if (position == 0) errorName.value = false
+                                    if (position == 1) errorAmount.value = false
                                 },
-                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                colors = OutlinedTextFieldDefaults.colors(
                                     errorBorderColor = MaterialTheme.colorScheme.error,
                                 ),
                                 label = { Text(labels[position]) },
                                 shape = MaterialTheme.shapes.small,
-                                isError = position == 0 && error.value,
+                                isError = (position == 0 && errorName.value) || (position == 1 && errorAmount.value),
                                 modifier = Modifier
                                     .fillParentMaxWidth()
                                     .padding(horizontal = 10.dp)
@@ -97,14 +100,23 @@ fun NewCategory() {
                 floatingActionButton = {
                     MyFloatingActionButton(
                         onClick = {
-                            if (MainActivity.appController.addCategory(
-                                    categoryName, amount, description
-                                )
-                            ) {
-                                error.value = false
-                                MainActivity.viewController.startMainActivity()
-                            } else {
-                                error.value = true
+                            val response = appController.addCategory(
+                                categoryName, amount, description
+                            )
+                            when (response) {
+                                1 -> {
+                                    errorName.value = true
+                                }
+
+                                2 -> {
+                                    errorAmount.value = true
+                                }
+
+                                else -> {
+                                    errorName.value = false
+                                    errorAmount.value = false
+                                    viewController.startMainActivity()
+                                }
                             }
                         },
                     )

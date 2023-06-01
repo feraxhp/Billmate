@@ -210,10 +210,15 @@ class AppController(context: Context) {
         amount: String,
         description: String,
         type: Int = 0
-    ): Boolean {
+    ): Int {
         var realAmount = amount
-        if (accountName == "") return false
+        if (accountName == "") return 1
         if (realAmount == "") realAmount = "0.0"
+        try {
+            realAmount.toDouble()
+        } catch (e: Exception) {
+            return 2
+        }
         coroutineScope.launch {
             val fund = when (titularName == "") {
                 true -> {
@@ -238,13 +243,19 @@ class AppController(context: Context) {
             billMateDatabase.FundsDao().insertFund(fund)
             actualize()
         }
-        return true
+        return 0
     }
 
-    fun addCategory(categoryName: String, amount: String, description: String): Boolean {
+    fun addCategory(categoryName: String, amount: String, description: String): Int {
         var realAmount = amount
-        if (categoryName == "") return false
+
+        if (categoryName == "") return 1
         if (realAmount == "") realAmount = "0.0"
+        try {
+            realAmount.toDouble()
+        } catch (e: Exception) {
+            return 2
+        }
         coroutineScope.launch {
             val category = Categories(
                 name = categoryName,
@@ -255,7 +266,7 @@ class AppController(context: Context) {
             billMateDatabase.CategoriesDao().insertCategory(category)
             actualize()
         }
-        return true
+        return 0
     }
 
     fun addEvent(
@@ -273,6 +284,12 @@ class AppController(context: Context) {
 
         if (name == "") return 1
         if (amount == "") return 2
+
+        try {
+            amount.toDouble()
+        } catch (e: Exception) {
+            return 2
+        }
 
         coroutineScope.launch {
             val event = Events(

@@ -39,7 +39,8 @@ fun NewFund() {
     val (titularName, setTitularName) = remember { mutableStateOf("") }
     val (amount, setAmount) = remember { mutableStateOf("") }
     val (description, setDescription) = remember { mutableStateOf("") }
-    val error = remember { mutableStateOf(false) }
+    val errorName = remember { mutableStateOf(false) }
+    val errorAmount = remember { mutableStateOf(false) }
     val values = listOf(accountName, titularName, amount, description)
     val setters = listOf(setAccountName, setTitularName, setAmount, setDescription)
     val labels = listOf("Account Name", "Titular Name", "Amount", "Description")
@@ -91,14 +92,15 @@ fun NewFund() {
                                     value = values[position],
                                     onValueChange = {
                                         setters[position](it)
-                                        error.value = false
+                                        if (position == 0) errorName.value = false
+                                        if (position == 1) errorAmount.value = false
                                     },
                                     colors = OutlinedTextFieldDefaults.colors(
                                         errorBorderColor = MaterialTheme.colorScheme.error,
                                     ),
                                     label = { Text(labels[position]) },
                                     shape = MaterialTheme.shapes.small,
-                                    isError = position == 0 && error.value,
+                                    isError = (position == 0 && errorName.value) || (position == 2 && errorAmount.value),
                                     modifier = Modifier
                                         .fillParentMaxWidth()
                                         .padding(horizontal = 10.dp)
@@ -111,18 +113,27 @@ fun NewFund() {
                 floatingActionButton = {
                     MyFloatingActionButton(
                         onClick = {
-                            if (appController.addFund(
-                                    accountName = accountName,
-                                    titularName = titularName,
-                                    amount = amount,
-                                    description = description,
-                                    type = selectedType
-                                )
-                            ) {
-                                error.value = false
-                                viewController.startMainActivity()
-                            } else {
-                                error.value = true
+                            val response = appController.addFund(
+                                accountName = accountName,
+                                titularName = titularName,
+                                amount = amount,
+                                description = description,
+                                type = selectedType
+                            )
+                            when (response) {
+                                1 -> {
+                                    errorName.value = true
+                                }
+
+                                2 -> {
+                                    errorAmount.value = true
+                                }
+
+                                else -> {
+                                    errorName.value = false
+                                    errorAmount.value = false
+                                    viewController.startMainActivity()
+                                }
                             }
                         },
                     )

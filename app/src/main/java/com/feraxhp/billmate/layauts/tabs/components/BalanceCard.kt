@@ -1,6 +1,5 @@
 package com.feraxhp.billmate.layauts.tabs.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,10 +30,19 @@ fun BalanceCard() {
         color = MaterialTheme.colorScheme.primaryContainer,
     ) {
         Text(
-            text = "Total Balance: \n ${appController.getTotalBalance()}",
+            text = "Total Balance:",
             color = onColor,
             modifier = Modifier
-                .padding(24.dp)
+                .padding(horizontal = 24.dp)
+                .padding(top = 24.dp)
+        )
+        Text(
+            text = "${appController.getTotalBalance()}",
+            color = onColor,
+            fontSize = MaterialTheme.typography.titleLarge.fontSize,
+            modifier = Modifier
+                .padding(horizontal = 24.dp)
+                .padding(top = 10.dp)
         )
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
