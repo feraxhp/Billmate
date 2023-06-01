@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.layauts.screens.components
+package com.feraxhp.billmate.layauts.tabs.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
@@ -8,7 +8,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,7 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,9 +29,9 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SegmentedButtons(
     modifier: Modifier = Modifier,
-    buttonNames: List<String> = listOf("Selected", "Enable", "Enable"),
+    values: List<String> = listOf("Selected", "Enable", "Enable"),
     selectedValue: Int = 1,
-    onItemClick: (Int) -> Unit = {},
+    setSelectedValue: (Int) -> Unit = {},
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -51,7 +49,7 @@ fun SegmentedButtons(
                 shape = RoundedCornerShape(50.dp)
             )
     ) {
-        for (index in buttonNames.indices) {
+        for (index in values.indices) {
             val onColor: Color = when (index) {
                 selectedValue -> MaterialTheme.colorScheme.onSecondaryContainer
                 else -> MaterialTheme.colorScheme.onSurface
@@ -82,7 +80,7 @@ fun SegmentedButtons(
                         )
                     }
 
-                    buttonNames.size - 1 -> {
+                    values.size - 1 -> {
                         Modifier.background(
                             color = MaterialTheme.colorScheme.secondaryContainer,
                             shape = RoundedCornerShape(bottomEndPercent = 50, topEndPercent = 50)
@@ -108,7 +106,7 @@ fun SegmentedButtons(
                     modifier = Modifier.fillMaxWidth()
                         .height(48.dp)
                         .clickable(indication = null, interactionSource = MutableInteractionSource()) {
-                            onItemClick(index)
+                            setSelectedValue(index)
                         },
                 ) {
                     Row(
@@ -129,7 +127,7 @@ fun SegmentedButtons(
                             )
                         }
                         Text(
-                            text = buttonNames[index],
+                            text = values[index],
                             color = onColor
                         )
                     }

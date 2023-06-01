@@ -56,7 +56,7 @@ class AppController(context: Context) {
         loansFunds.clear()
         normalFunds = billMateDatabase.FundsDao().getFundsByType(0) as MutableList<Funds>
         savesFunds = billMateDatabase.FundsDao().getFundsByType(1) as MutableList<Funds>
-        loansFunds = billMateDatabase.FundsDao().getFundsByType(3) as MutableList<Funds>
+        loansFunds = billMateDatabase.FundsDao().getFundsByType(2) as MutableList<Funds>
         funds = (normalFunds + savesFunds + loansFunds) as MutableList<Funds>
     }
 
@@ -140,16 +140,16 @@ class AppController(context: Context) {
 
     fun removeEvent(event: Events) {
         coroutineScope.launch {
-            val currentCategorie =
+            val currentCategory =
                 billMateDatabase.CategoriesDao().getCategoryById(event.category_id)
             val currentFund = billMateDatabase.FundsDao().getFundById(event.fund_id)
 
-            currentCategorie.amount =
-                if (event.type) currentCategorie.amount - event.amount else currentCategorie.amount + event.amount
+            currentCategory.amount =
+                if (event.type) currentCategory.amount - event.amount else currentCategory.amount + event.amount
             currentFund.amount =
                 if (event.type) currentFund.amount - event.amount else currentFund.amount + event.amount
 
-            billMateDatabase.CategoriesDao().updateCategory(currentCategorie)
+            billMateDatabase.CategoriesDao().updateCategory(currentCategory)
             billMateDatabase.FundsDao().updateFund(currentFund)
             billMateDatabase.EventsDao().removeEvent(event.id)
             actualize()
@@ -158,7 +158,7 @@ class AppController(context: Context) {
 
     // Getters
     fun getAllFunds(): List<Funds> {
-        return normalFunds
+        return funds
     }
 
     fun getFundByID(originFundId: Long): Funds? {

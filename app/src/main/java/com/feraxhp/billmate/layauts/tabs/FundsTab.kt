@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,11 +33,20 @@ import com.feraxhp.billmate.layauts.tabs.components.components.MyCardsFunds
 @Composable
 fun FundsTab(innerPadding: PaddingValues = PaddingValues(0.dp)) {
     var list by remember { mutableStateOf(appController.getAllFunds()) }
+    val types = listOf(
+        "Normal",
+        "Saves",
+        "Loans"
+    )
+    val colors = listOf(
+        MaterialTheme.colorScheme.secondary,
+        MaterialTheme.colorScheme.primary,
+        MaterialTheme.colorScheme.tertiary
+    )
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth(),
         contentPadding = innerPadding,
-//        verticalAlignment = Alignment.CenterVertically,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         items(list.toMutableList()) { fund ->
@@ -79,12 +90,27 @@ fun FundsTab(innerPadding: PaddingValues = PaddingValues(0.dp)) {
                             .padding(start = 10.dp)
                             .align(Alignment.CenterStart)
                     )
-                    Text(
-                        text = "Balance: ${fund.amount}",
+                    Row(
                         modifier = Modifier
                             .align(Alignment.BottomStart)
-                            .padding(10.dp)
-                    )
+                            .fillMaxWidth()
+                            .padding(10.dp),
+                    ) {
+                        Text(
+                            text = types[fund.type],
+                            color = colors[fund.type],
+                            modifier = Modifier
+                                .weight(1f)
+                                .align(Alignment.CenterVertically)
+                                .padding(10.dp)
+                        )
+                        Text(
+                            text = "Balance: ${fund.amount}",
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .padding(10.dp)
+                        )
+                    }
                 }
             }
         }

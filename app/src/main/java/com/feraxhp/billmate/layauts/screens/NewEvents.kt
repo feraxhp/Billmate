@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,7 +41,7 @@ import com.feraxhp.billmate.layauts.screens.components.MyDatePicker
 import com.feraxhp.billmate.layauts.screens.components.MyDropDownMenu
 import com.feraxhp.billmate.layauts.screens.components.MyFloatingActionButton
 import com.feraxhp.billmate.layauts.screens.components.MyTimePicker
-import com.feraxhp.billmate.layauts.screens.components.SegmentedButtons
+import com.feraxhp.billmate.layauts.tabs.components.SegmentedButtons
 import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -110,16 +109,20 @@ fun NewEvents() {
     val openTimeDialog = remember { mutableStateOf(false) }
 
     // Date
-    val calendar =
-        Calendar.getInstance(TimeZone.getTimeZone("UTC${ZonedDateTime.now(ZoneId.systemDefault()).offset}"))
-    calendar.timeInMillis = System.currentTimeMillis()
+    val calendar = Calendar
+        .getInstance(
+            TimeZone.getTimeZone("UTC${ZonedDateTime.now(ZoneId.systemDefault()).offset}")
+        )
+    val offset: Long = "${ZonedDateTime.now(ZoneId.systemDefault()).offset}".split(":")[0].toLong()
+    calendar.timeInMillis =
+        System.currentTimeMillis() + (3600000 * offset)
     var dateState by remember {
         mutableStateOf(
             DatePickerState(
                 initialSelectedDateMillis = calendar.timeInMillis,
                 initialDisplayedMonthMillis = calendar.timeInMillis,
-                yearRange = DatePickerDefaults.YearRange,
-                initialDisplayMode = DisplayMode.Picker
+                yearRange = 1960..2056,
+                initialDisplayMode = DisplayMode.Picker,
             )
         )
     }
@@ -162,9 +165,9 @@ fun NewEvents() {
                         ) {
                             item {
                                 SegmentedButtons(
-                                    buttonNames = listOf("Expense", "Income", "Transfer"),
+                                    values = listOf("Expense", "Income", "Transfer"),
                                     selectedValue = selectedEventValue,
-                                    onItemClick = setSelectedEventValue
+                                    setSelectedValue = setSelectedEventValue
                                 )
                             }
                             items(labels.size) { position ->

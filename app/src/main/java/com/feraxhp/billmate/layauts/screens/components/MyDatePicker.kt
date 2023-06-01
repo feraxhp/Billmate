@@ -1,5 +1,6 @@
 package com.feraxhp.billmate.layauts.screens.components
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,26 +24,26 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyDatePicker(
-    state: DatePickerState = DatePickerState(
-        initialSelectedDateMillis = System.currentTimeMillis(),
-        initialDisplayedMonthMillis = System.currentTimeMillis(),
-        yearRange = 1960..2023,
-        initialDisplayMode = DisplayMode.Picker,
-    ),
+    state: DatePickerState,
     setState: (DatePickerState) -> Unit = {},
     setDialog: (Boolean) -> Unit = {}
 ) {
     val rechargeable = remember {
         mutableStateOf(0)
     }
-
+    val offset: Long = "${ZonedDateTime.now(ZoneId.systemDefault()).offset}".split(":")[0].toLong()
     val selectedDateMillis =
-        if (rechargeable.value != 0) System.currentTimeMillis() else state.selectedDateMillis
+        if (rechargeable.value != 0) {
+            System.currentTimeMillis() + (3600000 * offset)
+        } else state.selectedDateMillis
 
     val internalState by remember(key1 = rechargeable.value) {
         mutableStateOf(
@@ -98,8 +99,21 @@ fun MyDatePicker(
     }
 }
 
-//@Preview(uiMode = UI_MODE_NIGHT_YES)
-//@Composable
-//fun MyDatePickerPreview() {
-//    MyDatePicker()
-//}
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun MyDatePickerPreview() {
+    val offset: Long = "${ZonedDateTime.now(ZoneId.systemDefault()).offset}".split(":")[0].toLong()
+
+    val internalState by remember {
+        mutableStateOf(
+            DatePickerState(
+                initialSelectedDateMillis = System.currentTimeMillis() - (3600000 * offset),
+                initialDisplayedMonthMillis = System.currentTimeMillis() - (3600000 * offset),
+                yearRange = DatePickerDefaults.YearRange,
+                initialDisplayMode = DisplayMode.Picker
+            )
+        )
+    }
+    MyDatePicker(internalState)
+}

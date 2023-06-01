@@ -2,6 +2,7 @@ package com.feraxhp.billmate.layauts.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -28,6 +29,7 @@ import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
 import com.feraxhp.billmate.layauts.screens.components.MyFloatingActionButton
+import com.feraxhp.billmate.layauts.tabs.components.SegmentedButtons
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -41,6 +43,7 @@ fun NewFund() {
     val values = listOf(accountName, titularName, amount, description)
     val setters = listOf(setAccountName, setTitularName, setAmount, setDescription)
     val labels = listOf("Account Name", "Titular Name", "Amount", "Description")
+    val (selectedType, setSelectedType) = remember { mutableStateOf(0) }
     BillmateTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -68,31 +71,40 @@ fun NewFund() {
                     )
                 },
                 content = { paddingValues ->
-                    LazyColumn(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Top,
+                    Column(
                         modifier = Modifier
-                            .fillMaxSize()
                             .padding(paddingValues)
                     ) {
-                        items(labels.size) { position ->
-                            OutlinedTextField(
-                                value = values[position],
-                                onValueChange = {
-                                    setters[position](it)
-                                    error.value = false
-                                },
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    errorBorderColor = MaterialTheme.colorScheme.error,
-                                ),
-                                label = { Text(labels[position]) },
-                                shape = MaterialTheme.shapes.small,
-                                isError = position == 0 && error.value,
-                                modifier = Modifier
-                                    .fillParentMaxWidth()
-                                    .padding(horizontal = 10.dp)
-                                    .padding(top = 10.dp)
-                            )
+                        SegmentedButtons(
+                            values = listOf("Normal", "Saves", "Loans"),
+                            selectedValue = selectedType,
+                            setSelectedValue = setSelectedType
+                        )
+                        LazyColumn(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Top,
+                            modifier = Modifier
+                                .fillMaxSize()
+                        ) {
+                            items(labels.size) { position ->
+                                OutlinedTextField(
+                                    value = values[position],
+                                    onValueChange = {
+                                        setters[position](it)
+                                        error.value = false
+                                    },
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        errorBorderColor = MaterialTheme.colorScheme.error,
+                                    ),
+                                    label = { Text(labels[position]) },
+                                    shape = MaterialTheme.shapes.small,
+                                    isError = position == 0 && error.value,
+                                    modifier = Modifier
+                                        .fillParentMaxWidth()
+                                        .padding(horizontal = 10.dp)
+                                        .padding(top = 10.dp)
+                                )
+                            }
                         }
                     }
                 },
@@ -103,7 +115,8 @@ fun NewFund() {
                                     accountName = accountName,
                                     titularName = titularName,
                                     amount = amount,
-                                    description = description
+                                    description = description,
+                                    type = selectedType
                                 )
                             ) {
                                 error.value = false

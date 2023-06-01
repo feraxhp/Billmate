@@ -1,14 +1,18 @@
 package com.feraxhp.billmate.layauts.tabs.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
@@ -17,27 +21,37 @@ import com.feraxhp.billmate.layauts.tabs.components.components.MyCards
 
 @Composable
 fun BalanceCard() {
+    val onColor = MaterialTheme.colorScheme.onPrimaryContainer
     MyCards(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(15.dp)
-            .height(150.dp),
-        color = MaterialTheme.colorScheme.background,
+            .padding(24.dp)
+            .height(200.dp)
+            .clip(MaterialTheme.shapes.large),
+        color = MaterialTheme.colorScheme.primaryContainer,
     ) {
         Text(
             text = "Total Balance: \n ${appController.getTotalBalance()}",
+            color = onColor,
             modifier = Modifier
-                .padding(15.dp)
+                .padding(24.dp)
         )
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Bottom,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 15.dp)
-                .padding(top = 40.dp)
+                .fillMaxSize()
+                .padding(horizontal = 24.dp)
+                .padding(vertical = 24.dp)
         ) {
-            Text(text = "Incomes: ${appController.getTotalIncomes()}")
-            Text(text = "Expenses: ${appController.getTotalExpenses()}")
+            Text(
+                text = "Incomes: ${appController.getTotalIncomes()}",
+                color = onColor
+            )
+            Text(
+                text = "Expenses: ${appController.getTotalExpenses()}",
+                color = onColor
+            )
         }
     }
 }

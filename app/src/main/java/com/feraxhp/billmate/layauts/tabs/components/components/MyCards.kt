@@ -14,20 +14,19 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun MyCards(
-    modifier: Modifier = Modifier.size(100.dp),
-    color: Color = MaterialTheme.colorScheme.primaryContainer,
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.tertiary,
     components: @Composable () -> Unit = {}
 ) {
     Card(
         modifier = modifier
             .shadow(
-                elevation = 7.dp,
-                shape = CardDefaults.shape,
-            )
-            .background(
-                color = color,
-                shape = CardDefaults.shape,
-            )
+                elevation = 70.dp,
+                shape = MaterialTheme.shapes.large,
+            ),
+        colors = CardDefaults.cardColors(
+            containerColor = color
+        )
     ) {
         components()
     }

@@ -17,8 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
-import com.feraxhp.billmate.layauts.screens.components.SegmentedButtons
 import com.feraxhp.billmate.layauts.tabs.components.EventsCard
+import com.feraxhp.billmate.layauts.tabs.components.SegmentedButtons
 import com.feraxhp.billmate.layauts.tabs.components.TransfersCard
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -34,9 +34,9 @@ fun CashFlowTab(padding: PaddingValues = PaddingValues(0.dp)) {
         modifier = Modifier.padding(padding)
     ) {
         SegmentedButtons(
-            buttonNames = listOf("Events", "Transfers"),
+            values = listOf("Events", "Transfers"),
             selectedValue = selectedIndex,
-            onItemClick = setSelectedIndex
+            setSelectedValue = setSelectedIndex
         )
         LazyColumn(
             modifier = Modifier.padding(top = 0.dp),
