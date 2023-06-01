@@ -7,8 +7,8 @@
         <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
-            <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\humbe\.android\avd\Pixel_4_API_33_Dinamic_Color.avd" />
+            <type value="SERIAL_NUMBER" />
+            <value value="091923729O004589" />
           </Key>
         </deviceKey>
       </Target>

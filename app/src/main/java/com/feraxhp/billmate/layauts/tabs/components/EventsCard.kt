@@ -24,7 +24,7 @@ import com.feraxhp.billmate.R
 
 @Composable
 fun EventsCard(
-    type: Boolean = true,
+    type: Boolean = false,
     name: String = "Example",
     amount: Double = 0.0,
     description: String = "Example",
@@ -32,7 +32,7 @@ fun EventsCard(
     time: String = "15:00",
     onClick: () -> Unit = {}
 ) {
-    val color = if (type) Color(0XFF008C37) else Color(0xFF8C3700)
+    val color = if (type) Color(0XFF008C37) else Color(0xFFff0000)
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
