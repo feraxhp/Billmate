@@ -166,12 +166,21 @@ class AppController(context: Context) {
     }
 
     fun getAllFundsOnString(): List<String> {
+        return if (funds.isNotEmpty()) {
+            funds.map { "${it.accountName}: ${it.amount}" }
+        } else {
+            listOf("")
+        }
+    }
+
+    fun getAllNormalFundsOnString(): List<String> {
         return if (normalFunds.isNotEmpty()) {
             normalFunds.map { "${it.accountName}: ${it.amount}" }
         } else {
             listOf("")
         }
     }
+
 
     fun getTotalBalance(): Double {
         return normalFunds.sumOf { it.amount }

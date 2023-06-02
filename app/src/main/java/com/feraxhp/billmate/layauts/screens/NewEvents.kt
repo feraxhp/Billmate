@@ -335,7 +335,7 @@ fun NewEvents() {
                             dismissButton = {
                                 TextButton(
                                     onClick = {
-                                        if (appController.getAllFundsOnString() == listOf("")) {
+                                        if (appController.getAllNormalFundsOnString() == listOf("")) {
                                             appController.addFund(
                                                 "Default",
                                                 "",
