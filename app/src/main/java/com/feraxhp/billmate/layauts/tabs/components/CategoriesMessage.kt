@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.feraxhp.billmate.controller.toPointingString
 
 @Composable
 fun CategoriesMessage(name: String = "Example", amount: Double = 0.0, onClick: () -> Unit = {}) {
@@ -60,7 +61,7 @@ fun CategoriesMessage(name: String = "Example", amount: Double = 0.0, onClick: (
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = "Amount: $amount",
+                text = "Amount: ${amount.toPointingString()}",
                 fontSize = 14.sp,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

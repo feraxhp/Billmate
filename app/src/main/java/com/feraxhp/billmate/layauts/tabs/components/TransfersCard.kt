@@ -21,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.R
+import com.feraxhp.billmate.controller.toPointingString
 
 @Composable
 fun TransfersCard(
@@ -45,7 +46,7 @@ fun TransfersCard(
             tint = color
         )
         Column(modifier = Modifier.weight(2f)) {
-            Text(text = "$origin -> $destination: $amount", color = color)
+            Text(text = "$origin -> $destination: ${amount.toPointingString()}", color = color)
             Text(text = "$description // $date ~ $time", color = MaterialTheme.colorScheme.onBackground)
         }
         IconButton(
@@ -56,14 +57,16 @@ fun TransfersCard(
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowLeft,
                     contentDescription = "",
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier
+                        .size(20.dp)
                         .padding(end = 5.dp),
                     tint = color
                 )
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowRight,
                     contentDescription = "",
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier
+                        .size(20.dp)
                         .padding(start = 5.dp),
                     tint = color
                 )

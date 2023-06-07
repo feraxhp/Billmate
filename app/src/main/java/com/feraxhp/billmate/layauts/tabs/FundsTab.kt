@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
+import com.feraxhp.billmate.controller.toPointingString
 import com.feraxhp.billmate.layauts.tabs.components.components.MyCardsFunds
 
 @Composable
@@ -105,7 +106,7 @@ fun FundsTab(innerPadding: PaddingValues = PaddingValues(0.dp)) {
                                 .padding(10.dp)
                         )
                         Text(
-                            text = "Balance: ${fund.amount}",
+                            text = "Balance: ${fund.amount.toPointingString()}",
                             modifier = Modifier
                                 .align(Alignment.CenterVertically)
                                 .padding(10.dp)

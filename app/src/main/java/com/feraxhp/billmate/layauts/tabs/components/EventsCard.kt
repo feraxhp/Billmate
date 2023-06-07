@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.feraxhp.billmate.R
+import com.feraxhp.billmate.controller.toPointingString
 
 @Composable
 fun EventsCard(
@@ -53,7 +54,7 @@ fun EventsCard(
                 .weight(2f)
         ) {
             Text(
-                text = "$name: $amount",
+                text = "$name: ${amount.toPointingString()}",
                 fontSize = 20.sp,
                 color = color
             )

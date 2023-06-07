@@ -167,7 +167,7 @@ class AppController(context: Context) {
 
     fun getAllFundsOnString(): List<String> {
         return if (funds.isNotEmpty()) {
-            funds.map { "${it.accountName}: ${it.amount}" }
+            funds.map { "${it.accountName}: ${it.amount.toPointingString()}" }
         } else {
             listOf("")
         }
@@ -175,12 +175,11 @@ class AppController(context: Context) {
 
     fun getAllNormalFundsOnString(): List<String> {
         return if (normalFunds.isNotEmpty()) {
-            normalFunds.map { "${it.accountName}: ${it.amount}" }
+            normalFunds.map { "${it.accountName}: ${it.amount.toPointingString()}" }
         } else {
             listOf("")
         }
     }
-
 
     fun getTotalBalance(): Double {
         return normalFunds.sumOf { it.amount }
@@ -199,7 +198,7 @@ class AppController(context: Context) {
     }
 
     fun getAllCategoriesOnString(): List<String> {
-        return if (categories.isNotEmpty()) categories.map { "${it.name}: ${it.amount}" } else {
+        return if (categories.isNotEmpty()) categories.map { "${it.name}: ${it.amount.toPointingString()}" } else {
             listOf("")
         }
     }
@@ -355,5 +354,31 @@ class AppController(context: Context) {
         return 0
     }
 
+    // Editable method
 
+
+}
+
+fun Double.toPointingString(decimals: Int = 0, rounded: Boolean = false, decimalDot: List<String> = listOf(".", ",")) : String {
+    var resultString = if (rounded) {
+        String.format("%.${decimals}f", this@toPointingString)
+    }else{
+        this@toPointingString.toString()
+    }
+    val split = resultString.split(".")
+    var decimalString = split[1]
+    resultString = split[0].reversed()
+
+    if (decimalString.length < decimals && !rounded) {
+        decimalString += "0".repeat(decimals - decimalString.length)
+    }
+
+    for(i in resultString.indices) {
+        if (i%3 == 0 && i != 0) {
+            resultString = resultString.substring(0,i) + decimalDot[0] + resultString.substring(i)
+        }
+    }
+
+
+    return if (decimals == 0) resultString.reversed() else resultString.reversed() + decimalDot[1] + decimalString
 }
