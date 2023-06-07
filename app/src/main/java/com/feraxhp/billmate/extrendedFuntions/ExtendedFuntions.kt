@@ -1,26 +1,16 @@
 package com.feraxhp.billmate.extrendedFuntions
 
-fun Double.toPointingString(decimals: Int = 0, rounded: Boolean = false, default: Boolean = false, decimalDot: List<String> = listOf(".", ",")) : String {
-    var isDefault = default
-    var resultString = if (rounded) {
-        String.format("%.${decimals}f", this@toPointingString)
-    }else{
-        this@toPointingString.toString()
-    }
-    val split = resultString.split(".")
-    var decimalString = split[1]
-    resultString = split[0].reversed()
+import java.text.DecimalFormat
 
-    if (decimalString.length < decimals && !rounded) {
-        decimalString += "0".repeat(decimals - decimalString.length)
-    }
-
-    for(i in resultString.indices) {
-        if (i%3 == 0 && i != 0) {
-            resultString = resultString.substring(0,i) + decimalDot[0] + resultString.substring(i)
-        }
-    }
-    if (decimalString.length == 1 && decimalString == "0") isDefault = false
-
-    return if (decimals != 0 || isDefault) resultString.reversed() + decimalDot[1] + decimalString else resultString.reversed()
+fun Double.toPointingString(decimals: Int = 0, default: Boolean = false, decimalDot: String = ","): String {
+    val intNumber = this.toInt()
+    val numberOfDecimals = (this - intNumber).toString().split(".")[1].length
+    val numberOfRepeats = if (default) numberOfDecimals.coerceAtMost(4) else decimals
+    val formatter = "#,###" + if (numberOfRepeats > 0) "." + "#".repeat(numberOfRepeats) else ""
+    return if (decimalDot == ".") DecimalFormat(formatter).format(this)
+    else DecimalFormat(formatter)
+        .format(this)
+        .replace(".","a")
+        .replace(",",".")
+        .replace("a",",")
 }
