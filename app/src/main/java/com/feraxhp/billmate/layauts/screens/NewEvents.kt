@@ -379,7 +379,7 @@ fun NewEvents() {
                                             selectedOptionCategoryText
                                         ),
                                         fund = optionsFunds.indexOf(
-                                            selectedOptionFundDestinationText
+                                            selectedOptionFundOriginText
                                         ),
                                         name = values[0],
                                         amount = values[1],
