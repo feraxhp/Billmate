@@ -447,7 +447,7 @@ fun changeFrom24hto12h(hour: Int, minute: Int): String {
     }
     if (hour == 0) {
         returnTime =
-            "${(hour + 12).toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} AM"
+            "${(12).toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} AM"
     }
     return returnTime
 }
