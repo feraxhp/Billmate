@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.feraxhp.billmate.R
-import com.feraxhp.billmate.controller.toPointingString
+import com.feraxhp.billmate.extrendedFuntions.toPointingString
 
 @Composable
 fun EventsCard(

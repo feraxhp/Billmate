@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
-import com.feraxhp.billmate.controller.toPointingString
+import com.feraxhp.billmate.extrendedFuntions.toPointingString
 import com.feraxhp.billmate.layauts.screens.components.MyDatePicker
 import com.feraxhp.billmate.layauts.screens.components.MyDropDownMenu
 import com.feraxhp.billmate.layauts.screens.components.MyFloatingActionButton
@@ -190,7 +190,7 @@ fun NewEvents() {
                                     label = {
                                         if (position == 1 && values[position] != "") {
                                             val text = try {
-                                                values[position].toDouble().toPointingString()
+                                                values[position].toDouble().toPointingString(default = true)
                                             }
                                             catch (e: Exception) {
                                                 "Must be a number"

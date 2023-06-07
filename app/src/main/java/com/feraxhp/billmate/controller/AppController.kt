@@ -2,6 +2,7 @@ package com.feraxhp.billmate.controller
 
 import android.content.Context
 import androidx.room.Room
+import com.feraxhp.billmate.extrendedFuntions.toPointingString
 import com.feraxhp.billmate.logic_database.User
 import com.feraxhp.billmate.logic_database.database.MyDataBase
 import com.feraxhp.billmate.logic_database.database.entities.Categories
@@ -357,28 +358,4 @@ class AppController(context: Context) {
     // Editable method
 
 
-}
-
-fun Double.toPointingString(decimals: Int = 0, rounded: Boolean = false, decimalDot: List<String> = listOf(".", ",")) : String {
-    var resultString = if (rounded) {
-        String.format("%.${decimals}f", this@toPointingString)
-    }else{
-        this@toPointingString.toString()
-    }
-    val split = resultString.split(".")
-    var decimalString = split[1]
-    resultString = split[0].reversed()
-
-    if (decimalString.length < decimals && !rounded) {
-        decimalString += "0".repeat(decimals - decimalString.length)
-    }
-
-    for(i in resultString.indices) {
-        if (i%3 == 0 && i != 0) {
-            resultString = resultString.substring(0,i) + decimalDot[0] + resultString.substring(i)
-        }
-    }
-
-
-    return if (decimals == 0) resultString.reversed() else resultString.reversed() + decimalDot[1] + decimalString
 }
