@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
@@ -34,12 +36,11 @@ import com.feraxhp.billmate.layauts.screens.components.MyFloatingActionButton
 @Composable
 fun NewCategory() {
     BillmateTheme {
-        val labels = listOf("Category Name", "Amount", "Description")
+        val labels = listOf("Category Name", "Description")
         val (categoryName, setCategoryName) = remember { mutableStateOf("") }
-        val (amount, setAmount) = remember { mutableStateOf("") }
         val (description, setDescription) = remember { mutableStateOf("") }
-        val values = listOf(categoryName, amount, description)
-        val setters = listOf(setCategoryName, setAmount, setDescription)
+        val values = listOf(categoryName, description)
+        val setters = listOf(setCategoryName, setDescription)
         val errorName = remember { mutableStateOf(false) }
         val errorAmount = remember { mutableStateOf(false) }
         Surface(
@@ -101,7 +102,7 @@ fun NewCategory() {
                     MyFloatingActionButton(
                         onClick = {
                             val response = appController.addCategory(
-                                categoryName, amount, description
+                                categoryName, "", description
                             )
                             when (response) {
                                 1 -> {

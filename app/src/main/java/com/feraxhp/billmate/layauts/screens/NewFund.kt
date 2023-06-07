@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,11 +24,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
+import com.feraxhp.billmate.extrendedFuntions.toPointingString
 import com.feraxhp.billmate.layauts.screens.components.MyFloatingActionButton
 import com.feraxhp.billmate.layauts.tabs.components.SegmentedButtons
 
@@ -98,7 +101,17 @@ fun NewFund() {
                                     colors = OutlinedTextFieldDefaults.colors(
                                         errorBorderColor = MaterialTheme.colorScheme.error,
                                     ),
-                                    label = { Text(labels[position]) },
+                                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = if (position == 2) KeyboardType.Number else KeyboardType.Text),
+                                    label = {
+                                        if (position == 2 && values[position] != "") {
+                                            val text = try {
+                                                values[position].toDouble().toPointingString(default = true)
+                                            }
+                                            catch (e: Exception) {
+                                                "Must be a number"
+                                            }
+                                            Text(text)
+                                        } else Text(labels[position]) },
                                     shape = MaterialTheme.shapes.small,
                                     isError = (position == 0 && errorName.value) || (position == 2 && errorAmount.value),
                                     modifier = Modifier
