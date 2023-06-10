@@ -20,6 +20,7 @@ import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.layauts.tabs.components.EventsCard
 import com.feraxhp.billmate.layauts.tabs.components.SegmentedButtons
 import com.feraxhp.billmate.layauts.tabs.components.TransfersCard
+import com.feraxhp.billmate.layauts.tabs.components.components.ConfirmationAlert
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
@@ -28,6 +29,9 @@ fun CashFlowTab(padding: PaddingValues = PaddingValues(0.dp)) {
     var listTransfers by remember { mutableStateOf(appController.getAllTransfers()) }
     var listEvents by remember { mutableStateOf(appController.getAllEvents()) }
     val (selectedIndex, setSelectedIndex) = remember { mutableStateOf(0) }
+
+
+
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -47,6 +51,10 @@ fun CashFlowTab(padding: PaddingValues = PaddingValues(0.dp)) {
                     val calendar =
                         Calendar.getInstance(TimeZone.getTimeZone("UTC${ZonedDateTime.now(ZoneId.systemDefault()).offset}"))
                     calendar.timeInMillis = listEvents[it].date
+
+                    // Confirmation alert dialog
+                    var showDialog by remember { mutableStateOf(false) }
+
                     EventsCard(
                         type = listEvents[it].type,
                         name = listEvents[it].name,
@@ -61,11 +69,22 @@ fun CashFlowTab(padding: PaddingValues = PaddingValues(0.dp)) {
                         time = listEvents[it].time,
                         description = listEvents[it].description
                     ) {
-                        appController.removeEvent(listEvents[it])
-                        listEvents = listEvents
-                            .toMutableList()
-                            .apply { removeAt(it) }
+                        showDialog = true
                     }
+                    ConfirmationAlert(
+                        openState = showDialog,
+                        setOpenState = { showDialog = it },
+                        title = "Delete this event?",
+                        text = "If you delete this event, you will not be able to recover it",
+                        onConfirm = {
+                            appController.removeEvent(listEvents[it])
+                            listEvents = listEvents
+                                .toMutableList()
+                                .apply {
+                                    removeAt(it)
+                                }
+                        }
+                    )
                 }
             } else {
                 items(listTransfers.toMutableList().size) {

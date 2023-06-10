@@ -30,14 +30,12 @@ class AppController(context: Context) {
         coroutineScope.launch {
             actualize()
             if (normalFunds.isEmpty() && !user.isDeleted() && user.getName() != null) {
-                normalFunds.add(
-                    Funds(
-                        accountName = "Default",
-                        amount = 0.0,
-                        description = "This is how it will show up"
-                    )
+                this@AppController.addFund(
+                    titularName = "",
+                    accountName = "Default",
+                    amount = "0.0",
+                    description = "This is a description"
                 )
-                billMateDatabase.FundsDao().insertFund(normalFunds[0])
             }
         }
     }

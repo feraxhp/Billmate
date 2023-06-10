@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.extrendedFuntions.toPointingString
+import com.feraxhp.billmate.layauts.tabs.components.components.ConfirmationAlert
 import com.feraxhp.billmate.layauts.tabs.components.components.MyCardsFunds
 
 @Composable
@@ -56,6 +57,9 @@ fun FundsTab(innerPadding: PaddingValues = PaddingValues(0.dp)) {
                     .fillParentMaxWidth()
                     .height(200.dp)
             ) {
+                // Confirmation alert dialog
+                var showDialog by remember { mutableStateOf(false) }
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -68,13 +72,22 @@ fun FundsTab(innerPadding: PaddingValues = PaddingValues(0.dp)) {
                         modifier = Modifier
                             .align(Alignment.TopEnd)
                             .clickable {
-                                appController.removeFund(fund)
-                                list = list
-                                    .toMutableList()
-                                    .apply { remove(fund) }
+                                showDialog = true
                             }
                             .padding(top = 10.dp, end = 5.dp)
                             .size(18.dp)
+                    )
+                    ConfirmationAlert(
+                        openState = showDialog,
+                        setOpenState = { showDialog = it },
+                        title = "Delete this fund?",
+                        text = "If you delete this fund, you will not be able to recover it, and it will delete all transactions related to this fund.",
+                        onConfirm = {
+                            appController.removeFund(fund)
+                            list = list
+                                .toMutableList()
+                                .apply { remove(fund) }
+                        }
                     )
                     Column(
                         modifier = Modifier
