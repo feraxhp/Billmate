@@ -100,7 +100,10 @@ fun UserMessage() {
             confirmButton = {
                 TextButton(
                     onClick = {
-                        if (newName != "") appController.user.setName(newName)
+                        if (newName != "") {
+                            appController.changeFundsDefaultTitularName(appController.user.getName()!!, newName)
+                            appController.user.setName(newName)
+                        }
                         changeName.value = false
                     }
                 ) {

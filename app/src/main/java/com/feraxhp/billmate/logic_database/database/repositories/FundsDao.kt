@@ -18,6 +18,9 @@ interface FundsDao {
     @Query("SELECT * FROM Funds WHERE type = :type")
     suspend fun getFundsByType(type: Int): List<Funds>
 
+    @Query("SELECT * FROM Funds WHERE titularName = :titularName")
+    suspend fun getFundsByTitularName(titularName: String): List<Funds>
+
     @Insert
     suspend fun insertFund(fund: Funds)
 

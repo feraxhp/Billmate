@@ -353,7 +353,16 @@ class AppController(context: Context) {
         return 0
     }
 
-    // Editable method
+    // Updates
+    fun changeFundsDefaultTitularName(oldTitularName: String, newTitularName: String) {
+        coroutineScope.launch {
+            val funds = billMateDatabase.FundsDao().getFundsByTitularName(oldTitularName)
+            funds.forEach {
+                billMateDatabase.FundsDao().updateFund(it.copy(titularName = newTitularName))
+            }
+            actualize()
+        }
+    }
 
 
 }

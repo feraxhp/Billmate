@@ -10,7 +10,7 @@ data class Funds(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     val accountName: String,
-    val titularName: String = appController.user.getName()!!,
+    var titularName: String = appController.user.getName()!!,
     var amount: Double,
     val description: String = "",
     val type: Int = 0 // 0 = Normal, 1 = Saves, 3 = loans
