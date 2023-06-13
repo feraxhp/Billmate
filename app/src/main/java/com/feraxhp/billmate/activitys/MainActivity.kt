@@ -1,7 +1,11 @@
 package com.feraxhp.billmate.activitys
 
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import android.graphics.drawable.AdaptiveIconDrawable
+import android.os.Build
 import android.os.Bundle
+import android.util.TypedValue
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.getValue
@@ -23,6 +27,17 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val value = TypedValue()
+        theme.resolveAttribute(android.R.attr.colorPrimary, value, true)
+        val colorPrimary = value.data
+        try {
+            val drawable = packageManager.getApplicationIcon(packageName)
+            val adaptiveIconDrawable = drawable as? AdaptiveIconDrawable
+            adaptiveIconDrawable?.setTint(colorPrimary)
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+
         setContent {
             appController = AppController(this)
             viewController = ViewController(this)
