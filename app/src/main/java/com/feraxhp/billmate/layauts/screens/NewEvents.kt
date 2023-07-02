@@ -1,6 +1,7 @@
 package com.feraxhp.billmate.layauts.screens
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import androidx.compose.foundation.layout.Arrangement
@@ -34,18 +35,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
+import com.feraxhp.billmate.extrendedFuntions.changeFrom24hto12h
 import com.feraxhp.billmate.extrendedFuntions.toPointingString
-import com.feraxhp.billmate.layauts.screens.components.MyDatePicker
-import com.feraxhp.billmate.layauts.screens.components.MyDropDownMenu
-import com.feraxhp.billmate.layauts.screens.components.MyFloatingActionButton
-import com.feraxhp.billmate.layauts.screens.components.MyTimePicker
-import com.feraxhp.billmate.layauts.tabs.components.SegmentedButtons
+import com.feraxhp.billmate.layauts.screens.components.events.MyDatePicker
+import com.feraxhp.billmate.layauts.screens.components.events.MyDropDownMenu
+import com.feraxhp.billmate.layauts.screens.components.primary.MyFloatingActionButton
+import com.feraxhp.billmate.layauts.screens.components.events.MyTimePicker
+import com.feraxhp.billmate.layauts.tabs.components.components.SegmentedButtons
 import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -56,6 +59,8 @@ import java.util.Locale
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NewEvents() {
+    val activity = LocalContext.current as Activity
+
     // Texts
     val labels = listOf("Events Name", "Amount", "Description")
     val (eventName, setEventName) = remember { mutableStateOf("") }
@@ -151,7 +156,7 @@ fun NewEvents() {
                         navigationIcon = {
                             IconButton(
                                 onClick = {
-                                    viewController.startMainActivity()
+                                    viewController.terminateActivity(activity)
                                 }) {
                                 Icon(Icons.Filled.ArrowBack, contentDescription = "")
                             }
@@ -292,7 +297,7 @@ fun NewEvents() {
                     if (optionsCategories[0] == "") {
                         AlertDialog(
                             onDismissRequest = {
-                                viewController.startMainActivity()
+                                viewController.terminateActivity(activity)
                             },
                             title = {
                                 Text(text = "No Categories found!")
@@ -304,6 +309,7 @@ fun NewEvents() {
                                 TextButton(
                                     onClick = {
                                         viewController.startCreateNewCategory()
+                                        viewController.terminateActivity(activity)
                                     }
                                 ) {
                                     Text("Create")
@@ -320,6 +326,7 @@ fun NewEvents() {
                                             )
                                         }
                                         viewController.startCreateNewEvents()
+                                        viewController.terminateActivity(activity)
                                     }
                                 ) {
                                     Text("Use default")
@@ -330,7 +337,7 @@ fun NewEvents() {
                     if (optionsFunds[0] == "") {
                         AlertDialog(
                             onDismissRequest = {
-                                viewController.startMainActivity()
+                                viewController.terminateActivity(activity)
                             },
                             title = {
                                 Text(text = "No Funds found!")
@@ -342,6 +349,7 @@ fun NewEvents() {
                                 TextButton(
                                     onClick = {
                                         viewController.startCreateNewFund()
+                                        viewController.terminateActivity(activity)
                                     }
                                 ) {
                                     Text("Create")
@@ -359,6 +367,7 @@ fun NewEvents() {
                                             )
                                         }
                                         viewController.startCreateNewEvents()
+                                        viewController.terminateActivity(activity)
                                     }
                                 ) {
                                     Text("Use default")
@@ -400,6 +409,7 @@ fun NewEvents() {
                                             errorName.value = false
                                             errorAmount.value = false
                                             viewController.startMainActivity()
+                                            viewController.terminateActivity(activity)
                                         }
                                     }
                                 }
@@ -424,7 +434,7 @@ fun NewEvents() {
 
                                         else -> {
                                             errorAmount.value = false
-                                            viewController.startMainActivity()
+                                            viewController.terminateActivity(activity)
                                         }
                                     }
                                 }
@@ -435,22 +445,6 @@ fun NewEvents() {
             )
         }
     }
-}
-
-fun changeFrom24hto12h(hour: Int, minute: Int): String {
-    var returnTime = "${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} AM"
-    if (hour > 12) {
-        returnTime =
-            "${(hour - 12).toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} PM"
-    }
-    if (hour == 12) {
-        returnTime = "${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} M"
-    }
-    if (hour == 0) {
-        returnTime =
-            "${(12).toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} AM"
-    }
-    return returnTime
 }
 
 

@@ -1,6 +1,7 @@
 package com.feraxhp.billmate.layauts.screens
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.filled.*
@@ -16,14 +17,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
-import com.feraxhp.billmate.layauts.screens.components.MyFloatingActionButton
-import com.feraxhp.billmate.layauts.screens.components.MyModalNavigation
-import com.feraxhp.billmate.layauts.screens.components.MyNavigationBar
-import com.feraxhp.billmate.layauts.screens.components.MyTopBar
+import com.feraxhp.billmate.layauts.screens.components.primary.MyFloatingActionButton
+import com.feraxhp.billmate.layauts.screens.components.primary.MyModalNavigation
+import com.feraxhp.billmate.layauts.screens.components.primary.MyNavigationBar
+import com.feraxhp.billmate.layauts.screens.components.primary.MyTopBar
 import com.feraxhp.billmate.layauts.tabs.CashFlowTab
 import com.feraxhp.billmate.layauts.tabs.CategoryTab
 import com.feraxhp.billmate.layauts.tabs.FundsTab
@@ -34,6 +35,8 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PrimaryScreen() {
+
+
     var scrollState by remember { mutableStateOf(0) }
     val (selectedItemValue, getSelectedItem) = remember { mutableStateOf(0) }
     var cashFlowTitle by remember(key1 = selectedItemValue) { mutableStateOf("") }

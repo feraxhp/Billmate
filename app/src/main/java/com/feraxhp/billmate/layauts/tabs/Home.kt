@@ -10,8 +10,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.feraxhp.billmate.layauts.tabs.components.BalanceCard
-import com.feraxhp.billmate.layauts.tabs.components.UserMessage
+import com.feraxhp.billmate.layauts.tabs.components.home.BalanceCard
+import com.feraxhp.billmate.layauts.tabs.components.home.UserMessage
 
 @Composable
 fun HomeTab(

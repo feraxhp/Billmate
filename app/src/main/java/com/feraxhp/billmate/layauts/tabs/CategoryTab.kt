@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
-import com.feraxhp.billmate.layauts.tabs.components.CategoriesMessage
+import com.feraxhp.billmate.layauts.tabs.components.categories.CategoriesMessage
 import com.feraxhp.billmate.layauts.tabs.components.components.ConfirmationAlert
 
 @Composable

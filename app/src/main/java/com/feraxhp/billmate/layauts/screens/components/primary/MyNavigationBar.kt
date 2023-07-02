@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.layauts.screens.components
+package com.feraxhp.billmate.layauts.screens.components.primary
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
@@ -17,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.ui.theme.Elevations
 
 val items = listOf("Home", "Funds", "CashFlow", "Categories")

@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.layauts.screens.components
+package com.feraxhp.billmate.layauts.screens.components.events
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

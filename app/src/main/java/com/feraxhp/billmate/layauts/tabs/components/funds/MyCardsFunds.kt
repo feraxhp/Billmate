@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.layauts.tabs.components
+package com.feraxhp.billmate.layauts.tabs.components.funds
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

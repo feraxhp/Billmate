@@ -14,3 +14,19 @@ fun Double.toPointingString(decimals: Int = 0, default: Boolean = false, decimal
         .replace(",",".")
         .replace("a",",")
 }
+
+fun changeFrom24hto12h(hour: Int, minute: Int): String {
+    var returnTime = "${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} AM"
+    if (hour > 12) {
+        returnTime =
+            "${(hour - 12).toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} PM"
+    }
+    if (hour == 12) {
+        returnTime = "${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} M"
+    }
+    if (hour == 0) {
+        returnTime =
+            "${(12).toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} AM"
+    }
+    return returnTime
+}

@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.layauts.screens.components
+package com.feraxhp.billmate.layauts.screens.components.events
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background

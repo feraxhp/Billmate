@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.layauts.tabs.components
+package com.feraxhp.billmate.layauts.tabs.components.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

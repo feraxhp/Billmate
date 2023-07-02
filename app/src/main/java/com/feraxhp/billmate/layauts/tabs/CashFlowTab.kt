@@ -18,9 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
-import com.feraxhp.billmate.layauts.tabs.components.EventsCard
-import com.feraxhp.billmate.layauts.tabs.components.SegmentedButtons
-import com.feraxhp.billmate.layauts.tabs.components.TransfersCard
+import com.feraxhp.billmate.layauts.tabs.components.cashflow.EventsCard
+import com.feraxhp.billmate.layauts.tabs.components.components.SegmentedButtons
+import com.feraxhp.billmate.layauts.tabs.components.cashflow.TransfersCard
 import com.feraxhp.billmate.layauts.tabs.components.components.ConfirmationAlert
 import java.time.ZoneId
 import java.time.ZonedDateTime

@@ -1,5 +1,6 @@
 package com.feraxhp.billmate.controller
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
@@ -39,5 +40,8 @@ class ViewController(private val context: Context) {
             context, Intent(context, CreateNewCategory::class.java),
             null
         )
+    }
+    fun terminateActivity(activity: Activity) {
+        activity.finish()
     }
 }

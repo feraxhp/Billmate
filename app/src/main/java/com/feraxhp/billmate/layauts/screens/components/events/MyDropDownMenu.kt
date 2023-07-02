@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.layauts.screens.components
+package com.feraxhp.billmate.layauts.screens.components.events
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,6 +16,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,6 +28,8 @@ fun MyDropDownMenu(
     expanded: Boolean,
     setExpanded: (Boolean) -> Unit,
     options: List<String>,
+    optionColors: List<Color> = listOf(MaterialTheme.colorScheme.secondaryContainer),
+    colorsSelector: List<Int> = List(options.size){0},
     selectedOptionText: String,
     setSelectedOptionText: (String) -> Unit
 ) {
@@ -40,7 +44,6 @@ fun MyDropDownMenu(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 10.dp)
-//                .background(MaterialTheme.colorScheme.secondaryContainer)
                 .border(
                     width = 1.dp,
                     color = MaterialTheme.colorScheme.onSurface,
@@ -92,10 +95,27 @@ fun MyDropDownMenu(
                         setSelectedOptionText(selectionOption)
                         setExpanded(!expanded)
                     },
-                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                    modifier = Modifier
+                        .background(
+                            color = optionColors[colorsSelector[options.indexOf(selectionOption)]],
+                        )
                 )
 
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun MyDropDownMenuPreview() {
+    MyDropDownMenu(
+        label = "Label",
+        expanded = false,
+        setExpanded = {},
+        options = listOf("Option 1", "Option 2"),
+        selectedOptionText = "Option 1",
+        setSelectedOptionText = {}
+    )
 }
