@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
@@ -73,6 +74,7 @@ fun CashFlowTab(
                 // Confirmation alert dialog
                 var showDialog by remember { mutableStateOf(false) }
 
+                if (it != 0) Divider()
                 EventsCard(
                     type = listEvents[it].type,
                     name = listEvents[it].name,
@@ -112,6 +114,7 @@ fun CashFlowTab(
 
                 var showDialog by remember { mutableStateOf(false) }
 
+                if (it != 0) Divider()
                 TransfersCard(
                     time = listTransfers[it].time,
                     amount = listTransfers[it].amount,
@@ -128,7 +131,6 @@ fun CashFlowTab(
                 ) {
                     showDialog = true
                 }
-
                 ConfirmationAlert(
                     openState = showDialog,
                     setOpenState = { showDialog = it },
