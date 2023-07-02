@@ -27,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
@@ -40,6 +39,7 @@ import com.feraxhp.billmate.layauts.tabs.components.components.SegmentedButtons
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NewFund() {
+    val activity = LocalContext.current as Activity
 
     val (accountName, setAccountName) = remember { mutableStateOf("") }
     val (titularName, setTitularName) = remember { mutableStateOf("") }
@@ -70,7 +70,7 @@ fun NewFund() {
                         navigationIcon = {
                             IconButton(
                                 onClick = {
-                                    viewController.startMainActivity()
+                                    viewController.terminateActivity(activity)
                                 }) {
                                 Icon(Icons.Filled.ArrowBack, contentDescription = "")
                             }
@@ -150,6 +150,7 @@ fun NewFund() {
                                     errorName.value = false
                                     errorAmount.value = false
                                     viewController.startMainActivity()
+                                    viewController.terminateActivity(activity)
                                 }
                             }
                         },
@@ -160,8 +161,8 @@ fun NewFund() {
     }
 }
 
-@Preview
-@Composable
-fun NewFundPreview() {
-    NewFund()
-}
+//@Preview
+//@Composable
+//fun NewFundPreview() {
+//    NewFund()
+//}

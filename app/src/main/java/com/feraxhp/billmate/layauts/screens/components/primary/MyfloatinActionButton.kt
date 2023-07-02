@@ -16,7 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MyFloatingActionButton(onClick: () -> Unit = {}, text:String = "", withIcon: Boolean = true) {
+fun MyFloatingActionButton(onClick: () -> Unit = {}, text:String = "", withIcon: Boolean = true, icon: @Composable (() -> Unit)? = null) {
+    var withIcon_ = withIcon
     FloatingActionButton(
         containerColor = MaterialTheme.colorScheme.surfaceTint,
         onClick = onClick,
@@ -29,7 +30,11 @@ fun MyFloatingActionButton(onClick: () -> Unit = {}, text:String = "", withIcon:
                 .fillMaxHeight()
                 .padding(16.dp)
         ) {
-            if (withIcon) Icon(Icons.Filled.Add, "", tint = MaterialTheme.colorScheme.inverseOnSurface)
+            if (icon != null) {
+                withIcon_ = false
+                icon()
+            }
+            if (withIcon_) Icon(Icons.Filled.Add, "", tint = MaterialTheme.colorScheme.inverseOnSurface)
             Text(text = text, fontSize = MaterialTheme.typography.titleMedium.fontSize)
         }
     }

@@ -36,6 +36,7 @@ import com.feraxhp.billmate.layauts.screens.components.primary.MyFloatingActionB
 @Composable
 fun NewCategory() {
     BillmateTheme {
+        val activity = LocalContext.current as Activity
 
         val labels = listOf("Category Name", "Description")
         val (categoryName, setCategoryName) = remember { mutableStateOf("") }
@@ -62,7 +63,7 @@ fun NewCategory() {
                         navigationIcon = {
                             IconButton(
                                 onClick = {
-                                    viewController.startMainActivity()
+                                    viewController.terminateActivity(activity)
                                 }) {
                                 Icon(Icons.Filled.ArrowBack, contentDescription = "")
                             }
@@ -102,6 +103,7 @@ fun NewCategory() {
                 },
                 floatingActionButton = {
                     MyFloatingActionButton(
+                        text = "Save",
                         onClick = {
                             val response = appController.addCategory(
                                 categoryName, "", description
@@ -119,6 +121,7 @@ fun NewCategory() {
                                     errorName.value = false
                                     errorAmount.value = false
                                     viewController.startMainActivity()
+                                    viewController.terminateActivity(activity)
                                 }
                             }
                         },
