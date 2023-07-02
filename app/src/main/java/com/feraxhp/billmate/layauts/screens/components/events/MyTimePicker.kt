@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -137,21 +136,5 @@ fun MyTimePicker(
             }
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun TimePickerState.copy(
-    initialMinute: Int,
-    initialHour: Int,
-    is24hour: Boolean
-): TimePickerState = rememberSaveable(
-    saver = TimePickerState.Saver()
-) {
-    TimePickerState(
-        initialHour = initialHour,
-        initialMinute = initialMinute,
-        is24Hour = is24hour,
-    )
 }
 
