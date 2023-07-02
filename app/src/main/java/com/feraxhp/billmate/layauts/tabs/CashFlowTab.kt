@@ -3,28 +3,21 @@ package com.feraxhp.billmate.layauts.tabs
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
-import com.feraxhp.billmate.activitys.ui.theme.Elevations
 import com.feraxhp.billmate.layauts.tabs.components.EventsCard
 import com.feraxhp.billmate.layauts.tabs.components.SegmentedButtons
 import com.feraxhp.billmate.layauts.tabs.components.TransfersCard
@@ -66,19 +59,19 @@ fun CashFlowTab(
             )
         }
         if (selectedIndex == 0) {
-            items(listEvents.toMutableList().size) {
+            items(listEvents.toMutableList().size) {index ->
                 val calendar =
                     Calendar.getInstance(TimeZone.getTimeZone("UTC${ZonedDateTime.now(ZoneId.systemDefault()).offset}"))
-                calendar.timeInMillis = listEvents[it].date
+                calendar.timeInMillis = listEvents[index].date
 
                 // Confirmation alert dialog
                 var showDialog by remember { mutableStateOf(false) }
 
-                if (it != 0) Divider()
+                if (index != 0) Divider()
                 EventsCard(
-                    type = listEvents[it].type,
-                    name = listEvents[it].name,
-                    amount = listEvents[it].amount,
+                    type = listEvents[index].type,
+                    name = listEvents[index].name,
+                    amount = listEvents[index].amount,
                     date = "${
                         calendar[Calendar.DAY_OF_MONTH]
                     }-${
@@ -86,8 +79,8 @@ fun CashFlowTab(
                     }-${
                         calendar[Calendar.YEAR]
                     }",
-                    time = listEvents[it].time,
-                    description = listEvents[it].description
+                    time = listEvents[index].time,
+                    description = listEvents[index].description
                 ) {
                     showDialog = true
                 }
@@ -97,28 +90,28 @@ fun CashFlowTab(
                     title = "Delete this event?",
                     text = "If you delete this event, you will not be able to recover it",
                     onConfirm = {
-                        appController.removeEvent(listEvents[it])
+                        appController.removeEvent(listEvents[index])
                         listEvents = listEvents
                             .toMutableList()
                             .apply {
-                                removeAt(it)
+                                removeAt(index)
                             }
                     }
                 )
             }
         } else {
-            items(listTransfers.toMutableList().size) {
+            items(listTransfers.toMutableList().size) { index ->
                 val calendar =
                     Calendar.getInstance(TimeZone.getTimeZone("UTC${ZonedDateTime.now(ZoneId.systemDefault()).offset}"))
-                calendar.timeInMillis = listTransfers[it].date
+                calendar.timeInMillis = listTransfers[index].date
 
                 var showDialog by remember { mutableStateOf(false) }
 
-                if (it != 0) Divider()
+                if (index != 0) Divider()
                 TransfersCard(
-                    time = listTransfers[it].time,
-                    amount = listTransfers[it].amount,
-                    description = listTransfers[it].description,
+                    time = listTransfers[index].time,
+                    amount = listTransfers[index].amount,
+                    description = listTransfers[index].description,
                     date = "${
                         calendar[Calendar.DAY_OF_MONTH]
                     }-${
@@ -126,8 +119,8 @@ fun CashFlowTab(
                     }-${
                         calendar[Calendar.YEAR]
                     }",
-                    origin = appController.getFundByID(listTransfers[it].origin_fund_id)!!.accountName,
-                    destination = appController.getFundByID(listTransfers[it].target_fund_id)!!.accountName,
+                    origin = appController.getFundByID(listTransfers[index].origin_fund_id)!!.accountName,
+                    destination = appController.getFundByID(listTransfers[index].target_fund_id)!!.accountName,
                 ) {
                     showDialog = true
                 }
@@ -137,11 +130,11 @@ fun CashFlowTab(
                     title = "Delete this transfer?",
                     text = "If you delete this transfer, you will not be able to recover it",
                     onConfirm = {
-                        appController.removeTransfer(listTransfers[it])
+                        appController.removeTransfer(listTransfers[index])
                         listTransfers = listTransfers
                             .toMutableList()
                             .apply {
-                                removeAt(it)
+                                removeAt(index)
                             }
                     }
                 )
