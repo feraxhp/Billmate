@@ -1,10 +1,13 @@
 package com.feraxhp.billmate.layauts.tabs.components.cashflow
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -28,10 +31,11 @@ fun EventsCard(
     type: Boolean = false,
     name: String = "Example",
     amount: Double = 0.0,
-    description: String = "Example",
+    description: String = "",
     date: String = "2019-08-26",
     time: String = "15:00",
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    onBodyClick: () -> Unit = {}
 ) {
     val color = if (type) Color(0XFF008C37) else Color(0xFFff0000)
     Row(
@@ -41,16 +45,22 @@ fun EventsCard(
             .fillMaxWidth()
     ) {
         Icon(
-            painter = if (type) painterResource(id = R.drawable.baseline_done_all_24) else painterResource(
-                id = R.drawable.baseline_clear_24
+            painter = if (type) painterResource(
+                id = R.drawable.baseline_input_24
+            ) else painterResource(
+                id = R.drawable.baseline_output_24
             ),
             contentDescription = "",
             tint = color,
             modifier = Modifier
+                .size(60.dp)
                 .padding(10.dp)
         )
         Column(
             modifier = Modifier
+                .clickable(indication = null, interactionSource = MutableInteractionSource()) {
+                    onBodyClick()
+                }
                 .weight(2f)
         ) {
             Text(
@@ -59,17 +69,23 @@ fun EventsCard(
                 color = color
             )
             Text(
-                text = " ${if (description == "") "Description" else description} ~ $date ~ $time",
+                text = "${if (description == "") "No description" else description} ~ $date ~ $time",
                 color = MaterialTheme.colorScheme.onBackground
             )
         }
-        IconButton(onClick = { onClick() }) {
+        IconButton(
+            onClick = { onClick() },
+            modifier = Modifier
+                .size(60.dp)
+                .padding(10.dp)
+        ) {
             Icon(
                 imageVector = if (type) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
                 contentDescription = "",
                 tint = color,
                 modifier = Modifier
-                    .padding(10.dp)
+                    .size(60.dp)
+//                    .padding(10.dp)
             )
         }
 

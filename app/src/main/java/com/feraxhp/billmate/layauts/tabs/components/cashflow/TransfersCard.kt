@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.feraxhp.billmate.R
 import com.feraxhp.billmate.extrendedFuntions.toPointingString
 
@@ -27,7 +28,7 @@ fun TransfersCard(
     amount: Double = 0.0,
     origin: String = "Example",
     destination: String = "Example",
-    description: String = "Example",
+    description: String = "",
     date: String = "2019-08-26",
     time: String = "16:00",
     onClick: () -> Unit = {}
@@ -41,17 +42,20 @@ fun TransfersCard(
         Icon(
             painter = painterResource(id = R.drawable.baseline_sync_alt_24),
             contentDescription = "",
-            modifier = Modifier.padding(horizontal = 10.dp),
-            tint = color
+            tint = color,
+            modifier = Modifier
+                .size(60.dp)
+                .padding(horizontal = 10.dp)
         )
         Column(modifier = Modifier.weight(2f)) {
-            Text(text = "$origin -> $destination: ${amount.toPointingString()}", color = color)
-            Text(text = "$description // $date ~ $time", color = MaterialTheme.colorScheme.onBackground)
+            Text(text = "$origin ➤ $destination: ${amount.toPointingString()}",
+                fontSize = 20.sp,
+                color = color)
+            Text(text = "${if (description == "") "No description" else description} ~ $date ~ $time", color = MaterialTheme.colorScheme.onBackground)
         }
         IconButton(
             onClick = { onClick() },
             modifier = Modifier
-//                .weight(1f)
         ) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowLeft,
