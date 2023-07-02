@@ -3,7 +3,9 @@ package com.feraxhp.billmate.layauts.tabs
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,12 +18,19 @@ import com.feraxhp.billmate.layauts.tabs.components.CategoriesMessage
 import com.feraxhp.billmate.layauts.tabs.components.components.ConfirmationAlert
 
 @Composable
-fun CategoryTab(padding: PaddingValues = PaddingValues(0.dp)) {
+fun CategoryTab(
+    padding: PaddingValues = PaddingValues(0.dp),
+    setScrollState: (Int) -> Unit = {},
+    ) {
     var list by remember { mutableStateOf(appController.getAllCategories()) }
+    val lazyListState = rememberLazyListState()
+    val scrollValue by remember { derivedStateOf { lazyListState.firstVisibleItemScrollOffset } }
+    setScrollState(scrollValue)
     LazyColumn(
         modifier = Modifier
             .padding(padding),
-    ) {
+        state = lazyListState,
+        ) {
         items(list.toMutableList().size) {
             // Confirmation alert dialog
             var showDialog by remember { mutableStateOf(false) }

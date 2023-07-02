@@ -14,8 +14,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import com.feraxhp.billmate.activitys.ui.theme.Elevations
 
 val items = listOf("Home", "Funds", "CashFlow", "Categories")
 private val icons =
@@ -25,7 +28,9 @@ private val iconsSelected =
 
 @Composable
 fun MyNavigationBar(selectedItem: Int, onItemClick: (Int) -> Unit) {
-    NavigationBar {
+    NavigationBar (
+        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(Elevations.level2),
+            ) {
         items.forEachIndexed { index, item ->
             val selected = selectedItem == index
             NavigationBarItem(

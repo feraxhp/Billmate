@@ -5,17 +5,19 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
 import com.feraxhp.billmate.layauts.screens.components.MyFloatingActionButton
@@ -29,12 +31,13 @@ import com.feraxhp.billmate.layauts.tabs.HomeTab
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PrimaryScreen() {
+    var scrollState by remember { mutableStateOf(0) }
     val (selectedItemValue, getSelectedItem) = remember { mutableStateOf(0) }
-    val titules = listOf("Home", "Funds", "CashFlow", "Categories")
+    var cashFlowTitle by remember(key1 = selectedItemValue) { mutableStateOf("") }
+    val titles = listOf("Home", "Funds", if (scrollState == 0)"Cash Flow " else cashFlowTitle, "Categories")
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -47,53 +50,52 @@ fun PrimaryScreen() {
                 selectedItem = selectedItemValue,
                 onItemClick = getSelectedItem,
                 drawerState = drawerState,
-                scope = scope,
-                content = {
-                    Scaffold(
-                        topBar = {
-                            MyTopBar(
-                                text = titules[selectedItemValue],
-                                navigationAction = {
-                                    scope.launch { drawerState.open() }
-                                },
-                                searchAction = {
+                scope = scope
+            ) {
+                Scaffold(
+                    topBar = {
+                        MyTopBar(
+                            text = titles[selectedItemValue],
+                            navigationAction = {
+                                scope.launch { drawerState.open() }
+                            },
+                            searchAction = {
 
-                                },
-                                opacity = 1f,
-                            )
+                            },
+                            scrollState = scrollState
+                        )
 
-                        },
-                        content = { innerPadding ->
-                            when (selectedItemValue) {
-                                0 -> HomeTab(innerPadding)
-                                1 -> FundsTab(innerPadding)
-                                2 -> CashFlowTab(innerPadding)
-                                3 -> CategoryTab(innerPadding)
-                                else -> {}
-                            }
-                        },
-                        bottomBar = {
-                            MyNavigationBar(
-                                selectedItem = selectedItemValue,
-                                onItemClick = getSelectedItem
-                            )
-                        },
-                        floatingActionButton = {
-                            MyFloatingActionButton(
-                                onClick = {
-                                    when (selectedItemValue) {
-                                        0 -> viewController.startCreateNewEvents()
-                                        1 -> viewController.startCreateNewFund()
-                                        2 -> viewController.startCreateNewCashFlow()
-                                        3 -> viewController.startCreateNewCategory()
-                                        else -> {}
-                                    }
-                                },
-                            )
+                    },
+                    content = { innerPadding ->
+                        when (selectedItemValue) {
+                            0 -> HomeTab(innerPadding) { scrollState = it }
+                            1 -> FundsTab(innerPadding) { scrollState = it }
+                            2 -> CashFlowTab(innerPadding, setScrollState = { scrollState = it }, setTitle = {cashFlowTitle = it})
+                            3 -> CategoryTab(innerPadding) { scrollState = it }
+                            else -> {}
                         }
-                    )
-                }
-            )
+                    },
+                    bottomBar = {
+                        MyNavigationBar(
+                            selectedItem = selectedItemValue,
+                            onItemClick = getSelectedItem
+                        )
+                    },
+                    floatingActionButton = {
+                        MyFloatingActionButton(
+                            onClick = {
+                                when (selectedItemValue) {
+                                    0 -> viewController.startCreateNewEvents()
+                                    1 -> viewController.startCreateNewFund()
+                                    2 -> viewController.startCreateNewCashFlow()
+                                    3 -> viewController.startCreateNewCategory()
+                                    else -> {}
+                                }
+                            }
+                        )
+                    }
+                )
+            }
         }
     }
 }

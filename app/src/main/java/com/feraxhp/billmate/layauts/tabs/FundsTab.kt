@@ -1,6 +1,9 @@
 package com.feraxhp.billmate.layauts.tabs
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,12 +15,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,9 +38,17 @@ import com.feraxhp.billmate.extrendedFuntions.toPointingString
 import com.feraxhp.billmate.layauts.tabs.components.components.ConfirmationAlert
 import com.feraxhp.billmate.layauts.tabs.components.components.MyCardsFunds
 
+@SuppressLint("RememberReturnType")
 @Composable
-fun FundsTab(innerPadding: PaddingValues = PaddingValues(0.dp)) {
+fun FundsTab(
+    innerPadding: PaddingValues = PaddingValues(0.dp),
+    setScrollState: (Int) -> Unit = {},
+) {
     var list by remember { mutableStateOf(appController.getAllFunds()) }
+    val lazyListState = rememberLazyListState()
+    val scrollValue by remember { derivedStateOf { lazyListState.firstVisibleItemScrollOffset } }
+    setScrollState(scrollValue)
+
     val types = listOf(
         "Normal",
         "Saves",
@@ -49,7 +63,8 @@ fun FundsTab(innerPadding: PaddingValues = PaddingValues(0.dp)) {
         modifier = Modifier
             .fillMaxWidth(),
         contentPadding = innerPadding,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        state = lazyListState,
     ) {
         items(list.toMutableList()) { fund ->
             MyCardsFunds(
@@ -130,7 +145,6 @@ fun FundsTab(innerPadding: PaddingValues = PaddingValues(0.dp)) {
         }
     }
 }
-
 
 @Preview
 @Composable
