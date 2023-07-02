@@ -109,6 +109,9 @@ fun CashFlowTab(
                 val calendar =
                     Calendar.getInstance(TimeZone.getTimeZone("UTC${ZonedDateTime.now(ZoneId.systemDefault()).offset}"))
                 calendar.timeInMillis = listTransfers[it].date
+
+                var showDialog by remember { mutableStateOf(false) }
+
                 TransfersCard(
                     time = listTransfers[it].time,
                     amount = listTransfers[it].amount,
@@ -123,13 +126,23 @@ fun CashFlowTab(
                     origin = appController.getFundByID(listTransfers[it].origin_fund_id)!!.accountName,
                     destination = appController.getFundByID(listTransfers[it].target_fund_id)!!.accountName,
                 ) {
-                    appController.removeTransfer(listTransfers[it])
-                    listTransfers = listTransfers
-                        .toMutableList()
-                        .apply {
-                            removeAt(it)
-                        }
+                    showDialog = true
                 }
+
+                ConfirmationAlert(
+                    openState = showDialog,
+                    setOpenState = { showDialog = it },
+                    title = "Delete this transfer?",
+                    text = "If you delete this transfer, you will not be able to recover it",
+                    onConfirm = {
+                        appController.removeTransfer(listTransfers[it])
+                        listTransfers = listTransfers
+                            .toMutableList()
+                            .apply {
+                                removeAt(it)
+                            }
+                    }
+                )
             }
         }
     }

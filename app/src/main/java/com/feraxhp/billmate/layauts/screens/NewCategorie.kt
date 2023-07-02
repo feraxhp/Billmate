@@ -87,6 +87,7 @@ fun NewCategory() {
                                 colors = OutlinedTextFieldDefaults.colors(
                                     errorBorderColor = MaterialTheme.colorScheme.error,
                                 ),
+                                maxLines = 1,
                                 label = { Text(labels[position]) },
                                 shape = MaterialTheme.shapes.small,
                                 isError = (position == 0 && errorName.value) || (position == 1 && errorAmount.value),

@@ -186,6 +186,7 @@ fun NewEvents() {
                                     colors = OutlinedTextFieldDefaults.colors(
                                         errorBorderColor = MaterialTheme.colorScheme.error,
                                     ),
+                                    maxLines = 1,
                                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = if (position == 1) KeyboardType.Number else KeyboardType.Text),
                                     label = {
                                         if (position == 1 && values[position] != "") {

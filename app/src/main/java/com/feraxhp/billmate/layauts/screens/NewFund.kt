@@ -98,6 +98,7 @@ fun NewFund() {
                                         if (position == 0) errorName.value = false
                                         if (position == 1) errorAmount.value = false
                                     },
+                                    maxLines = 1,
                                     colors = OutlinedTextFieldDefaults.colors(
                                         errorBorderColor = MaterialTheme.colorScheme.error,
                                     ),
