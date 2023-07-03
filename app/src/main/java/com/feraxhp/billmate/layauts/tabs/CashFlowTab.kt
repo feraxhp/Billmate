@@ -15,9 +15,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
+import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.layauts.tabs.components.cashflow.EventsCard
 import com.feraxhp.billmate.layauts.tabs.components.components.SegmentedButtons
 import com.feraxhp.billmate.layauts.tabs.components.cashflow.TransfersCard
@@ -80,10 +80,14 @@ fun CashFlowTab(
                         calendar[Calendar.YEAR]
                     }",
                     time = listEvents[index].time,
-                    description = listEvents[index].description
-                ) {
-                    showDialog = true
-                }
+                    description = listEvents[index].description,
+                    onClick = {
+                        showDialog = true
+                    },
+                    onBodyClick = {
+                        viewController.startEditEvents(listEvents[index])
+                    }
+                )
                 ConfirmationAlert(
                     openState = showDialog,
                     setOpenState = { showDialog = it },
@@ -121,9 +125,13 @@ fun CashFlowTab(
                     }",
                     origin = appController.getFundByID(listTransfers[index].origin_fund_id)!!.accountName,
                     destination = appController.getFundByID(listTransfers[index].target_fund_id)!!.accountName,
-                ) {
-                    showDialog = true
-                }
+                    onClick = {
+                        showDialog = true
+                    },
+                    onBodyClick = {
+                        viewController.startEditTransfers(listTransfers[index])
+                    }
+                )
                 ConfirmationAlert(
                     openState = showDialog,
                     setOpenState = { showDialog = it },
@@ -141,11 +149,4 @@ fun CashFlowTab(
             }
         }
     }
-}
-
-
-@Preview
-@Composable
-fun CashFlowTabPreview() {
-    CashFlowTab()
 }

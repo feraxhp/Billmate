@@ -8,6 +8,8 @@ import com.feraxhp.billmate.activitys.CreateNewCategory
 import com.feraxhp.billmate.activitys.CreateNewEvents
 import com.feraxhp.billmate.activitys.CreateNewFund
 import com.feraxhp.billmate.activitys.MainActivity
+import com.feraxhp.billmate.logic_database.database.entities.Events
+import com.feraxhp.billmate.logic_database.database.entities.Transfers
 
 class ViewController(private val context: Context) {
     fun startMainActivity() {
@@ -43,5 +45,13 @@ class ViewController(private val context: Context) {
     }
     fun terminateActivity(activity: Activity) {
         activity.finish()
+    }
+
+    fun startEditEvents(events: Events) {
+        TODO("Not yet implemented")
+    }
+
+    fun startEditTransfers(transfers: Transfers) {
+        TODO("Not yet implemented")
     }
 }

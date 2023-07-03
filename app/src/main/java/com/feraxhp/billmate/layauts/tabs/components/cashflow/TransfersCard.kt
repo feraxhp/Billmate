@@ -1,5 +1,7 @@
 package com.feraxhp.billmate.layauts.tabs.components.cashflow
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,7 +33,8 @@ fun TransfersCard(
     description: String = "",
     date: String = "2019-08-26",
     time: String = "16:00",
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    onBodyClick: () -> Unit = {}
 ) {
     val color = Color(0xFF008C8C)
     Row(
@@ -47,7 +50,13 @@ fun TransfersCard(
                 .size(60.dp)
                 .padding(horizontal = 10.dp)
         )
-        Column(modifier = Modifier.weight(2f)) {
+        Column(
+            modifier = Modifier
+                .clickable(indication = null, interactionSource = MutableInteractionSource()) {
+                    onBodyClick()
+                }
+                .weight(2f)
+        ) {
             Text(text = "$origin ➤ $destination: ${amount.toPointingString()}",
                 fontSize = 20.sp,
                 color = color)
