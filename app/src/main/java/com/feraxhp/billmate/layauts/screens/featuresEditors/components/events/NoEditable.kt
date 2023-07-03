@@ -1,6 +1,5 @@
 package com.feraxhp.billmate.layauts.screens.featuresEditors.components.events
 
-import androidx.compose.animation.core.animate
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
@@ -56,6 +55,7 @@ fun NoEditable(
         modifier = Modifier
             .padding(paddingValues)
             .fillMaxSize()
+            .padding(top = 24.dp)
             .padding(horizontal = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
