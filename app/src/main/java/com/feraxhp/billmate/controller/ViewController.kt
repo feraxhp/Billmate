@@ -7,11 +7,13 @@ import androidx.core.content.ContextCompat
 import com.feraxhp.billmate.activitys.CreateNewCategory
 import com.feraxhp.billmate.activitys.CreateNewEvents
 import com.feraxhp.billmate.activitys.CreateNewFund
+import com.feraxhp.billmate.activitys.EditEvents
 import com.feraxhp.billmate.activitys.MainActivity
 import com.feraxhp.billmate.logic_database.database.entities.Events
 import com.feraxhp.billmate.logic_database.database.entities.Transfers
 
 class ViewController(private val context: Context) {
+    var editedEvent: Events? = null
     fun startMainActivity() {
         ContextCompat.startActivity(
             context, Intent(context, MainActivity::class.java),
@@ -47,8 +49,12 @@ class ViewController(private val context: Context) {
         activity.finish()
     }
 
-    fun startEditEvents(events: Events) {
-        TODO("Not yet implemented")
+    fun startEditEvents(event: Events) {
+        this.editedEvent = event
+        ContextCompat.startActivity(
+            context, Intent(context, EditEvents::class.java),
+            null
+        )
     }
 
     fun startEditTransfers(transfers: Transfers) {

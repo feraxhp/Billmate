@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.layauts.screens.components.events
+package com.feraxhp.billmate.layauts.screens.featuresCreation.Components.events
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -36,9 +36,9 @@ fun MyDropDownMenu(
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = { setExpanded(!expanded) },
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 10.dp),
+            .then(modifier)
     ) {
         TextField(
             modifier = Modifier

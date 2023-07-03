@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,8 +26,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.feraxhp.billmate.R
-import com.feraxhp.billmate.extrendedFuntions.toPointingString
+import com.feraxhp.billmate.extrendedFuntions.noDescrition
+import com.feraxhp.billmate.extrendedFuntions.timeFormat
+import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventsCard(
     type: Boolean = false,
@@ -44,6 +49,7 @@ fun EventsCard(
         modifier = Modifier
             .fillMaxWidth()
     ) {
+        val state = rememberTimePickerState()
         Icon(
             painter = if (type) painterResource(
                 id = R.drawable.baseline_input_24
@@ -64,12 +70,12 @@ fun EventsCard(
                 .weight(2f)
         ) {
             Text(
-                text = "$name: ${amount.toPointingString()}",
+                text = "$name: ${amount.toMoneyFormat()}",
                 fontSize = 20.sp,
                 color = color
             )
             Text(
-                text = "${if (description == "") "No description" else description} ~ $date ~ $time",
+                text = "${description.noDescrition()} ~ $date ~ ${time.timeFormat(state.is24hour)}",
                 color = MaterialTheme.colorScheme.onBackground
             )
         }

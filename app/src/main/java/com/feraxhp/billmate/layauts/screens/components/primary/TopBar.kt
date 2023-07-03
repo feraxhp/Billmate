@@ -12,6 +12,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.feraxhp.billmate.activitys.ui.theme.Elevations
@@ -22,7 +23,8 @@ fun MyTopBar(
     text: String,
     navigationAction: () -> Unit,
     searchAction: () -> Unit,
-    scrollState: Int = 0
+    scrollState: Int = 0,
+    searchIcon: ImageVector = Icons.Filled.Settings,
 ) {
     val color = if (scrollState != 0) MaterialTheme.colorScheme.surfaceColorAtElevation(Elevations.level2) else MaterialTheme.colorScheme.background
     val onColor = if (scrollState != 0) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onBackground
@@ -46,7 +48,7 @@ fun MyTopBar(
         actions = {
             IconButton(onClick = { searchAction() }) {
                 Icon(
-                    imageVector = Icons.Filled.Settings,
+                    imageVector = searchIcon,
                     contentDescription = "Localized description",
                     tint = onColor
                 )

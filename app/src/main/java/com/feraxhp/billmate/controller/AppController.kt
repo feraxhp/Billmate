@@ -2,7 +2,7 @@ package com.feraxhp.billmate.controller
 
 import android.content.Context
 import androidx.room.Room
-import com.feraxhp.billmate.extrendedFuntions.toPointingString
+import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 import com.feraxhp.billmate.logic_database.User
 import com.feraxhp.billmate.logic_database.database.MyDataBase
 import com.feraxhp.billmate.logic_database.database.entities.Categories
@@ -164,9 +164,12 @@ class AppController(context: Context) {
         return funds.find { it.id == originFundId }
     }
 
+    fun getCategoryByID(categoryId: Long): Categories? {
+        return categories.find { it.id == categoryId }
+    }
     fun getAllFundsOnString(): List<String> {
         return if (funds.isNotEmpty()) {
-            funds.map { "${it.accountName}: ${it.amount.toPointingString()}" }
+            funds.map { "${it.accountName}: ${it.amount.toMoneyFormat()}" }
         } else {
             listOf("")
         }
@@ -174,7 +177,7 @@ class AppController(context: Context) {
 
     fun getAllNormalFundsOnString(): List<String> {
         return if (normalFunds.isNotEmpty()) {
-            normalFunds.map { "${it.accountName}: ${it.amount.toPointingString()}" }
+            normalFunds.map { "${it.accountName}: ${it.amount.toMoneyFormat()}" }
         } else {
             listOf("")
         }
@@ -197,7 +200,7 @@ class AppController(context: Context) {
     }
 
     fun getAllCategoriesOnString(): List<String> {
-        return if (categories.isNotEmpty()) categories.map { "${it.name}: ${it.amount.toPointingString()}" } else {
+        return if (categories.isNotEmpty()) categories.map { "${it.name}: ${it.amount.toMoneyFormat()}" } else {
             listOf("")
         }
     }

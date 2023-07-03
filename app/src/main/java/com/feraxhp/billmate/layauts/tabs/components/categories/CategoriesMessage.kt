@@ -20,15 +20,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.feraxhp.billmate.extrendedFuntions.toPointingString
+import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 
 @Composable
-fun CategoriesMessage(name: String = "Example", amount: Double = 0.0, onClick: () -> Unit = {}) {
+fun CategoriesMessage(
+    name: String = "Example",
+    amount: Double = 0.0,
+    onClick: () -> Unit = {}
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
         modifier = Modifier
-            .padding(10.dp)
             .fillMaxWidth()
             .border(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -58,7 +61,7 @@ fun CategoriesMessage(name: String = "Example", amount: Double = 0.0, onClick: (
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = "Amount: ${amount.toPointingString()}",
+                text = "Amount: ${amount.toMoneyFormat()}",
                 fontSize = 14.sp,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

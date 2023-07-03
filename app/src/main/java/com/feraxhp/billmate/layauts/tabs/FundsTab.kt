@@ -2,7 +2,9 @@ package com.feraxhp.billmate.layauts.tabs
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -17,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
-import com.feraxhp.billmate.extrendedFuntions.toPointingString
+import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 import com.feraxhp.billmate.layauts.tabs.components.funds.MyCardsFunds
 import com.feraxhp.billmate.layauts.tabs.components.components.ConfirmationAlert
 
@@ -35,7 +37,9 @@ fun FundsTab(
 
     LazyColumn(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp)
+        ,
         contentPadding = innerPadding,
         horizontalAlignment = Alignment.CenterHorizontally,
         state = lazyListState,
@@ -44,7 +48,7 @@ fun FundsTab(
             var showDialog by remember { mutableStateOf(false) }
             MyCardsFunds(
                 accountName = fund.accountName,
-                balance = fund.amount.toPointingString(),
+                balance = fund.amount.toMoneyFormat(),
                 titularName = fund.titularName,
                 description = fund.description,
                 type = fund.type,
@@ -52,6 +56,7 @@ fun FundsTab(
                     showDialog = true
                 }
             )
+            Spacer(modifier = Modifier.padding(8.dp))
             ConfirmationAlert(
                 openState = showDialog,
                 setOpenState = { showDialog = it },

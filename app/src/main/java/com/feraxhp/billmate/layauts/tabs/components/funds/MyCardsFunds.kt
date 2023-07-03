@@ -76,9 +76,9 @@ fun MyCardsFunds(
     )
     Card(
         modifier = modifier
-            .padding(padding * 0.2f)
+//            .padding(padding * 0.2f)
             .fillMaxWidth()
-            .padding(padding * 0.2f)
+//            .padding(padding * 0.2f)
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,

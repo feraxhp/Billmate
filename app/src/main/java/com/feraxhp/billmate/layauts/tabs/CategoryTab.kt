@@ -28,6 +28,7 @@ fun CategoryTab(
     setScrollState(scrollValue)
     LazyColumn(
         modifier = Modifier
+            .padding(horizontal = 24.dp)
             .padding(padding),
         state = lazyListState,
         ) {

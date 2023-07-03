@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.layauts.screens
+package com.feraxhp.billmate.layauts.screens.featuresCreation
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -43,12 +43,13 @@ import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
-import com.feraxhp.billmate.extrendedFuntions.changeFrom24hto12h
-import com.feraxhp.billmate.extrendedFuntions.toPointingString
-import com.feraxhp.billmate.layauts.screens.components.events.MyDatePicker
-import com.feraxhp.billmate.layauts.screens.components.events.MyDropDownMenu
+import com.feraxhp.billmate.extrendedFuntions.dateFormat
+import com.feraxhp.billmate.extrendedFuntions.timeFormat
+import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
+import com.feraxhp.billmate.layauts.screens.featuresCreation.Components.events.MyDatePicker
+import com.feraxhp.billmate.layauts.screens.featuresCreation.Components.events.MyDropDownMenu
 import com.feraxhp.billmate.layauts.screens.components.primary.MyFloatingActionButton
-import com.feraxhp.billmate.layauts.screens.components.events.MyTimePicker
+import com.feraxhp.billmate.layauts.screens.featuresCreation.Components.events.MyTimePicker
 import com.feraxhp.billmate.layauts.tabs.components.components.SegmentedButtons
 import java.text.SimpleDateFormat
 import java.time.ZoneId
@@ -197,7 +198,7 @@ fun NewEvents() {
                                     label = {
                                         if (position == 1 && values[position] != "") {
                                             val text = try {
-                                                values[position].toDouble().toPointingString(default = true)
+                                                values[position].toDouble().toMoneyFormat(default = true)
                                             }
                                             catch (e: Exception) {
                                                 "Must be a number"
@@ -223,6 +224,7 @@ fun NewEvents() {
                                     options = optionsFunds,
                                     modifier = Modifier
                                         .padding(top = 10.dp)
+                                        .padding(horizontal = 10.dp)
                                 )
                                 if (selectedEventValue == 2) {
                                     MyDropDownMenu(
@@ -231,7 +233,8 @@ fun NewEvents() {
                                         setExpanded = setExpandedFundsDestination,
                                         selectedOptionText = selectedOptionFundDestinationText,
                                         setSelectedOptionText = setSelectedOptionFundDestinationText,
-                                        options = optionsFunds
+                                        options = optionsFunds,
+                                        modifier = Modifier.padding(horizontal = 10.dp)
                                     )
                                 } else {
                                     MyDropDownMenu(
@@ -240,7 +243,8 @@ fun NewEvents() {
                                         setExpanded = setExpandedCategories,
                                         selectedOptionText = selectedOptionCategoryText,
                                         setSelectedOptionText = setSelectedOptionCategoryText,
-                                        options = optionsCategories
+                                        options = optionsCategories,
+                                        modifier = Modifier.padding(horizontal = 10.dp)
                                     )
                                 }
                                 Row(
@@ -249,19 +253,14 @@ fun NewEvents() {
                                 ) {
                                     TextButton(onClick = { openTimeDialog.value = true }) {
                                         Text(
-                                            text = if (timeState.is24hour) "Time: ${timeState.hour}:${timeState.minute}" else "Time: ${
-                                                changeFrom24hto12h(
-                                                    timeState.hour,
-                                                    timeState.minute
-                                                )
-                                            }",
+                                            text = "Time: ${"${timeState.hour}:${timeState.minute}".timeFormat(timeState.is24hour)}",
                                             modifier = Modifier
                                         )
                                     }
                                     calendar.timeInMillis = dateState.selectedDateMillis!!
                                     TextButton(onClick = { openDateDialog.value = true }) {
                                         Text(
-                                            text = "Date: ${calendar[Calendar.DAY_OF_MONTH]}/${calendar[Calendar.MONTH] + 1}/${calendar[Calendar.YEAR]}",
+                                            text = calendar.timeInMillis.dateFormat(),
                                             modifier = Modifier
                                         )
                                     }

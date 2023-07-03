@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,8 +25,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.feraxhp.billmate.R
-import com.feraxhp.billmate.extrendedFuntions.toPointingString
+import com.feraxhp.billmate.extrendedFuntions.noDescrition
+import com.feraxhp.billmate.extrendedFuntions.timeFormat
+import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TransfersCard(
     amount: Double = 0.0,
@@ -42,6 +47,7 @@ fun TransfersCard(
         modifier = Modifier
             .fillMaxWidth()
     ) {
+        val state = rememberTimePickerState()
         Icon(
             painter = painterResource(id = R.drawable.baseline_sync_alt_24),
             contentDescription = "",
@@ -57,10 +63,10 @@ fun TransfersCard(
                 }
                 .weight(2f)
         ) {
-            Text(text = "$origin ➤ $destination: ${amount.toPointingString()}",
+            Text(text = "$origin ➤ $destination: ${amount.toMoneyFormat()}",
                 fontSize = 20.sp,
                 color = color)
-            Text(text = "${if (description == "") "No description" else description} ~ $date ~ $time", color = MaterialTheme.colorScheme.onBackground)
+            Text(text = "${description.noDescrition()} ~ $date ~ ${time.timeFormat(state.is24hour)}", color = MaterialTheme.colorScheme.onBackground)
         }
         IconButton(
             onClick = { onClick() },

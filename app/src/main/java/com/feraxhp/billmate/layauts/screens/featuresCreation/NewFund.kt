@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.layauts.screens
+package com.feraxhp.billmate.layauts.screens.featuresCreation
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
-import com.feraxhp.billmate.extrendedFuntions.toPointingString
+import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 import com.feraxhp.billmate.layauts.screens.components.primary.MyFloatingActionButton
 import com.feraxhp.billmate.layauts.tabs.components.components.SegmentedButtons
 
@@ -109,7 +109,7 @@ fun NewFund() {
                                     label = {
                                         if (position == 2 && values[position] != "") {
                                             val text = try {
-                                                values[position].toDouble().toPointingString(default = true)
+                                                values[position].toDouble().toMoneyFormat(default = true)
                                             }
                                             catch (e: Exception) {
                                                 "Must be a number"

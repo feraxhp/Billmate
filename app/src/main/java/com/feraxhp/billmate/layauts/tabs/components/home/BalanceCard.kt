@@ -15,7 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
-import com.feraxhp.billmate.extrendedFuntions.toPointingString
+import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 import com.feraxhp.billmate.layauts.tabs.components.components.MyCards
 
 
@@ -38,7 +38,7 @@ fun BalanceCard() {
                 .padding(top = 24.dp)
         )
         Text(
-            text = appController.getTotalBalance().toPointingString(),
+            text = appController.getTotalBalance().toMoneyFormat(),
             color = onColor,
             fontSize = MaterialTheme.typography.titleLarge.fontSize,
             modifier = Modifier
@@ -54,11 +54,11 @@ fun BalanceCard() {
                 .padding(vertical = 24.dp)
         ) {
             Text(
-                text = "Incomes: ${appController.getTotalIncomes().toPointingString()}",
+                text = "Incomes: ${appController.getTotalIncomes().toMoneyFormat()}",
                 color = onColor
             )
             Text(
-                text = "Expenses: ${appController.getTotalExpenses().toPointingString()}",
+                text = "Expenses: ${appController.getTotalExpenses().toMoneyFormat()}",
                 color = onColor
             )
         }
