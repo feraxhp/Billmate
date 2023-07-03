@@ -29,11 +29,13 @@ import java.time.ZonedDateTime
 fun CashFlowTab(
     padding: PaddingValues = PaddingValues(0.dp),
     setScrollState: (Int) -> Unit = {},
-    setTitle: (String) -> Unit = {}
+    setTitle: (String) -> Unit = {},
+    goHome: () -> Unit = {},
 ) {
-    var listTransfers by remember { mutableStateOf(appController.getAllTransfers()) }
-    var listEvents by remember { mutableStateOf(appController.getAllEvents()) }
+
     val (selectedIndex, setSelectedIndex) = remember { mutableStateOf(0) }
+    var listTransfers by remember(key1 = selectedIndex) { mutableStateOf(appController.getAllTransfers()) }
+    var listEvents by remember(key1 = selectedIndex) { mutableStateOf(appController.getAllEvents()) }
 
     val lazyListState = rememberLazyListState()
     val scrollValue by remember { derivedStateOf { lazyListState.firstVisibleItemScrollOffset } }
@@ -85,6 +87,7 @@ fun CashFlowTab(
                         showDialog = true
                     },
                     onBodyClick = {
+                        goHome()
                         viewController.startEditEvents(listEvents[index])
                     }
                 )
@@ -129,6 +132,7 @@ fun CashFlowTab(
                         showDialog = true
                     },
                     onBodyClick = {
+                        goHome()
                         viewController.startEditTransfers(listTransfers[index])
                     }
                 )

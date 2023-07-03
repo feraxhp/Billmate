@@ -22,6 +22,7 @@ import com.feraxhp.billmate.activitys.ui.theme.Elevations
 fun MyTopBar(
     text: String,
     navigationAction: () -> Unit,
+    navigationIcon: ImageVector = Icons.Filled.Menu,
     searchAction: () -> Unit,
     scrollState: Int = 0,
     searchIcon: ImageVector = Icons.Filled.Settings,
@@ -39,7 +40,7 @@ fun MyTopBar(
         navigationIcon = {
             IconButton(onClick = { navigationAction() }) {
                 Icon(
-                    imageVector = Icons.Filled.Menu,
+                    imageVector = navigationIcon,
                     contentDescription = "Localized description",
                     tint = onColor
                 )

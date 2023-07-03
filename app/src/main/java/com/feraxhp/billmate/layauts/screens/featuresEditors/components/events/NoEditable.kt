@@ -1,5 +1,8 @@
 package com.feraxhp.billmate.layauts.screens.featuresEditors.components.events
 
+import androidx.compose.animation.core.animate
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -11,10 +14,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.extrendedFuntions.dateFormat
@@ -54,6 +62,8 @@ fun NoEditable(
 
         Text(
             text = Event.name,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1,
             textAlign = TextAlign.Center,
             lineHeight = MaterialTheme.typography.titleLarge.lineHeight,
             fontSize = MaterialTheme.typography.titleLarge.fontSize * 1.5f,
@@ -65,19 +75,28 @@ fun NoEditable(
         Text(
             text = "${Event.date.dateFormat()} ~ ${Event.time.timeFormat(state.is24hour)}",
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(top = spacerPadding)
+            modifier = Modifier.padding(top = 0.dp)
         )
         Spacer(modifier = Modifier.height(spacerPadding))
         Text(
             text = "Amount: ${Event.amount.toMoneyFormat()}",
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1,
             fontSize = MaterialTheme.typography.titleMedium.fontSize,
             fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
             fontStyle = MaterialTheme.typography.titleMedium.fontStyle,
             modifier = Modifier
         )
         Spacer(modifier = Modifier.height(spacerPadding))
+        var maxlines by remember {mutableStateOf(false)}
         Text(
             text = Event.description.noDescrition(),
+            overflow = TextOverflow.Ellipsis,
+            maxLines = if (maxlines) Int.MAX_VALUE else 3,
+            modifier = Modifier
+                .clickable (interactionSource = MutableInteractionSource(), indication = null) {
+                    maxlines = !maxlines
+                }
         )
         Spacer(modifier = Modifier.height(spacerPadding))
         val fund = appController.getFundByID(Event.fund_id)
@@ -103,14 +122,3 @@ fun NoEditable(
         }
     }
 }
-
-//@Composable
-//fun MyDivider(spacerPadding: Dp, dividerMultiplayer: Float = 1f, spacerMultiplayer: Float = 1f) {
-//    Divider(modifier = Modifier.padding(top = spacerPadding * dividerMultiplayer))
-//    Spacer(modifier = Modifier.padding(spacerPadding * spacerMultiplayer))
-//}
-//@Preview
-//@Composable
-//fun NoneditablePreview() {
-//    NoEditable()
-//}

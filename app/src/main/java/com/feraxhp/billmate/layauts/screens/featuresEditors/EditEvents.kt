@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -16,6 +18,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
+import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
 import com.feraxhp.billmate.layauts.screens.components.primary.MyFloatingActionButton
 import com.feraxhp.billmate.layauts.screens.components.primary.MyTopBar
@@ -39,7 +43,21 @@ fun EditEvents(
 ) {
     BillmateTheme {
         val activity = LocalContext.current as Activity
-
+        var isError by remember { mutableStateOf(false) }
+        var editedEvent by remember {
+            mutableStateOf(
+                Events(
+                    name = "ExampleName",
+                    amount = 0.0,
+                    description = "ExampleDescription",
+                    date = 0L,
+                    time = "ExampleTime",
+                    type = false,
+                    fund_id = 0L,
+                    category_id = 0L
+                )
+            )
+        }
         var isEditable by remember { mutableStateOf(false) }
 
         Surface(
@@ -50,14 +68,15 @@ fun EditEvents(
                 topBar = {
                     MyTopBar(
                         text = Event.name,
-                        navigationAction = {},
+                        navigationAction = {if (isEditable) isEditable = false else viewController.terminateActivity(activity)},
+                        navigationIcon = Icons.Filled.ArrowBack,
                         searchAction = { isEditable = !isEditable },
-                        searchIcon = Icons.Filled.Edit
+                        searchIcon = if (isEditable) Icons.Filled.Close else Icons.Filled.Edit
                     )
                 },
                 content = {
                     when (isEditable) {
-                        true -> Editable(Event = Event, paddingValues = it)
+                        true -> Editable(Event = Event, paddingValues = it, isError = {isError = it}){editedEvent = it}
                         false -> NoEditable(Event = Event, paddingValues = it)
                     }
                 },
@@ -67,7 +86,16 @@ fun EditEvents(
                             text = "Save",
                             withIcon = false,
                             onClick = {
-
+                                if (!isError && editedEvent != Event) {
+                                    val response = appController.editEvent(
+                                        editedEvent
+                                    )
+                                    if (response) {
+                                        viewController.terminateActivity(activity)
+                                    }
+                                }else if (editedEvent == Event){
+                                    isEditable = false
+                                }
                             }
                         )
                         false -> {}

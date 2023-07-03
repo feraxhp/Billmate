@@ -2,6 +2,7 @@ package com.feraxhp.billmate.controller
 
 import android.content.Context
 import androidx.room.Room
+import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 import com.feraxhp.billmate.logic_database.User
 import com.feraxhp.billmate.logic_database.database.MyDataBase
@@ -167,6 +168,7 @@ class AppController(context: Context) {
     fun getCategoryByID(categoryId: Long): Categories? {
         return categories.find { it.id == categoryId }
     }
+
     fun getAllFundsOnString(): List<String> {
         return if (funds.isNotEmpty()) {
             funds.map { "${it.accountName}: ${it.amount.toMoneyFormat()}" }
@@ -367,5 +369,61 @@ class AppController(context: Context) {
         }
     }
 
+    fun editEvent(editedEvent: Events): Boolean {
+        val actualEvent = viewController.event2Edit
+        if (actualEvent == null) return false
+        coroutineScope.launch {
+            val actualFund = getFundByID(actualEvent.fund_id)
+            val actualCategory = getCategoryByID(actualEvent.category_id)
 
+            val targetFund = this@AppController.getFundByID(editedEvent.fund_id)
+            val targetCategory = this@AppController.getCategoryByID(editedEvent.category_id)
+
+            if (targetFund != actualFund || actualEvent.amount != editedEvent.amount){
+                billMateDatabase
+                    .FundsDao()
+                    .updateFund(
+                        actualFund!!
+                            .copy(
+                                amount = if (actualEvent.type) actualFund.amount - actualEvent.amount
+                                else actualFund.amount + actualEvent.amount
+                            )
+                    )
+                billMateDatabase
+                    .FundsDao()
+                    .updateFund(
+                        targetFund!!.copy(
+                            amount = if (editedEvent.type) targetFund.amount + editedEvent.amount
+                            else targetFund.amount - editedEvent.amount
+                        )
+                    )
+            }
+
+            if (targetCategory != actualCategory || actualEvent.amount != editedEvent.amount){
+                billMateDatabase
+                    .CategoriesDao()
+                    .updateCategory(
+                        actualCategory!!
+                            .copy(
+                                amount = if (actualEvent.type) actualCategory.amount - actualEvent.amount
+                                else actualCategory.amount + actualEvent.amount
+                            )
+                    )
+
+                billMateDatabase
+                    .CategoriesDao()
+                    .updateCategory(
+                        targetCategory!!.copy(
+                            amount = if (editedEvent.type) targetCategory.amount + editedEvent.amount
+                            else targetCategory.amount - editedEvent.amount
+                        )
+                    )
+            }
+
+            billMateDatabase.EventsDao().updateEvent(editedEvent)
+            viewController.event2Edit = null
+            actualize()
+        }
+        return true
+    }
 }

@@ -40,6 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
@@ -56,6 +57,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.Date
 import java.util.Locale
+import kotlin.math.min
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -186,7 +188,20 @@ fun NewEvents() {
                                 OutlinedTextField(
                                     value = values[position],
                                     onValueChange = {
-                                        setters[position](it)
+                                        if (position == 0) {
+                                            setters[position](
+                                                it.replace("\n", " ")
+                                                    .substring(
+                                                        0, min(25, it.length)
+                                                    )
+                                            )
+                                        } else {
+                                            setters[position](
+                                                it.substring(
+                                                    0, min(300, it.length)
+                                                )
+                                            )
+                                        }
                                         if (position == 0) errorName.value = false
                                         if (position == 1) errorAmount.value = false
                                     },
@@ -198,13 +213,15 @@ fun NewEvents() {
                                     label = {
                                         if (position == 1 && values[position] != "") {
                                             val text = try {
-                                                values[position].toDouble().toMoneyFormat(default = true)
-                                            }
-                                            catch (e: Exception) {
+                                                values[position].toDouble()
+                                                    .toMoneyFormat(default = true)
+                                            } catch (e: Exception) {
                                                 "Must be a number"
                                             }
                                             Text(text)
-                                        } else Text(labels[position])
+                                        } else if (position == 0) {
+                                            Text("${labels[position]} - ${25-eventName.length}")
+                                        }else Text(labels[position])
                                     },
                                     shape = MaterialTheme.shapes.small,
                                     isError = (position == 0 && errorName.value) || (position == 1 && errorAmount.value),
@@ -253,7 +270,11 @@ fun NewEvents() {
                                 ) {
                                     TextButton(onClick = { openTimeDialog.value = true }) {
                                         Text(
-                                            text = "Time: ${"${timeState.hour}:${timeState.minute}".timeFormat(timeState.is24hour)}",
+                                            text = "Time: ${
+                                                "${timeState.hour}:${timeState.minute}".timeFormat(
+                                                    timeState.is24hour
+                                                )
+                                            }",
                                             modifier = Modifier
                                         )
                                     }
@@ -359,7 +380,7 @@ fun NewEvents() {
                                 TextButton(
                                     onClick = {
                                         if (optionsFunds == listOf("")) {
-                                             appController.addFund(
+                                            appController.addFund(
                                                 "Default",
                                                 "",
                                                 "0.0",
@@ -387,7 +408,7 @@ fun NewEvents() {
                                 0, 1 -> {
                                     val response = appController.addEvent(
                                         date = dateState.selectedDateMillis!!,
-                                        time = "${timeState.hour}:${timeState.minute}",
+                                        time = "${timeState.hour}:${timeState.minute}".timeFormat(),
                                         category = optionsCategories.indexOf(
                                             selectedOptionCategoryText
                                         ),

@@ -56,5 +56,5 @@ fun String.timeFormat(is24Hour: Boolean = true): String {
                 ":" +
                 this.split(":")[1].padStart(2, '0')
 
-    } else changeFrom24hto12h(this.split(":")[0].toInt(), this.split(":")[1].toInt())
+    } else changeFrom24hto12h(this.split(":")[0].toInt(), this.split(":")[1].substring(0,2).toInt())
 }

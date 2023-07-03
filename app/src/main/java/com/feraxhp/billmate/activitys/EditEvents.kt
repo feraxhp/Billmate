@@ -11,7 +11,7 @@ class EditEvents : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            viewController.editedEvent?.let { EditEvents(it) }
+            viewController.event2Edit?.let { EditEvents(it) }
         }
         WindowCompat.setDecorFitsSystemWindows(window, false)
     }

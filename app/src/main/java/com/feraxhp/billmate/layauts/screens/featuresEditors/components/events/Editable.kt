@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity
+import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.extrendedFuntions.dateFormat
 import com.feraxhp.billmate.extrendedFuntions.noDescrition
 import com.feraxhp.billmate.extrendedFuntions.timeFormat
@@ -42,6 +43,7 @@ import com.feraxhp.billmate.layauts.tabs.components.components.SegmentedButtons
 import com.feraxhp.billmate.logic_database.database.entities.Events
 import java.time.ZoneId
 import java.time.ZonedDateTime
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,20 +58,16 @@ fun Editable(
         type = false,
         fund_id = 0L,
         category_id = 0L
-    )
-) {
+    ),
+    isError: (Boolean) -> Unit = {},
+    onSave: (Events) -> Unit = {},
+){
 
     val (name, setName) = remember { mutableStateOf(Event.name) }
     val (amount, setAmount) = remember { mutableStateOf(Event.amount.toString()) }
     val (description, setDescription) = remember { mutableStateOf(Event.description) }
     val (type, setType) = remember { mutableStateOf(Event.type) }
-//    val (date, setDate) = remember { mutableStateOf(Event.date.toString()) }
-//    val (time, setTime) = remember { mutableStateOf(Event.time) }
-//    val (fund_id, setFund_id) = remember { mutableStateOf(Event.fund_id.toString()) }
-//    val (category_id, setCategory_id) = remember { mutableStateOf(Event.category_id.toString()) }
 
-    // TimerPicker - Datepicker
-    // Clock
     val state = rememberTimePickerState()
     var timeState by remember {
         mutableStateOf(
@@ -87,9 +85,7 @@ fun Editable(
         .getInstance(
             TimeZone.getTimeZone("UTC${ZonedDateTime.now(ZoneId.systemDefault()).offset}")
         )
-    val offset: Long = "${ZonedDateTime.now(ZoneId.systemDefault()).offset}".split(":")[0].toLong()
-    calendar.timeInMillis =
-        System.currentTimeMillis() + (3600000 * offset)
+    calendar.timeInMillis = Event.date
     var dateState by remember {
         mutableStateOf(
             DatePickerState(
@@ -123,6 +119,25 @@ fun Editable(
         mutableStateOf(
             "${category?.name}: ${category?.amount?.toMoneyFormat()}"
         )
+    }
+    try {
+        onSave(
+            Event.copy(
+                name = name,
+                amount = amount.toDouble(),
+                description = description,
+                date = dateState.selectedDateMillis!!,
+                time = "${timeState.hour}:${timeState.minute}".timeFormat(),
+                type = type,
+                fund_id = appController.getAllFunds()[optionsFunds.indexOf(selectedOptionFundOriginText)].id,
+                category_id = appController.getAllCategories()[optionsCategories.indexOf(selectedOptionCategoryText)].id
+            )
+        )
+        isError(false)
+    }catch (
+        _: Exception
+    ){
+        isError(true)
     }
 
     Column(
@@ -177,7 +192,7 @@ fun Editable(
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
             label = {
                 Text(
-                    text = Event.name,
+                    text = "Event name",
                     fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
                 )
             },
@@ -190,12 +205,12 @@ fun Editable(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            TextButton(onClick = { /*TODO*/ }) {
-                Text(text = Event.date.dateFormat())
+            TextButton(onClick = { openDateDialog.value = true }) {
+                Text(text = dateState.selectedDateMillis!!.dateFormat())
             }
             Text(text = " ~ ", modifier = Modifier.padding(top = 12.dp))
             TextButton(onClick = { openTimeDialog.value = true }) {
-                Text(text = Event.time.timeFormat(timeState.is24hour))
+                Text(text = "${timeState.hour}:${timeState.minute}".timeFormat(timeState.is24hour))
             }
         }
 
@@ -238,7 +253,7 @@ fun Editable(
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
             label = {
                 Text(
-                    text = Event.description.noDescrition(),
+                    text = "Event description",
                 )
             },
             shape = MaterialTheme.shapes.small,
@@ -263,8 +278,6 @@ fun Editable(
             setSelectedOptionText = setSelectedOptionCategoryText,
             options = optionsCategories
         )
-
-
     }
 }
 

@@ -9,11 +9,12 @@ import com.feraxhp.billmate.activitys.CreateNewEvents
 import com.feraxhp.billmate.activitys.CreateNewFund
 import com.feraxhp.billmate.activitys.EditEvents
 import com.feraxhp.billmate.activitys.MainActivity
+import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.logic_database.database.entities.Events
 import com.feraxhp.billmate.logic_database.database.entities.Transfers
 
 class ViewController(private val context: Context) {
-    var editedEvent: Events? = null
+    var event2Edit: Events? = null
     fun startMainActivity() {
         ContextCompat.startActivity(
             context, Intent(context, MainActivity::class.java),
@@ -50,7 +51,7 @@ class ViewController(private val context: Context) {
     }
 
     fun startEditEvents(event: Events) {
-        this.editedEvent = event
+        this.event2Edit = event
         ContextCompat.startActivity(
             context, Intent(context, EditEvents::class.java),
             null
