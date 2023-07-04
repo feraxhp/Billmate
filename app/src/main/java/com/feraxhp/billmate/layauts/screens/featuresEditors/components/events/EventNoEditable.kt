@@ -17,9 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -49,7 +47,6 @@ fun NoEditable(
 ) {
     val spacerPadding = 24.dp
     val state = rememberTimePickerState()
-    val color = if (Event.type) Color(0XFF008C37) else Color(0xFFff0000)
 
     Column(
         modifier = Modifier
@@ -57,48 +54,8 @@ fun NoEditable(
             .fillMaxSize()
             .padding(top = 24.dp)
             .padding(horizontal = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
 
-        Text(
-            text = Event.name,
-            overflow = TextOverflow.Ellipsis,
-            maxLines = 1,
-            textAlign = TextAlign.Center,
-            lineHeight = MaterialTheme.typography.titleLarge.lineHeight,
-            fontSize = MaterialTheme.typography.titleLarge.fontSize * 1.5f,
-            fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
-            fontStyle = MaterialTheme.typography.titleLarge.fontStyle,
-            color = color,
-            modifier = Modifier
-        )
-        Text(
-            text = "${Event.date.dateFormat()} ~ ${Event.time.timeFormat(state.is24hour)}",
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(top = 0.dp)
-        )
-        Spacer(modifier = Modifier.height(spacerPadding))
-        Text(
-            text = "Amount: ${Event.amount.toMoneyFormat()}",
-            overflow = TextOverflow.Ellipsis,
-            maxLines = 1,
-            fontSize = MaterialTheme.typography.titleMedium.fontSize,
-            fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
-            fontStyle = MaterialTheme.typography.titleMedium.fontStyle,
-            modifier = Modifier
-        )
-        Spacer(modifier = Modifier.height(spacerPadding))
-        var maxlines by remember {mutableStateOf(false)}
-        Text(
-            text = Event.description.noDescrition(),
-            overflow = TextOverflow.Ellipsis,
-            maxLines = if (maxlines) Int.MAX_VALUE else 3,
-            modifier = Modifier
-                .clickable (interactionSource = MutableInteractionSource(), indication = null) {
-                    maxlines = !maxlines
-                }
-        )
-        Spacer(modifier = Modifier.height(spacerPadding))
+    ) {
         val fund = appController.getFundByID(Event.fund_id)
         if (fund != null) {
             MyCardsFunds(
@@ -121,5 +78,33 @@ fun NoEditable(
         } else {
             CategoriesMessage()
         }
+        Text(
+            text = "Amount: ${if (Event.type) "" else "-"}${Event.amount.toMoneyFormat()}",
+            modifier = Modifier.padding(vertical = 24.dp),
+            maxLines = 1,
+            textAlign = TextAlign.Center,
+            lineHeight = MaterialTheme.typography.titleLarge.lineHeight,
+            fontSize = MaterialTheme.typography.titleLarge.fontSize * 1.5f,
+            fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
+            fontStyle = MaterialTheme.typography.titleLarge.fontStyle,
+        )
+
+        Text(
+            text = "${Event.date.dateFormat()} ~ ${Event.time.timeFormat(state.is24hour)}",
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(top = 0.dp)
+        )
+
+        var maxlines by remember {mutableStateOf(false)}
+        Text(
+            text = Event.description.noDescrition(),
+            overflow = TextOverflow.Ellipsis,
+            maxLines = if (maxlines) Int.MAX_VALUE else 3,
+            modifier = Modifier
+                .clickable (interactionSource = MutableInteractionSource(), indication = null) {
+                    maxlines = !maxlines
+                }
+        )
+
     }
 }
