@@ -208,11 +208,11 @@ class AppController(context: Context) {
     }
 
     fun getAllEvents(): List<Events> {
-        return events
+        return events.reversed()
     }
 
     fun getAllTransfers(): List<Transfers> {
-        return transfers
+        return transfers.reversed()
     }
 
     // Additions

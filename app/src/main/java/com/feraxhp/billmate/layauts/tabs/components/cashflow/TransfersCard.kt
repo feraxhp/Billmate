@@ -5,9 +5,12 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,7 +38,6 @@ fun TransfersCard(
     amount: Double = 0.0,
     origin: String = "Example",
     destination: String = "Example",
-    description: String = "",
     date: String = "2019-08-26",
     time: String = "16:00",
     onClick: () -> Unit = {},
@@ -66,29 +68,16 @@ fun TransfersCard(
             Text(text = "$origin ➤ $destination: ${amount.toMoneyFormat()}",
                 fontSize = 20.sp,
                 color = color)
-            Text(text = "${description.noDescrition()} ~ $date ~ ${time.timeFormat(state.is24hour)}", color = MaterialTheme.colorScheme.onBackground)
+            Text(text = "$date ~ ${time.timeFormat(state.is24hour)}", color = MaterialTheme.colorScheme.onBackground)
         }
-        IconButton(
-            onClick = { onClick() },
+        Icon(
+            imageVector = Icons.Default.Delete,
+            contentDescription = "",
             modifier = Modifier
-        ) {
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowLeft,
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(20.dp)
-                        .padding(end = 5.dp),
-                    tint = color
-                )
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowRight,
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(20.dp)
-                        .padding(start = 5.dp),
-                    tint = color
-                )
-        }
+                .size(20.dp)
+                .padding(end = 5.dp),
+            tint = color
+        )
     }
 }
 

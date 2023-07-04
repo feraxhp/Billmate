@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
+import com.feraxhp.billmate.extrendedFuntions.dateFormat
 import com.feraxhp.billmate.layauts.tabs.components.cashflow.EventsCard
 import com.feraxhp.billmate.layauts.tabs.components.components.SegmentedButtons
 import com.feraxhp.billmate.layauts.tabs.components.cashflow.TransfersCard
@@ -36,6 +37,9 @@ fun CashFlowTab(
     val (selectedIndex, setSelectedIndex) = remember { mutableStateOf(0) }
     var listTransfers by remember(key1 = selectedIndex) { mutableStateOf(appController.getAllTransfers()) }
     var listEvents by remember(key1 = selectedIndex) { mutableStateOf(appController.getAllEvents()) }
+    var showDialog by remember { mutableStateOf(false) }
+    var type:Boolean? by remember { mutableStateOf(null) }
+    var indexToEliminate:Int? by remember { mutableStateOf(null) }
 
     val lazyListState = rememberLazyListState()
     val scrollValue by remember { derivedStateOf { lazyListState.firstVisibleItemScrollOffset } }
@@ -59,95 +63,71 @@ fun CashFlowTab(
                 selectedValue = selectedIndex,
                 setSelectedValue = setSelectedIndex,
             )
+            if (type != null){
+                ConfirmationAlert(
+                    openState = showDialog,
+                    setOpenState = { showDialog = it },
+                    title = if (type == true) "Delete this event?" else "Delete this transfer?",
+                    text = if (type == true) "If you delete this event, you will not be able to recover it" else "If you delete this transfer, you will not be able to recover it",
+                    onConfirm = {
+                        if (type == true) {
+                            appController.removeEvent(listEvents[indexToEliminate!!])
+                            listEvents = listEvents
+                                .toMutableList()
+                                .apply {
+                                    removeAt(indexToEliminate!!)
+                                }
+                        }else{
+                            appController.removeTransfer(listTransfers[indexToEliminate!!])
+                            listTransfers = listTransfers
+                                .toMutableList()
+                                .apply {
+                                    removeAt(indexToEliminate!!)
+                                }
+                        }
+                        type = null
+                        indexToEliminate = null
+                    }
+                )
+            }
         }
         if (selectedIndex == 0) {
             items(listEvents.toMutableList().size) {index ->
-                val calendar =
-                    Calendar.getInstance(TimeZone.getTimeZone("UTC${ZonedDateTime.now(ZoneId.systemDefault()).offset}"))
-                calendar.timeInMillis = listEvents[index].date
-
-                // Confirmation alert dialog
-                var showDialog by remember { mutableStateOf(false) }
-
                 if (index != 0) Divider()
                 EventsCard(
                     type = listEvents[index].type,
                     name = listEvents[index].name,
                     amount = listEvents[index].amount,
-                    date = "${
-                        calendar[Calendar.DAY_OF_MONTH]
-                    }-${
-                        calendar[Calendar.MONTH] + 1
-                    }-${
-                        calendar[Calendar.YEAR]
-                    }",
+                    date = listEvents[index].date.dateFormat(),
                     time = listEvents[index].time,
-                    description = listEvents[index].description,
                     onClick = {
                         showDialog = true
+                        type = true
+                        indexToEliminate = index
                     },
                     onBodyClick = {
                         goHome()
                         viewController.startEditEvents(listEvents[index])
                     }
                 )
-                ConfirmationAlert(
-                    openState = showDialog,
-                    setOpenState = { showDialog = it },
-                    title = "Delete this event?",
-                    text = "If you delete this event, you will not be able to recover it",
-                    onConfirm = {
-                        appController.removeEvent(listEvents[index])
-                        listEvents = listEvents
-                            .toMutableList()
-                            .apply {
-                                removeAt(index)
-                            }
-                    }
-                )
             }
         } else {
             items(listTransfers.toMutableList().size) { index ->
-                val calendar =
-                    Calendar.getInstance(TimeZone.getTimeZone("UTC${ZonedDateTime.now(ZoneId.systemDefault()).offset}"))
-                calendar.timeInMillis = listTransfers[index].date
-
-                var showDialog by remember { mutableStateOf(false) }
-
                 if (index != 0) Divider()
                 TransfersCard(
                     time = listTransfers[index].time,
                     amount = listTransfers[index].amount,
-                    description = listTransfers[index].description,
-                    date = "${
-                        calendar[Calendar.DAY_OF_MONTH]
-                    }-${
-                        calendar[Calendar.MONTH] + 1
-                    }-${
-                        calendar[Calendar.YEAR]
-                    }",
+                    date = listTransfers[index].date.dateFormat(),
                     origin = appController.getFundByID(listTransfers[index].origin_fund_id)!!.accountName,
                     destination = appController.getFundByID(listTransfers[index].target_fund_id)!!.accountName,
                     onClick = {
                         showDialog = true
+                        type = false
+                        indexToEliminate = index
                     },
                     onBodyClick = {
                         goHome()
                         viewController.startEditTransfers(listTransfers[index])
-                    }
-                )
-                ConfirmationAlert(
-                    openState = showDialog,
-                    setOpenState = { showDialog = it },
-                    title = "Delete this transfer?",
-                    text = "If you delete this transfer, you will not be able to recover it",
-                    onConfirm = {
-                        appController.removeTransfer(listTransfers[index])
-                        listTransfers = listTransfers
-                            .toMutableList()
-                            .apply {
-                                removeAt(index)
-                            }
                     }
                 )
             }

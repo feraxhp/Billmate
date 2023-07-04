@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,7 +41,6 @@ fun EventsCard(
     type: Boolean = false,
     name: String = "example",
     amount: Double = 3000000.0,
-    description: String = "describcion muy larga para probar como se comporta wadawdfawfawfawfafwafwsdfawdadawd",
     date: String = "2019-08-26",
     time: String = "15:00",
     onClick: () -> Unit = {},
@@ -96,28 +96,14 @@ fun EventsCard(
                         .weight(1f)
                 )
             }
-            Row(
-                Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = description.noDescrition(),
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier
-                        .widthIn(0.dp, 80.dp)
-                )
-                Text(
-                    text = " ~ ",
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                Text(
-                    text = "$date ~ ${time.timeFormat(state.is24hour)}",
-                    maxLines = 1,
-                    color = MaterialTheme.colorScheme.onBackground,
 
-                    )
-            }
+            Text(
+                text = "$date ~ ${time.timeFormat(state.is24hour)}",
+                maxLines = 1,
+                color = MaterialTheme.colorScheme.onBackground,
+
+                )
+
         }
         IconButton(
             onClick = { onClick() },
@@ -126,11 +112,11 @@ fun EventsCard(
                 .padding(10.dp)
         ) {
             Icon(
-                imageVector = if (type) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
+                imageVector = Icons.Default.Delete,
                 contentDescription = "",
                 tint = color,
                 modifier = Modifier
-                    .size(60.dp)
+                    .size(20.dp)
             )
         }
 
