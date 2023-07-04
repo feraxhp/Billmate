@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DatePickerState
@@ -27,13 +28,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.feraxhp.billmate.activitys.MainActivity
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.extrendedFuntions.dateFormat
-import com.feraxhp.billmate.extrendedFuntions.noDescrition
 import com.feraxhp.billmate.extrendedFuntions.timeFormat
 import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 import com.feraxhp.billmate.layauts.screens.featuresCreation.Components.events.MyDatePicker
@@ -100,10 +98,10 @@ fun Editable(
 
     // Dropdown
     // Funds origin
-    val fund = MainActivity.appController.getFundByID(Event.fund_id)
+    val fund = appController.getFundByID(Event.fund_id)
 
     val (expandedFundsOrigin, setExpandedFundsOrigin) = remember { mutableStateOf(false) }
-    val optionsFunds = MainActivity.appController.getAllFundsOnString()
+    val optionsFunds = appController.getAllFundsOnString()
     val (selectedOptionFundOriginText, setSelectedOptionFundOriginText) = remember {
         mutableStateOf(
             "${fund?.accountName}: ${fund?.amount?.toMoneyFormat()}"
@@ -111,10 +109,10 @@ fun Editable(
     }
 
     // Categories
-    val category = MainActivity.appController.getCategoryByID(Event.category_id)
+    val category = appController.getCategoryByID(Event.category_id)
 
     val (expandedCategories, setExpandedCategories) = remember { mutableStateOf(false) }
-    val optionsCategories = MainActivity.appController.getAllCategoriesOnString()
+    val optionsCategories = appController.getAllCategoriesOnString()
     val (selectedOptionCategoryText, setSelectedOptionCategoryText) = remember {
         mutableStateOf(
             "${category?.name}: ${category?.amount?.toMoneyFormat()}"
@@ -139,39 +137,37 @@ fun Editable(
     ){
         isError(true)
     }
-
+    if (openTimeDialog.value) {
+        AlertDialog(
+            onDismissRequest = {}
+        ) {
+            MyTimePicker(
+                state = timeState,
+                setState = { timeState = it },
+                setDialog = { openTimeDialog.value = it })
+        }
+    }
+    if (openDateDialog.value) {
+        AlertDialog(
+            onDismissRequest = {},
+            modifier = Modifier
+                .requiredWidth(350.dp)
+        ) {
+            MyDatePicker(
+                state = dateState,
+                setState = {
+                    dateState = it
+                    calendar.timeInMillis = it.selectedDateMillis!!
+                },
+                setDialog = { openDateDialog.value = it })
+        }
+    }
     Column(
         modifier = Modifier
             .padding(paddingValues)
             .fillMaxSize()
             .padding(24.dp)
     ) {
-        if (openTimeDialog.value) {
-            AlertDialog(
-                onDismissRequest = {}
-            ) {
-                MyTimePicker(
-                    state = timeState,
-                    setState = { timeState = it },
-                    setDialog = { openTimeDialog.value = it })
-            }
-        }
-        if (openDateDialog.value) {
-            AlertDialog(
-                onDismissRequest = {},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp)
-            ) {
-                MyDatePicker(
-                    state = dateState,
-                    setState = {
-                        dateState = it
-                        calendar.timeInMillis = it.selectedDateMillis!!
-                    },
-                    setDialog = { openDateDialog.value = it })
-            }
-        }
         SegmentedButtons(
             values = listOf("Expense", "Income"),
             selectedValue = if (type) 1 else 0,

@@ -14,6 +14,9 @@
         android:theme="@style/Theme.Billmate"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".activitys.EditTransfers"
+            android:exported="false" />
+        <activity
             android:name=".activitys.EditEvents"
             android:exported="false" />
         <activity

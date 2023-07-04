@@ -8,13 +8,14 @@ import com.feraxhp.billmate.activitys.CreateNewCategory
 import com.feraxhp.billmate.activitys.CreateNewEvents
 import com.feraxhp.billmate.activitys.CreateNewFund
 import com.feraxhp.billmate.activitys.EditEvents
+import com.feraxhp.billmate.activitys.EditTransfers
 import com.feraxhp.billmate.activitys.MainActivity
-import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.logic_database.database.entities.Events
 import com.feraxhp.billmate.logic_database.database.entities.Transfers
 
 class ViewController(private val context: Context) {
     var event2Edit: Events? = null
+    var transfer2Edit: Transfers? = null
     fun startMainActivity() {
         ContextCompat.startActivity(
             context, Intent(context, MainActivity::class.java),
@@ -58,7 +59,11 @@ class ViewController(private val context: Context) {
         )
     }
 
-    fun startEditTransfers(transfers: Transfers) {
-        TODO("Not yet implemented")
+    fun startEditTransfers(transfer: Transfers) {
+        this.transfer2Edit = transfer
+        ContextCompat.startActivity(
+            context, Intent(context, EditTransfers::class.java),
+            null
+        )
     }
 }

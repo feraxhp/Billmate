@@ -105,7 +105,8 @@ fun NoEditable(
                 accountName = fund.accountName,
                 titularName = fund.titularName,
                 balance = fund.amount.toMoneyFormat(),
-                description = fund.description
+                description = fund.description,
+                type = fund.type
             )
         } else {
             MyCardsFunds()

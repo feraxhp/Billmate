@@ -177,13 +177,13 @@ class AppController(context: Context) {
         }
     }
 
-    fun getAllNormalFundsOnString(): List<String> {
-        return if (normalFunds.isNotEmpty()) {
-            normalFunds.map { "${it.accountName}: ${it.amount.toMoneyFormat()}" }
-        } else {
-            listOf("")
-        }
-    }
+//    fun getAllNormalFundsOnString(): List<String> {
+//        return if (normalFunds.isNotEmpty()) {
+//            normalFunds.map { "${it.accountName}: ${it.amount.toMoneyFormat()}" }
+//        } else {
+//            listOf("")
+//        }
+//    }
 
     fun getTotalBalance(): Double {
         return normalFunds.sumOf { it.amount }
@@ -370,8 +370,7 @@ class AppController(context: Context) {
     }
 
     fun editEvent(editedEvent: Events): Boolean {
-        val actualEvent = viewController.event2Edit
-        if (actualEvent == null) return false
+        val actualEvent = viewController.event2Edit ?: return false
         coroutineScope.launch {
             val actualFund = getFundByID(actualEvent.fund_id)
             val actualCategory = getCategoryByID(actualEvent.category_id)
@@ -422,6 +421,34 @@ class AppController(context: Context) {
 
             billMateDatabase.EventsDao().updateEvent(editedEvent)
             viewController.event2Edit = null
+            actualize()
+        }
+        return true
+    }
+
+    fun editTransfer(editedTransfer: Transfers): Boolean {
+        val actualTransfer = viewController.transfer2Edit ?: return false
+        coroutineScope.launch {
+            val actualOriginFund = getFundByID(actualTransfer.origin_fund_id)
+            val actualTargetFund = getFundByID(actualTransfer.target_fund_id)
+
+            val destinationOriginFund = getFundByID(editedTransfer.origin_fund_id)
+            val destinationTargetFund = getFundByID(editedTransfer.target_fund_id)
+
+            if (destinationOriginFund != actualOriginFund || actualTransfer.amount != editedTransfer.amount){
+                actualOriginFund!!.amount = actualOriginFund.amount + actualTransfer.amount
+                destinationOriginFund!!.amount = destinationOriginFund.amount - editedTransfer.amount
+                billMateDatabase.FundsDao().updateFund(actualOriginFund)
+                billMateDatabase.FundsDao().updateFund(destinationOriginFund)
+            }
+            if (destinationTargetFund != actualTargetFund || actualTransfer.amount != editedTransfer.amount){
+               actualTargetFund!!.amount = actualTargetFund.amount - actualTransfer.amount
+               destinationTargetFund!!.amount = destinationTargetFund.amount + editedTransfer.amount
+               billMateDatabase.FundsDao().updateFund(actualTargetFund)
+               billMateDatabase.FundsDao().updateFund(destinationTargetFund)
+            }
+            billMateDatabase.TransfersDao().updateTransfer(editedTransfer)
+            viewController.transfer2Edit = null
             actualize()
         }
         return true
