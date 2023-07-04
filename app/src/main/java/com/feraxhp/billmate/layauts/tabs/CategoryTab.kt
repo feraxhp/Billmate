@@ -1,6 +1,7 @@
 package com.feraxhp.billmate.layauts.tabs
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -38,6 +39,7 @@ fun CategoryTab(
             CategoriesMessage(list[it].name, list[it].amount) {
                 showDialog = true
             }
+            Spacer(modifier = Modifier.padding(8.dp))
             ConfirmationAlert(
                 openState = showDialog,
                 setOpenState = { showDialog = it },
