@@ -120,8 +120,7 @@ fun NewCategory() {
                                 else -> {
                                     errorName.value = false
                                     errorAmount.value = false
-                                    viewController.startMainActivity()
-                                    viewController.terminateActivity(activity)
+                                    viewController.terminateActivityWithActualize(activity)
                                 }
                             }
                         },

@@ -149,8 +149,7 @@ fun NewFund() {
                                 else -> {
                                     errorName.value = false
                                     errorAmount.value = false
-                                    viewController.startMainActivity()
-                                    viewController.terminateActivity(activity)
+                                    viewController.terminateActivityWithActualize(activity)
                                 }
                             }
                         },
@@ -160,9 +159,3 @@ fun NewFund() {
         }
     }
 }
-
-//@Preview
-//@Composable
-//fun NewFundPreview() {
-//    NewFund()
-//}

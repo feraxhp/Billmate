@@ -50,6 +50,10 @@ class ViewController(private val context: Context) {
     fun terminateActivity(activity: Activity) {
         activity.finish()
     }
+    fun terminateActivityWithActualize(activity: Activity) {
+        activity.finish()
+        startMainActivity()
+    }
 
     fun startEditEvents(event: Events) {
         this.event2Edit = event
@@ -66,4 +70,6 @@ class ViewController(private val context: Context) {
             null
         )
     }
+
+
 }

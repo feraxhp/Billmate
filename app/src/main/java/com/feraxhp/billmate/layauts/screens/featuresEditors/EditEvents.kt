@@ -91,7 +91,7 @@ fun EditEvents(
                                         editedEvent
                                     )
                                     if (response) {
-                                        viewController.terminateActivity(activity)
+                                        viewController.terminateActivityWithActualize(activity)
                                     }
                                 }else if (editedEvent == Event){
                                     isEditable = false

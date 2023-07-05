@@ -85,7 +85,7 @@ fun EditTransfer(
                                         editedTransfer
                                     )
                                     if (response) {
-                                        MainActivity.viewController.terminateActivity(activity)
+                                        MainActivity.viewController.terminateActivityWithActualize(activity)
                                     }
                                 }else if (editedTransfer == transfer){
                                     isEditable = false
