@@ -378,45 +378,31 @@ class AppController(context: Context) {
             val targetFund = this@AppController.getFundByID(editedEvent.fund_id)
             val targetCategory = this@AppController.getCategoryByID(editedEvent.category_id)
 
-            if (targetFund != actualFund || actualEvent.amount != editedEvent.amount){
-                billMateDatabase
-                    .FundsDao()
-                    .updateFund(
-                        actualFund!!
-                            .copy(
-                                amount = if (actualEvent.type) actualFund.amount - actualEvent.amount
-                                else actualFund.amount + actualEvent.amount
-                            )
-                    )
-                billMateDatabase
-                    .FundsDao()
-                    .updateFund(
-                        targetFund!!.copy(
-                            amount = if (editedEvent.type) targetFund.amount + editedEvent.amount
-                            else targetFund.amount - editedEvent.amount
-                        )
-                    )
+            if (targetFund != actualFund || actualEvent.amount != editedEvent.amount || actualEvent.type != editedEvent.type) {
+                actualFund!!.amount =
+                    if (actualEvent.type) actualFund.amount - actualEvent.amount
+                    else actualFund.amount + actualEvent.amount
+
+                targetFund!!.amount =
+                    if (editedEvent.type) targetFund.amount + editedEvent.amount
+                    else targetFund.amount - editedEvent.amount
+
+                billMateDatabase.FundsDao().updateFund(actualFund)
+                billMateDatabase.FundsDao().updateFund(targetFund)
             }
 
-            if (targetCategory != actualCategory || actualEvent.amount != editedEvent.amount){
-                billMateDatabase
-                    .CategoriesDao()
-                    .updateCategory(
-                        actualCategory!!
-                            .copy(
-                                amount = if (actualEvent.type) actualCategory.amount - actualEvent.amount
-                                else actualCategory.amount + actualEvent.amount
-                            )
-                    )
+            if (targetCategory != actualCategory || actualEvent.amount != editedEvent.amount || actualEvent.type != editedEvent.type) {
+                actualCategory!!.amount =
+                    if (actualEvent.type) actualCategory.amount - actualEvent.amount
+                    else actualCategory.amount + actualEvent.amount
 
-                billMateDatabase
-                    .CategoriesDao()
-                    .updateCategory(
-                        targetCategory!!.copy(
-                            amount = if (editedEvent.type) targetCategory.amount + editedEvent.amount
-                            else targetCategory.amount - editedEvent.amount
-                        )
-                    )
+                targetCategory!!.amount =
+                    if (editedEvent.type) targetCategory.amount + editedEvent.amount
+                    else targetCategory.amount - editedEvent.amount
+
+
+                billMateDatabase.CategoriesDao().updateCategory(actualCategory)
+                billMateDatabase.CategoriesDao().updateCategory(targetCategory)
             }
 
             billMateDatabase.EventsDao().updateEvent(editedEvent)
@@ -435,17 +421,23 @@ class AppController(context: Context) {
             val destinationOriginFund = getFundByID(editedTransfer.origin_fund_id)
             val destinationTargetFund = getFundByID(editedTransfer.target_fund_id)
 
-            if (destinationOriginFund != actualOriginFund || actualTransfer.amount != editedTransfer.amount){
+            if (destinationOriginFund != actualOriginFund || actualTransfer.amount != editedTransfer.amount) {
                 actualOriginFund!!.amount = actualOriginFund.amount + actualTransfer.amount
-                destinationOriginFund!!.amount = destinationOriginFund.amount - editedTransfer.amount
+
+                destinationOriginFund!!.amount =
+                    destinationOriginFund.amount - editedTransfer.amount
+
                 billMateDatabase.FundsDao().updateFund(actualOriginFund)
                 billMateDatabase.FundsDao().updateFund(destinationOriginFund)
             }
-            if (destinationTargetFund != actualTargetFund || actualTransfer.amount != editedTransfer.amount){
-               actualTargetFund!!.amount = actualTargetFund.amount - actualTransfer.amount
-               destinationTargetFund!!.amount = destinationTargetFund.amount + editedTransfer.amount
-               billMateDatabase.FundsDao().updateFund(actualTargetFund)
-               billMateDatabase.FundsDao().updateFund(destinationTargetFund)
+            if (destinationTargetFund != actualTargetFund || actualTransfer.amount != editedTransfer.amount) {
+                actualTargetFund!!.amount = actualTargetFund.amount - actualTransfer.amount
+
+                destinationTargetFund!!.amount =
+                    destinationTargetFund.amount + editedTransfer.amount
+
+                billMateDatabase.FundsDao().updateFund(actualTargetFund)
+                billMateDatabase.FundsDao().updateFund(destinationTargetFund)
             }
             billMateDatabase.TransfersDao().updateTransfer(editedTransfer)
             viewController.transfer2Edit = null

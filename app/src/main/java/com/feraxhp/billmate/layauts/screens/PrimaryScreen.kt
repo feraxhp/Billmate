@@ -1,7 +1,6 @@
 package com.feraxhp.billmate.layauts.screens
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.filled.*
@@ -17,9 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
 import com.feraxhp.billmate.layauts.screens.components.primary.MyFloatingActionButton
@@ -39,8 +36,8 @@ fun PrimaryScreen() {
 
 
     var scrollState by remember { mutableStateOf(0) }
-    val (selectedItemValue, setSelectedItem) = remember { mutableStateOf(0) }
-    var cashFlowTitle by remember(key1 = selectedItemValue) { mutableStateOf("") }
+    val (selectedTab, setSelectedTab) = remember { mutableStateOf(0) }
+    var cashFlowTitle by remember(key1 = selectedTab) { mutableStateOf("") }
     val titles = listOf("Home", "Funds", if (scrollState == 0)"Cash Flow " else cashFlowTitle, "Categories")
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -51,15 +48,15 @@ fun PrimaryScreen() {
             color = MaterialTheme.colorScheme.background
         ) {
             MyModalNavigation(
-                selectedItem = selectedItemValue,
-                onItemClick = setSelectedItem,
+                selectedItem = selectedTab,
+                onItemClick = setSelectedTab,
                 drawerState = drawerState,
                 scope = scope
             ) {
                 Scaffold(
                     topBar = {
                         MyTopBar(
-                            text = titles[selectedItemValue],
+                            text = titles[selectedTab],
                             navigationAction = {
                                 scope.launch { drawerState.open() }
                             },
@@ -71,24 +68,24 @@ fun PrimaryScreen() {
 
                     },
                     content = { innerPadding ->
-                        when (selectedItemValue) {
+                        when (selectedTab) {
                             0 -> HomeTab(innerPadding) { scrollState = it }
                             1 -> FundsTab(innerPadding) { scrollState = it }
-                            2 -> CashFlowTab(innerPadding, setScrollState = { scrollState = it }, setTitle = {cashFlowTitle = it}, goHome = {setSelectedItem(0)})
+                            2 -> CashFlowTab(innerPadding, setScrollState = { scrollState = it }, setTitle = {cashFlowTitle = it})
                             3 -> CategoryTab(innerPadding) { scrollState = it }
-                            else -> {}
+                            else -> { }
                         }
                     },
                     bottomBar = {
                         MyNavigationBar(
-                            selectedItem = selectedItemValue,
-                            onItemClick = setSelectedItem
+                            selectedItem = selectedTab,
+                            onItemClick = setSelectedTab
                         )
                     },
                     floatingActionButton = {
                         MyFloatingActionButton(
                             onClick = {
-                                when (selectedItemValue) {
+                                when (selectedTab) {
                                     0 -> viewController.startCreateNewEvents()
                                     1 -> viewController.startCreateNewFund()
                                     2 -> viewController.startCreateNewCashFlow()

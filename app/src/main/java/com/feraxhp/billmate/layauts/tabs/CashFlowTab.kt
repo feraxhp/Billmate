@@ -1,7 +1,5 @@
 package com.feraxhp.billmate.layauts.tabs
 
-import android.icu.util.Calendar
-import android.icu.util.TimeZone
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -23,15 +21,12 @@ import com.feraxhp.billmate.layauts.tabs.components.cashflow.EventsCard
 import com.feraxhp.billmate.layauts.tabs.components.components.SegmentedButtons
 import com.feraxhp.billmate.layauts.tabs.components.cashflow.TransfersCard
 import com.feraxhp.billmate.layauts.tabs.components.components.ConfirmationAlert
-import java.time.ZoneId
-import java.time.ZonedDateTime
 
 @Composable
 fun CashFlowTab(
     padding: PaddingValues = PaddingValues(0.dp),
     setScrollState: (Int) -> Unit = {},
     setTitle: (String) -> Unit = {},
-    goHome: () -> Unit = {},
 ) {
 
     val (selectedIndex, setSelectedIndex) = remember { mutableStateOf(0) }
@@ -106,7 +101,6 @@ fun CashFlowTab(
                         indexToEliminate = index
                     },
                     onBodyClick = {
-                        goHome()
                         viewController.startEditEvents(listEvents[index])
                     }
                 )
@@ -126,7 +120,6 @@ fun CashFlowTab(
                         indexToEliminate = index
                     },
                     onBodyClick = {
-                        goHome()
                         viewController.startEditTransfers(listTransfers[index])
                     }
                 )

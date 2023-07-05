@@ -28,6 +28,7 @@ fun MyDropDownMenu(
     expanded: Boolean,
     setExpanded: (Boolean) -> Unit,
     options: List<String>,
+    omitOption: String? = null,
     optionColors: List<Color> = listOf(MaterialTheme.colorScheme.secondaryContainer),
     colorsSelector: List<Int> = List(options.size){0},
     selectedOptionText: String,
@@ -85,6 +86,7 @@ fun MyDropDownMenu(
                 )
         ) {
             options.forEach { selectionOption ->
+                if (omitOption == selectionOption) return@forEach
                 if (selectionOption != options.first()) Divider()
                 DropdownMenuItem(
                     colors = MenuDefaults.itemColors(

@@ -70,14 +70,17 @@ fun TransfersCard(
                 color = color)
             Text(text = "$date ~ ${time.timeFormat(state.is24hour)}", color = MaterialTheme.colorScheme.onBackground)
         }
-        Icon(
-            imageVector = Icons.Default.Delete,
-            contentDescription = "",
-            modifier = Modifier
-                .size(20.dp)
-                .padding(end = 5.dp),
-            tint = color
-        )
+        IconButton(onClick = { onClick() }) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = "",
+                modifier = Modifier
+                    .size(30.dp)
+                    .padding(end = 10.dp),
+                tint = color
+            )
+        }
+
     }
 }
 

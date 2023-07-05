@@ -93,7 +93,7 @@ fun NewEvents() {
     }
     val (selectedOptionFundDestinationText, setSelectedOptionFundDestinationText) = remember {
         mutableStateOf(
-            optionsFunds[0]
+            optionsFunds[1]
         )
     }
     // Categories
@@ -231,6 +231,16 @@ fun NewEvents() {
                                         .padding(top = 10.dp)
                                 )
                             }
+                            if (selectedOptionFundOriginText == selectedOptionFundDestinationText){
+                                // if is the same, change the destination to the other one
+                                setSelectedOptionFundDestinationText(
+                                    try {
+                                        optionsFunds[optionsFunds.indexOf(selectedOptionFundOriginText) - 1]
+                                    }catch (_ : Exception) {
+                                        optionsFunds[optionsFunds.indexOf(selectedOptionFundOriginText) + 1]
+                                    }
+                                )
+                            }
                             item {
                                 MyDropDownMenu(
                                     label = "Fund",
@@ -239,6 +249,7 @@ fun NewEvents() {
                                     selectedOptionText = selectedOptionFundOriginText,
                                     setSelectedOptionText = setSelectedOptionFundOriginText,
                                     options = optionsFunds,
+//                                    omitOption = selectedOptionFundDestinationText,
                                     modifier = Modifier
                                         .padding(top = 10.dp)
                                         .padding(horizontal = 10.dp)
@@ -251,6 +262,7 @@ fun NewEvents() {
                                         selectedOptionText = selectedOptionFundDestinationText,
                                         setSelectedOptionText = setSelectedOptionFundDestinationText,
                                         options = optionsFunds,
+                                        omitOption = selectedOptionFundOriginText,
                                         modifier = Modifier.padding(horizontal = 10.dp)
                                     )
                                 } else {
