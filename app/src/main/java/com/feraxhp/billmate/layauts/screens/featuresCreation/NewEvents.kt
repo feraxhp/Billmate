@@ -93,7 +93,11 @@ fun NewEvents() {
     }
     val (selectedOptionFundDestinationText, setSelectedOptionFundDestinationText) = remember {
         mutableStateOf(
-            optionsFunds[1]
+            if (optionsFunds.size > 1){
+                optionsFunds[1]
+            }else{
+                optionsFunds[0]
+            }
         )
     }
     // Categories
@@ -178,7 +182,7 @@ fun NewEvents() {
                         ) {
                             item {
                                 SegmentedButtons(
-                                    values = listOf("Expense", "Income", "Transfer"),
+                                    values = if (optionsFunds.size > 1) listOf("Expense", "Income", "Transfer") else listOf("Expense", "Income"),
                                     selectedValue = selectedEventValue,
                                     setSelectedValue = setSelectedEventValue
                                 )
@@ -231,7 +235,7 @@ fun NewEvents() {
                                         .padding(top = 10.dp)
                                 )
                             }
-                            if (selectedOptionFundOriginText == selectedOptionFundDestinationText){
+                            if (selectedOptionFundOriginText == selectedOptionFundDestinationText && optionsFunds.size > 1) {
                                 // if is the same, change the destination to the other one
                                 setSelectedOptionFundDestinationText(
                                     try {
@@ -416,6 +420,7 @@ fun NewEvents() {
                         text = "Save",
                         withIcon = true,
                         onClick = {
+                            if (selectedOptionFundOriginText == selectedOptionFundDestinationText) return@MyFloatingActionButton
                             when (selectedEventValue) {
                                 0, 1 -> {
                                     val response = appController.addEvent(
