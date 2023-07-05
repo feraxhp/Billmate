@@ -420,7 +420,7 @@ fun NewEvents() {
                         text = "Save",
                         withIcon = true,
                         onClick = {
-                            if (selectedOptionFundOriginText == selectedOptionFundDestinationText) return@MyFloatingActionButton
+                            if (selectedOptionFundOriginText == selectedOptionFundDestinationText && selectedEventValue == 2) return@MyFloatingActionButton
                             when (selectedEventValue) {
                                 0, 1 -> {
                                     val response = appController.addEvent(
