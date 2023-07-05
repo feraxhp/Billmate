@@ -165,6 +165,16 @@ fun TransferEditable(
                     setDialog = { openDateDialog.value = it })
             }
         }
+        if (selectedOptionFundOriginText == selectedOptionFundDestinationText && optionsFunds.size > 1) {
+            // if is the same, change the destination to the other one
+            setSelectedOptionFundDestinationText(
+                try {
+                    optionsFunds[optionsFunds.indexOf(selectedOptionFundOriginText) - 1]
+                }catch (_ : Exception) {
+                    optionsFunds[optionsFunds.indexOf(selectedOptionFundOriginText) + 1]
+                }
+            )
+        }
         MyDropDownMenu(
             label = "Origin Fund",
             expanded = expandedFundsOrigin,
@@ -181,6 +191,7 @@ fun TransferEditable(
             selectedOptionText = selectedOptionFundDestinationText,
             setSelectedOptionText = setSelectedOptionFundDestinationText,
             options = optionsFunds,
+            omitOption = selectedOptionFundOriginText
         )
 
         OutlinedTextField(
