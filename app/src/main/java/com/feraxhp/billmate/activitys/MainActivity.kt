@@ -26,18 +26,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val value = TypedValue()
-        theme.resolveAttribute(android.R.attr.colorPrimary, value, true)
-        val colorPrimary = value.data
-        try {
-            val drawable = packageManager.getApplicationIcon(packageName)
-            val adaptiveIconDrawable = drawable as? AdaptiveIconDrawable
-            adaptiveIconDrawable?.setTint(colorPrimary)
-        } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
-        }
+
+        this.setDinamicColorToAppIcon()
 
         setContent {
+
             appController = AppController(this)
             viewController = ViewController(this)
 
@@ -48,6 +41,18 @@ class MainActivity : ComponentActivity() {
 
         }
         WindowCompat.setDecorFitsSystemWindows(window, false)
+    }
+    private fun setDinamicColorToAppIcon() {
+        val value = TypedValue()
+        theme.resolveAttribute(android.R.attr.colorPrimary, value, true)
+        val colorPrimary = value.data
+        try {
+            val drawable = packageManager.getApplicationIcon(packageName)
+            val adaptiveIconDrawable = drawable as? AdaptiveIconDrawable
+            adaptiveIconDrawable?.setTint(colorPrimary)
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
     }
 }
 
