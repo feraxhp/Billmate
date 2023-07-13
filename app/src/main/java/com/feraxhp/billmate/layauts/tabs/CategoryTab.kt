@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.layauts.tabs.components.categories.CategoriesMessage
-import com.feraxhp.billmate.layauts.tabs.components.components.ConfirmationAlert
+import com.feraxhp.billmate.layauts.tabs.components.components.MyAlertDialog
 
 @Composable
 fun CategoryTab(
@@ -40,7 +40,7 @@ fun CategoryTab(
                 showDialog = true
             }
             Spacer(modifier = Modifier.padding(8.dp))
-            ConfirmationAlert(
+            MyAlertDialog(
                 openState = showDialog,
                 setOpenState = { showDialog = it },
                 title = "Delete this category?",

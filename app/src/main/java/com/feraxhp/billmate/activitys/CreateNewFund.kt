@@ -8,7 +8,6 @@ import com.feraxhp.billmate.layauts.screens.featuresCreation.NewFund
 
 class CreateNewFund : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContent {
             NewFund()

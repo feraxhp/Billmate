@@ -1,6 +1,5 @@
 package com.feraxhp.billmate.layauts.screens.featuresEditors
 
-import android.app.Activity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -15,13 +14,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.feraxhp.billmate.activitys.MainActivity
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
+import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
 import com.feraxhp.billmate.layauts.screens.components.primary.MyFloatingActionButton
-import com.feraxhp.billmate.layauts.screens.components.primary.MyTopBar
+import com.feraxhp.billmate.layauts.screens.components.primary.MyTopAppBar
 import com.feraxhp.billmate.layauts.screens.featuresEditors.components.transfers.TransferEditable
 import com.feraxhp.billmate.layauts.screens.featuresEditors.components.transfers.TransferNoEditable
 import com.feraxhp.billmate.logic_database.database.entities.Transfers
@@ -38,7 +36,6 @@ fun EditTransfer(
     )
 ) {
     BillmateTheme {
-        val activity = LocalContext.current as Activity
         var isEditable by remember { mutableStateOf(false) }
         var isError by remember { mutableStateOf(false) }
 
@@ -60,11 +57,11 @@ fun EditTransfer(
         ) {
             Scaffold(
                 topBar = {
-                    MyTopBar(
+                    MyTopAppBar(
                         text = "Transfer",
-                        navigationAction = { if (isEditable) isEditable = false else MainActivity.viewController.terminateActivity(activity)},
+                        NavigationActionComposable = { if (isEditable) isEditable = false else viewController.finishActivity() },
                         navigationIcon = Icons.Filled.ArrowBack,
-                        searchAction = { isEditable = !isEditable },
+                        searchActionComposable = { isEditable = !isEditable },
                         searchIcon = if (isEditable) Icons.Filled.Close else Icons.Filled.Edit,
                     )
                 },
@@ -85,7 +82,7 @@ fun EditTransfer(
                                         editedTransfer
                                     )
                                     if (response) {
-                                        MainActivity.viewController.terminateActivityWithActualize(activity)
+                                       viewController.finishActivityWithActualize()
                                     }
                                 }else if (editedTransfer == transfer){
                                     isEditable = false

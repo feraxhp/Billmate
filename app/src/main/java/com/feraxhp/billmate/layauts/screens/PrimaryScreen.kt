@@ -19,10 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
+import com.feraxhp.billmate.controllers.dependencies.Activities
 import com.feraxhp.billmate.layauts.screens.components.primary.MyFloatingActionButton
 import com.feraxhp.billmate.layauts.screens.components.primary.MyModalNavigation
 import com.feraxhp.billmate.layauts.screens.components.primary.MyNavigationBar
-import com.feraxhp.billmate.layauts.screens.components.primary.MyTopBar
+import com.feraxhp.billmate.layauts.screens.components.primary.MyTopAppBar
 import com.feraxhp.billmate.layauts.tabs.CashFlowTab
 import com.feraxhp.billmate.layauts.tabs.CategoryTab
 import com.feraxhp.billmate.layauts.tabs.FundsTab
@@ -55,12 +56,12 @@ fun PrimaryScreen() {
             ) {
                 Scaffold(
                     topBar = {
-                        MyTopBar(
+                        MyTopAppBar(
                             text = titles[selectedTab],
                             navigationAction = {
                                 scope.launch { drawerState.open() }
                             },
-                            searchAction = {
+                            actionIconAction = {
 
                             },
                             scrollState = scrollState
@@ -86,10 +87,10 @@ fun PrimaryScreen() {
                         MyFloatingActionButton(
                             onClick = {
                                 when (selectedTab) {
-                                    0 -> viewController.startCreateNewEvents()
-                                    1 -> viewController.startCreateNewFund()
-                                    2 -> viewController.startCreateNewCashFlow()
-                                    3 -> viewController.startCreateNewCategory()
+                                    0 -> viewController.startActivity(Activities.createNewEvents)
+                                    1 -> viewController.startActivity(Activities.createNewFund)
+                                    2 -> viewController.startActivity(Activities.createNewEvents)
+                                    3 -> viewController.startActivity(Activities.createNewCategory)
                                     else -> {}
                                 }
                             }

@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 import com.feraxhp.billmate.layauts.tabs.components.funds.MyCardsFunds
-import com.feraxhp.billmate.layauts.tabs.components.components.ConfirmationAlert
+import com.feraxhp.billmate.layauts.tabs.components.components.MyAlertDialog
 
 @SuppressLint("RememberReturnType")
 @Composable
@@ -57,7 +57,7 @@ fun FundsTab(
                 }
             )
             Spacer(modifier = Modifier.padding(8.dp))
-            ConfirmationAlert(
+            MyAlertDialog(
                 openState = showDialog,
                 setOpenState = { showDialog = it },
                 title = "Delete this fund?",

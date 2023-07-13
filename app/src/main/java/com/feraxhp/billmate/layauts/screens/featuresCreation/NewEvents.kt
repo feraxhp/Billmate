@@ -1,7 +1,6 @@
 package com.feraxhp.billmate.layauts.screens.featuresCreation
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import androidx.compose.foundation.layout.Arrangement
@@ -17,8 +16,6 @@ import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -27,7 +24,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePickerState
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,20 +32,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.min
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
+import com.feraxhp.billmate.controllers.dependencies.Activities
 import com.feraxhp.billmate.extrendedFuntions.dateFormat
 import com.feraxhp.billmate.extrendedFuntions.timeFormat
 import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 import com.feraxhp.billmate.layauts.screens.featuresCreation.Components.events.MyDatePicker
 import com.feraxhp.billmate.layauts.screens.featuresCreation.Components.events.MyDropDownMenu
 import com.feraxhp.billmate.layauts.screens.components.primary.MyFloatingActionButton
+import com.feraxhp.billmate.layauts.screens.components.primary.MyTopAppBar
 import com.feraxhp.billmate.layauts.screens.featuresCreation.Components.events.MyTimePicker
 import com.feraxhp.billmate.layauts.tabs.components.components.SegmentedButtons
 import java.text.SimpleDateFormat
@@ -63,8 +59,6 @@ import kotlin.math.min
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NewEvents() {
-    val activity = LocalContext.current as Activity
-
     // Texts
     val labels = listOf("Events Name", "Amount", "Description")
     val (eventName, setEventName) = remember { mutableStateOf("") }
@@ -93,9 +87,9 @@ fun NewEvents() {
     }
     val (selectedOptionFundDestinationText, setSelectedOptionFundDestinationText) = remember {
         mutableStateOf(
-            if (optionsFunds.size > 1){
+            if (optionsFunds.size > 1) {
                 optionsFunds[1]
-            }else{
+            } else {
                 optionsFunds[0]
             }
         )
@@ -153,22 +147,11 @@ fun NewEvents() {
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
                 topBar = {
-                    TopAppBar(
-                        title = {
-                            Text(
-                                text = "New Events",
-                                color = MaterialTheme.colorScheme.onBackground,
-                                fontWeight = MaterialTheme.typography.titleLarge.fontWeight
-                            )
-                        },
-                        navigationIcon = {
-                            IconButton(
-                                onClick = {
-                                    viewController.terminateActivity(activity)
-                                }) {
-                                Icon(Icons.Filled.ArrowBack, contentDescription = "")
-                            }
-                        }
+                    MyTopAppBar(
+                        text = "New Event",
+                        NavigationActionComposable = { viewController.finishActivity() },
+                        navigationIcon = Icons.Filled.ArrowBack,
+                        searchIcon = null
                     )
                 },
                 content = { paddingValues ->
@@ -182,7 +165,11 @@ fun NewEvents() {
                         ) {
                             item {
                                 SegmentedButtons(
-                                    values = if (optionsFunds.size > 1) listOf("Expense", "Income", "Transfer") else listOf("Expense", "Income"),
+                                    values = if (optionsFunds.size > 1) listOf(
+                                        "Expense",
+                                        "Income",
+                                        "Transfer"
+                                    ) else listOf("Expense", "Income"),
                                     selectedValue = selectedEventValue,
                                     setSelectedValue = setSelectedEventValue
                                 )
@@ -224,8 +211,8 @@ fun NewEvents() {
                                             }
                                             Text(text)
                                         } else if (position == 0) {
-                                            Text("${labels[position]} - ${25-eventName.length}")
-                                        }else Text(labels[position])
+                                            Text("${labels[position]} - ${25 - eventName.length}")
+                                        } else Text(labels[position])
                                     },
                                     shape = MaterialTheme.shapes.small,
                                     isError = (position == 0 && errorName.value) || (position == 1 && errorAmount.value),
@@ -239,9 +226,13 @@ fun NewEvents() {
                                 // if is the same, change the destination to the other one
                                 setSelectedOptionFundDestinationText(
                                     try {
-                                        optionsFunds[optionsFunds.indexOf(selectedOptionFundOriginText) - 1]
-                                    }catch (_ : Exception) {
-                                        optionsFunds[optionsFunds.indexOf(selectedOptionFundOriginText) + 1]
+                                        optionsFunds[optionsFunds.indexOf(
+                                            selectedOptionFundOriginText
+                                        ) - 1]
+                                    } catch (_: Exception) {
+                                        optionsFunds[optionsFunds.indexOf(
+                                            selectedOptionFundOriginText
+                                        ) + 1]
                                     }
                                 )
                             }
@@ -253,7 +244,6 @@ fun NewEvents() {
                                     selectedOptionText = selectedOptionFundOriginText,
                                     setSelectedOptionText = setSelectedOptionFundOriginText,
                                     options = optionsFunds,
-//                                    omitOption = selectedOptionFundDestinationText,
                                     modifier = Modifier
                                         .padding(top = 10.dp)
                                         .padding(horizontal = 10.dp)
@@ -331,88 +321,16 @@ fun NewEvents() {
                             }
                         }
                     }
-                    if (optionsCategories[0] == "") {
-                        AlertDialog(
-                            onDismissRequest = {
-                                viewController.terminateActivity(activity)
-                            },
-                            title = {
-                                Text(text = "No Categories found!")
-                            },
-                            text = {
-                                Text(text = "You must create a category first!")
-                            },
-                            confirmButton = {
-                                TextButton(
-                                    onClick = {
-                                        viewController.startCreateNewCategory()
-                                        viewController.terminateActivity(activity)
-                                    }
-                                ) {
-                                    Text("Create")
-                                }
-                            },
-                            dismissButton = {
-                                TextButton(
-                                    onClick = {
-                                        if (appController.getAllCategoriesOnString() == listOf("")) {
-                                            appController.addCategory(
-                                                "Default",
-                                                "0.0",
-                                                "Default Category"
-                                            )
-                                        }
-                                        viewController.startCreateNewEvents()
-                                        viewController.terminateActivity(activity)
-                                    }
-                                ) {
-                                    Text("Use default")
-                                }
-                            }
-                        ) // AlertDialog
-                    }
                     if (optionsFunds[0] == "") {
-                        AlertDialog(
-                            onDismissRequest = {
-                                viewController.terminateActivity(activity)
-                            },
-                            title = {
-                                Text(text = "No Funds found!")
-                            },
-                            text = {
-                                Text(text = "You must create a fund first!")
-                            },
-                            confirmButton = {
-                                TextButton(
-                                    onClick = {
-                                        viewController.startCreateNewFund()
-                                        viewController.terminateActivity(activity)
-                                    }
-                                ) {
-                                    Text("Create")
-                                }
-                            },
-                            dismissButton = {
-                                TextButton(
-                                    onClick = {
-                                        if (optionsFunds == listOf("")) {
-                                            appController.addFund(
-                                                "Default",
-                                                "",
-                                                "0.0",
-                                                "Default Fund"
-                                            )
-                                        }
-                                        viewController.startCreateNewEvents()
-                                        viewController.terminateActivity(activity)
-                                    }
-                                ) {
-                                    Text("Use default")
-                                }
-                            }
-                        ) // AlertDialog
+                        viewController.startActivity(Activities.createNewFund)
+                        viewController.finishActivity()
+                        return@Scaffold
                     }
-
+                    if (optionsCategories[0] == "") {
+                        viewController.startActivity(Activities.createNewCategory)
+                        viewController.finishActivity()
+                        return@Scaffold
+                    }
                 },
                 floatingActionButtonPosition = FabPosition.End,
                 floatingActionButton = {
@@ -449,7 +367,7 @@ fun NewEvents() {
                                         else -> {
                                             errorName.value = false
                                             errorAmount.value = false
-                                            viewController.terminateActivityWithActualize(activity)
+                                            viewController.finishActivityWithActualize()
                                         }
                                     }
                                 }
@@ -471,10 +389,9 @@ fun NewEvents() {
                                         1 -> {
                                             errorAmount.value = true
                                         }
-
                                         else -> {
                                             errorAmount.value = false
-                                            viewController.terminateActivity(activity)
+                                            viewController.finishActivityWithActualize()
                                         }
                                     }
                                 }

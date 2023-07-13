@@ -11,16 +11,23 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MyFloatingActionButton(onClick: () -> Unit = {}, text:String = "", withIcon: Boolean = true, icon: @Composable (() -> Unit)? = null) {
+fun MyFloatingActionButton(onClick: @Composable () -> Unit = {}, text:String = "", withIcon: Boolean = true, icon: @Composable (() -> Unit)? = null) {
     var withIcon_ = withIcon
+
+    var isClicked by remember { mutableStateOf(false) }
+    if (isClicked) onClick(); isClicked = false
     FloatingActionButton(
         containerColor = MaterialTheme.colorScheme.surfaceTint,
-        onClick = onClick,
+        onClick = { isClicked = true },
         modifier = Modifier
             .height(60.dp)
     ) {

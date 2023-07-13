@@ -3,7 +3,6 @@ package com.feraxhp.billmate.activitys
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.drawable.AdaptiveIconDrawable
-import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import androidx.activity.ComponentActivity
@@ -13,8 +12,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.core.view.WindowCompat
-import com.feraxhp.billmate.controller.AppController
-import com.feraxhp.billmate.controller.ViewController
+import com.feraxhp.billmate.controllers.AppController
+import com.feraxhp.billmate.controllers.ViewController
 import com.feraxhp.billmate.layauts.screens.PrimaryScreen
 import com.feraxhp.billmate.layauts.screens.UpcomingScreen
 
@@ -41,16 +40,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             appController = AppController(this)
             viewController = ViewController(this)
+
             var hasName by remember { mutableStateOf(appController.user.getName() != null) }
-            if (!hasName) {
-                UpcomingScreen(
-                    setHasName = {
-                        hasName = it
-                    }
-                )
-            } else {
-                PrimaryScreen()
-            }
+
+            if (!hasName) UpcomingScreen(setHasName = {hasName = it})
+            else PrimaryScreen()
+
         }
         WindowCompat.setDecorFitsSystemWindows(window, false)
     }

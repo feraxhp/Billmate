@@ -16,11 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
+import com.feraxhp.billmate.controllers.dependencies.Activities
 import com.feraxhp.billmate.extrendedFuntions.dateFormat
 import com.feraxhp.billmate.layauts.tabs.components.cashflow.EventsCard
 import com.feraxhp.billmate.layauts.tabs.components.components.SegmentedButtons
 import com.feraxhp.billmate.layauts.tabs.components.cashflow.TransfersCard
-import com.feraxhp.billmate.layauts.tabs.components.components.ConfirmationAlert
+import com.feraxhp.billmate.layauts.tabs.components.components.MyAlertDialog
 
 @Composable
 fun CashFlowTab(
@@ -59,7 +60,7 @@ fun CashFlowTab(
                 setSelectedValue = setSelectedIndex,
             )
             if (type != null){
-                ConfirmationAlert(
+                MyAlertDialog(
                     openState = showDialog,
                     setOpenState = { showDialog = it },
                     title = if (type == true) "Delete this event?" else "Delete this transfer?",
@@ -101,7 +102,8 @@ fun CashFlowTab(
                         indexToEliminate = index
                     },
                     onBodyClick = {
-                        viewController.startEditEvents(listEvents[index])
+                        viewController.event2Edit = listEvents[index]
+                        viewController.startActivity(Activities.editEvents)
                     }
                 )
             }
@@ -120,7 +122,8 @@ fun CashFlowTab(
                         indexToEliminate = index
                     },
                     onBodyClick = {
-                        viewController.startEditTransfers(listTransfers[index])
+                        viewController.transfer2Edit = listTransfers[index]
+                        viewController.startActivity(Activities.editTransfers)
                     }
                 )
             }

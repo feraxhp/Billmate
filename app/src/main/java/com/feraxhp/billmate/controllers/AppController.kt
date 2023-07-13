@@ -1,4 +1,4 @@
-package com.feraxhp.billmate.controller
+package com.feraxhp.billmate.controllers
 
 import android.content.Context
 import androidx.room.Room
