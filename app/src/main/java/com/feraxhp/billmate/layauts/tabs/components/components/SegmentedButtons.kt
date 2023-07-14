@@ -137,7 +137,7 @@ fun SegmentedButtons(
                         else enableColor
                     )
                     .height(height)
-                    .padding(horizontal = borderSize - .1.dp)
+                    .padding(horizontal = borderSize/2)
             )
         }
     }
