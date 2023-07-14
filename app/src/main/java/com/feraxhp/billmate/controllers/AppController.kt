@@ -215,7 +215,7 @@ class AppController(context: Context) {
     }
     fun getAllTransfers(fundId: Long? = null): List<Transfers> {
         if (fundId == null) return transfers.reversed()
-        return transfers.filter { it.origin_fund_id == fundId }.reversed()
+        return transfers.filter { it.origin_fund_id == fundId || it.target_fund_id == fundId }.reversed()
     }
     // Additions
     fun addFund(
