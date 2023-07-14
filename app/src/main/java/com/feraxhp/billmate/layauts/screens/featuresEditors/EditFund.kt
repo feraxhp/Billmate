@@ -62,7 +62,7 @@ fun EditFund(
         },
         content = {
             when (isEditable) {
-                true -> FundEditable(it, fund, isError = { isError = it}, onSave = { editedFund = it })
+                true -> FundEditable(it, fund, setIsError = { isError = it}, onSave = { editedFund = it })
                 false -> FundNoEditable(it, fund)
             }
         },

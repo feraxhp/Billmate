@@ -228,11 +228,7 @@ class AppController(context: Context) {
         var realAmount = amount
         if (accountName == "") return 1
         if (realAmount == "") realAmount = "0.0"
-        try {
-            realAmount.toDouble()
-        } catch (e: Exception) {
-            return 2
-        }
+        try {realAmount.toDouble()} catch (e: Exception) {return 2}
         coroutineScope.launch {
             val fund = when (titularName == "") {
                 true -> {
