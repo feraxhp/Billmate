@@ -78,9 +78,11 @@ fun FundEditable(
         )
         SegmentedButtons(
             values = listOf("Normal", "Saves", "Loans"),
+            disabled = listOf(false, false, false),
             selectedValue = type,
             setSelectedValue = setType,
             modifier = Modifier
+                .padding(vertical = 10.dp)
         )
         for (position in values.indices) {
             OutlinedTextField(

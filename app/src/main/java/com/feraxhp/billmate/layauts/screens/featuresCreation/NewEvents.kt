@@ -159,11 +159,8 @@ fun NewEvents() {
                 ) {
                     item {
                         SegmentedButtons(
-                            values = if (optionsFunds.size > 1) listOf(
-                                "Expense",
-                                "Income",
-                                "Transfer"
-                            ) else listOf("Expense", "Income"),
+                            values = listOf("Expense","Income","Transfer"),
+                            disabled = listOf(false, false, optionsFunds.size < 2),
                             selectedValue = selectedEventValue,
                             setSelectedValue = setSelectedEventValue
                         )

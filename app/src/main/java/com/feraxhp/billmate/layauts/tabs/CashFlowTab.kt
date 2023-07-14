@@ -78,8 +78,11 @@ fun CashFlowTab(
         item {
             SegmentedButtons(
                 values = listOf("Events", "Transfers"),
+                disabled = listOf(listEvents.isEmpty(), listTransfers.isEmpty()),
                 selectedValue = selectedIndex,
                 setSelectedValue = setSelectedIndex,
+                modifier = Modifier
+                    .padding(top = 10.dp)
             )
             if (type != null){
                 MyAlertDialog(

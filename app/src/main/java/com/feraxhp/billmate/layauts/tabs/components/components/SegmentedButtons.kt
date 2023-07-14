@@ -43,11 +43,11 @@ fun SegmentedButtons(
 
     Row(
         modifier = Modifier
+            .then(modifier)
             .fillMaxWidth()
             .height(height)
             .clip(RoundedCornerShape(50))
             .background(MaterialTheme.colorScheme.surface)
-            .then(modifier)
     ) {
         for (index in values.indices) {
             val color =
@@ -98,7 +98,7 @@ fun SegmentedButtons(
                         indication = null,
                         interactionSource = MutableInteractionSource(),
                     ){
-                        setSelectedValue(index)
+                        if (!disabled[index]) setSelectedValue(index)
                     }
                 ,
                 contentAlignment = Alignment.Center
