@@ -80,7 +80,7 @@ fun CashFlowTab(
                 selectedValue = selectedIndex,
                 setSelectedValue = setSelectedIndex,
                 modifier = Modifier
-                    .padding(top = 10.dp)
+                    .padding(vertical = 10.dp)
             )
             if (type != null){
                 MyAlertDialog(

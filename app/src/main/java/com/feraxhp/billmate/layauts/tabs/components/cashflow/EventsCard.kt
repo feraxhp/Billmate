@@ -95,11 +95,12 @@ fun EventsCard(
                     maxLines = 1,
                     softWrap = false,
                     modifier = Modifier
-                        .widthIn(0.dp, 150.dp)
+                        .widthIn(0.dp, 100.dp)
                 )
                 Text(
                     text = ": ${amount.toMoneyFormat()}",
                     fontSize = 20.sp,
+                    overflow = TextOverflow.Ellipsis,
                     color = color,
                     modifier = Modifier
                         .weight(1f)
