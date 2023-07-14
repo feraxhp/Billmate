@@ -87,7 +87,7 @@ fun CashFlowTab(
                     openState = showDialog,
                     setOpenState = { showDialog = it },
                     title = if (type == true) "Delete this event?" else "Delete this transfer?",
-                    text = if (type == true) "If you delete this event, you will not be able to recover it" else "If you delete this transfer, you will not be able to recover it",
+                    message = if (type == true) "If you delete this event, you will not be able to recover it" else "If you delete this transfer, you will not be able to recover it",
                     onConfirm = {
                         if (type == true) {
                             appController.removeEvent(listEvents[indexToEliminate!!])

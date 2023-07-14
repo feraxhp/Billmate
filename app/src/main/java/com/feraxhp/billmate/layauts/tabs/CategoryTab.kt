@@ -52,7 +52,7 @@ fun CategoryTab(
                 openState = showDialog,
                 setOpenState = { showDialog = it },
                 title = "Delete this category?",
-                text = "If you delete this category, you will not be able to recover it, and it will delete all transactions related to this fund.",
+                message = "If you delete this category, you will not be able to recover it, and it will delete all transactions related to this fund.",
                 onConfirm = {
                     appController.removeCategory(list[it])
                     list = list

@@ -74,7 +74,7 @@ fun FundsTab(
                 openState = showDialog,
                 setOpenState = { showDialog = it },
                 title = "Delete this fund?",
-                text = "If you delete this fund, you will not be able to recover it, and it will delete all transactions related to this fund.",
+                message = "If you delete this fund, you will not be able to recover it, and it will delete all transactions related to this fund.",
                 onConfirm = {
                     appController.removeFund(fund)
                     list = list

@@ -58,7 +58,7 @@ fun MyAlertDialog(
 @Composable
 fun MyAlertDialog(
     title: String = "Are you sure?",
-    text: String = "here is the text",
+    message: String = "here is the text",
     openState: Boolean = true,
     setOpenState: (Boolean) -> Unit = {},
     onDismissRequestComposable: @Composable () -> Unit = {},
@@ -77,7 +77,7 @@ fun MyAlertDialog(
     MyAlertDialog(
         onDismissRequest = { isRequested = true },
         title = title,
-        text = text,
+        text = message,
         openState = openState,
         setOpenState = setOpenState,
         onConfirm = { isConfirmed = true },
