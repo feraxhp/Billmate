@@ -156,6 +156,7 @@ fun NewEvents() {
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues)
+                        .padding(horizontal = 24.dp)
                 ) {
                     item {
                         SegmentedButtons(
@@ -209,7 +210,6 @@ fun NewEvents() {
                             isError = (position == 0 && errorName.value) || (position == 1 && errorAmount.value),
                             modifier = Modifier
                                 .fillParentMaxWidth()
-                                .padding(horizontal = 10.dp)
                                 .padding(top = 10.dp)
                         )
                     }
@@ -237,7 +237,6 @@ fun NewEvents() {
                             options = optionsFunds,
                             modifier = Modifier
                                 .padding(top = 10.dp)
-                                .padding(horizontal = 10.dp)
                         )
                         if (selectedEventValue == 2) {
                             MyDropDownMenu(
@@ -248,7 +247,6 @@ fun NewEvents() {
                                 setSelectedOptionText = setSelectedOptionFundDestinationText,
                                 options = optionsFunds,
                                 omitOption = selectedOptionFundOriginText,
-                                modifier = Modifier.padding(horizontal = 10.dp)
                             )
                         } else {
                             MyDropDownMenu(
@@ -258,7 +256,6 @@ fun NewEvents() {
                                 selectedOptionText = selectedOptionCategoryText,
                                 setSelectedOptionText = setSelectedOptionCategoryText,
                                 options = optionsCategories,
-                                modifier = Modifier.padding(horizontal = 10.dp)
                             )
                         }
                         Row(
@@ -298,7 +295,6 @@ fun NewEvents() {
                                 onDismissRequest = {},
                                 modifier = Modifier
                                     .fillParentMaxWidth()
-                                    .padding(horizontal = 10.dp)
                             ) {
                                 MyDatePicker(
                                     state = dateState,
