@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Billmate</string>
     <string name="title_activity_common_view">CommonView</string>
+    <string name="title_activity_edit_funds">EditFunds</string>
 </resources>

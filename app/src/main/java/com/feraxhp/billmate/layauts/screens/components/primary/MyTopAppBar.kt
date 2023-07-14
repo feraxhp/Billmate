@@ -20,7 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import com.feraxhp.billmate.activitys.ui.theme.Elevations
+import com.feraxhp.billmate.ui.theme.Elevations
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

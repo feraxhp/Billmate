@@ -25,7 +25,7 @@ import com.feraxhp.billmate.extrendedFuntions.dateFormat
 import com.feraxhp.billmate.extrendedFuntions.noDescrition
 import com.feraxhp.billmate.extrendedFuntions.timeFormat
 import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
-import com.feraxhp.billmate.layauts.tabs.components.funds.MyCardsFunds
+import com.feraxhp.billmate.layauts.tabs.components.funds.MyCardFund
 import com.feraxhp.billmate.logic_database.database.entities.Transfers
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,7 +54,7 @@ fun TransferNoEditable(
     ) {
         Text(text = "Origin Fund", modifier = Modifier.padding(vertical = 24.dp))
         if (originFund != null) {
-            MyCardsFunds(
+            MyCardFund(
                 accountName = originFund.accountName,
                 titularName = originFund.titularName,
                 balance = originFund.amount.toMoneyFormat(),
@@ -65,7 +65,7 @@ fun TransferNoEditable(
 
         Text(text = "Target Fund", modifier = Modifier.padding(vertical = 24.dp))
         if (targetFund != null) {
-            MyCardsFunds(
+            MyCardFund(
                 accountName = targetFund.accountName,
                 titularName = targetFund.titularName,
                 balance = targetFund.amount.toMoneyFormat(),

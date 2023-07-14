@@ -206,15 +206,17 @@ class AppController(context: Context) {
             listOf("")
         }
     }
-
-    fun getAllEvents(): List<Events> {
-        return events.reversed()
+    fun getAllEvents(fundId: Long? = null): List<Events> {
+        if (fundId == null) return events.reversed()
+        return events.filter { it.fund_id == fundId }.reversed()
     }
-
-    fun getAllTransfers(): List<Transfers> {
-        return transfers.reversed()
+    fun getAllEvents(category: Categories): List<Events> {
+        return events.filter { it.category_id == category.id }.reversed()
     }
-
+    fun getAllTransfers(fundId: Long? = null): List<Transfers> {
+        if (fundId == null) return transfers.reversed()
+        return transfers.filter { it.origin_fund_id == fundId }.reversed()
+    }
     // Additions
     fun addFund(
         accountName: String,
@@ -444,5 +446,18 @@ class AppController(context: Context) {
             actualize()
         }
         return true
+    }
+    fun editFund(editedFund: Funds): Boolean {
+        val actualFund = viewController.fund2Edit ?: return false
+        if (actualFund != editedFund) {
+            coroutineScope.launch {
+                billMateDatabase.FundsDao().updateFund(editedFund)
+            }
+        }
+        return true
+    }
+    fun editCategory(editedCategory: Categories): Boolean {
+//
+        return false
     }
 }

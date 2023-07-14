@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
@@ -28,11 +29,13 @@ fun CashFlowTab(
     padding: PaddingValues = PaddingValues(0.dp),
     setScrollState: (Int) -> Unit = {},
     setTitle: (String) -> Unit = {},
+    fundId: Long? = null,
+    horizontalPadding: Dp = 24.dp
 ) {
 
     val (selectedIndex, setSelectedIndex) = remember { mutableStateOf(0) }
-    var listTransfers by remember(key1 = selectedIndex) { mutableStateOf(appController.getAllTransfers()) }
-    var listEvents by remember(key1 = selectedIndex) { mutableStateOf(appController.getAllEvents()) }
+    var listTransfers by remember(key1 = selectedIndex) { mutableStateOf(appController.getAllTransfers(fundId)) }
+    var listEvents by remember(key1 = selectedIndex) { mutableStateOf(appController.getAllEvents(fundId)) }
     var showDialog by remember { mutableStateOf(false) }
     var type:Boolean? by remember { mutableStateOf(null) }
     var indexToEliminate:Int? by remember { mutableStateOf(null) }
@@ -48,7 +51,7 @@ fun CashFlowTab(
         }
     )
     LazyColumn(
-        modifier = Modifier.padding(top = 0.dp),
+        modifier = Modifier.padding(top = 0.dp).padding(horizontal = horizontalPadding),
         verticalArrangement = Arrangement.Top,
         state = lazyListState,
         contentPadding = padding

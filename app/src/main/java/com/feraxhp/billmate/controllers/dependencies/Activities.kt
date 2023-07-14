@@ -6,5 +6,7 @@ enum class Activities {
     createNewEvents,
     createNewFund,
     editEvents,
-    editTransfers
+    editTransfers,
+    editFunds,
+    editCategories
 }

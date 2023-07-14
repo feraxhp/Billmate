@@ -7,11 +7,16 @@ import android.os.Bundle
 import android.util.TypedValue
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import com.feraxhp.billmate.ui.theme.BillmateTheme
 import com.feraxhp.billmate.controllers.AppController
 import com.feraxhp.billmate.controllers.ViewController
 import com.feraxhp.billmate.layauts.screens.PrimaryScreen
@@ -35,10 +40,15 @@ class MainActivity : ComponentActivity() {
             viewController = ViewController(this)
 
             var hasName by remember { mutableStateOf(appController.user.getName() != null) }
-
-            if (!hasName) UpcomingScreen(setHasName = {hasName = it})
-            else PrimaryScreen()
-
+            BillmateTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    if (!hasName) UpcomingScreen { hasName = it }
+                    else PrimaryScreen()
+                }
+            }
         }
         WindowCompat.setDecorFitsSystemWindows(window, false)
     }

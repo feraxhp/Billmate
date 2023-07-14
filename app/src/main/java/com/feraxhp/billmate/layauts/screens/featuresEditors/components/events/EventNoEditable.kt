@@ -27,7 +27,7 @@ import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 import com.feraxhp.billmate.extrendedFuntions.noDescrition
 import com.feraxhp.billmate.extrendedFuntions.timeFormat
 import com.feraxhp.billmate.layauts.tabs.components.categories.CategoriesMessage
-import com.feraxhp.billmate.layauts.tabs.components.funds.MyCardsFunds
+import com.feraxhp.billmate.layauts.tabs.components.funds.MyCardFund
 import com.feraxhp.billmate.logic_database.database.entities.Events
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +58,7 @@ fun NoEditable(
     ) {
         val fund = appController.getFundByID(Event.fund_id)
         if (fund != null) {
-            MyCardsFunds(
+            MyCardFund(
                 accountName = fund.accountName,
                 titularName = fund.titularName,
                 balance = fund.amount.toMoneyFormat(),
@@ -66,7 +66,7 @@ fun NoEditable(
                 type = fund.type
             )
         } else {
-            MyCardsFunds()
+            MyCardFund()
         }
         Spacer(modifier = Modifier.height(spacerPadding))
         val category = appController.getCategoryByID(Event.category_id)

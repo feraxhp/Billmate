@@ -14,19 +14,24 @@
         android:theme="@style/Theme.Billmate"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".activitys.EditTransfers"
+            android:name=".activitys.editItems.EditFunds"
+            android:exported="false"
+            android:label="@string/title_activity_edit_funds"
+            android:theme="@style/Theme.Billmate" />
+        <activity
+            android:name=".activitys.editItems.EditTransfers"
             android:exported="false" />
         <activity
-            android:name=".activitys.EditEvents"
+            android:name=".activitys.editItems.EditEvents"
             android:exported="false" />
         <activity
-            android:name=".activitys.CreateNewCategory"
+            android:name=".activitys.newItems.CreateNewCategory"
             android:exported="false" />
         <activity
-            android:name=".activitys.CreateNewEvents"
+            android:name=".activitys.newItems.CreateNewEvents"
             android:exported="false" />
         <activity
-            android:name=".activitys.CreateNewFund"
+            android:name=".activitys.newItems.CreateNewFund"
             android:exported="false" />
         <activity
             android:name=".activitys.MainActivity"

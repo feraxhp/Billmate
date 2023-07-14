@@ -20,7 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePickerState
@@ -37,7 +36,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
-import com.feraxhp.billmate.activitys.ui.theme.BillmateTheme
 import com.feraxhp.billmate.controllers.dependencies.Activities
 import com.feraxhp.billmate.extrendedFuntions.dateFormat
 import com.feraxhp.billmate.extrendedFuntions.timeFormat
@@ -139,269 +137,264 @@ fun NewEvents() {
     }
     val openDateDialog = remember { mutableStateOf(false) }
 
-    BillmateTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            Scaffold(
-                modifier = Modifier.fillMaxSize(),
-                topBar = {
-                    MyTopAppBar(
-                        text = "New Event",
-                        NavigationActionComposable = { viewController.finishActivity() },
-                        navigationIcon = Icons.Filled.ArrowBack,
-                        searchIcon = null
-                    )
-                },
-                content = { paddingValues ->
-                    if (optionsCategories[0] != "" && optionsFunds[0] != "") {
-                        LazyColumn(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Top,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(paddingValues)
-                        ) {
-                            item {
-                                SegmentedButtons(
-                                    values = if (optionsFunds.size > 1) listOf(
-                                        "Expense",
-                                        "Income",
-                                        "Transfer"
-                                    ) else listOf("Expense", "Income"),
-                                    selectedValue = selectedEventValue,
-                                    setSelectedValue = setSelectedEventValue
-                                )
-                            }
-                            items(labels.size) { position ->
-                                if (selectedEventValue == 2 && position == 0) return@items
-                                OutlinedTextField(
-                                    value = values[position],
-                                    onValueChange = {
-                                        if (position == 0) {
-                                            setters[position](
-                                                it.replace("\n", " ")
-                                                    .substring(
-                                                        0, min(25, it.length)
-                                                    )
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            MyTopAppBar(
+                text = "New Event",
+                NavigationActionComposable = { viewController.finishActivity() },
+                navigationIcon = Icons.Filled.ArrowBack,
+                searchIcon = null
+            )
+        },
+        content = { paddingValues ->
+            if (optionsCategories[0] != "" && optionsFunds[0] != "") {
+                LazyColumn(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                ) {
+                    item {
+                        SegmentedButtons(
+                            values = if (optionsFunds.size > 1) listOf(
+                                "Expense",
+                                "Income",
+                                "Transfer"
+                            ) else listOf("Expense", "Income"),
+                            selectedValue = selectedEventValue,
+                            setSelectedValue = setSelectedEventValue
+                        )
+                    }
+                    items(labels.size) { position ->
+                        if (selectedEventValue == 2 && position == 0) return@items
+                        OutlinedTextField(
+                            value = values[position],
+                            onValueChange = {
+                                if (position == 0) {
+                                    setters[position](
+                                        it.replace("\n", " ")
+                                            .substring(
+                                                0, min(25, it.length)
                                             )
-                                        } else {
-                                            setters[position](
-                                                it.substring(
-                                                    0, min(300, it.length)
-                                                )
-                                            )
-                                        }
-                                        if (position == 0) errorName.value = false
-                                        if (position == 1) errorAmount.value = false
-                                    },
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        errorBorderColor = MaterialTheme.colorScheme.error,
-                                    ),
-                                    maxLines = 1,
-                                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = if (position == 1) KeyboardType.Number else KeyboardType.Text),
-                                    label = {
-                                        if (position == 1 && values[position] != "") {
-                                            val text = try {
-                                                values[position].toDouble()
-                                                    .toMoneyFormat(default = true)
-                                            } catch (e: Exception) {
-                                                "Must be a number"
-                                            }
-                                            Text(text)
-                                        } else if (position == 0) {
-                                            Text("${labels[position]} - ${25 - eventName.length}")
-                                        } else Text(labels[position])
-                                    },
-                                    shape = MaterialTheme.shapes.small,
-                                    isError = (position == 0 && errorName.value) || (position == 1 && errorAmount.value),
-                                    modifier = Modifier
-                                        .fillParentMaxWidth()
-                                        .padding(horizontal = 10.dp)
-                                        .padding(top = 10.dp)
-                                )
-                            }
-                            if (selectedOptionFundOriginText == selectedOptionFundDestinationText && optionsFunds.size > 1) {
-                                // if is the same, change the destination to the other one
-                                setSelectedOptionFundDestinationText(
-                                    try {
-                                        optionsFunds[optionsFunds.indexOf(
-                                            selectedOptionFundOriginText
-                                        ) - 1]
-                                    } catch (_: Exception) {
-                                        optionsFunds[optionsFunds.indexOf(
-                                            selectedOptionFundOriginText
-                                        ) + 1]
-                                    }
-                                )
-                            }
-                            item {
-                                MyDropDownMenu(
-                                    label = "Fund",
-                                    expanded = expandedFundsOrigin,
-                                    setExpanded = setExpandedFundsOrigin,
-                                    selectedOptionText = selectedOptionFundOriginText,
-                                    setSelectedOptionText = setSelectedOptionFundOriginText,
-                                    options = optionsFunds,
-                                    modifier = Modifier
-                                        .padding(top = 10.dp)
-                                        .padding(horizontal = 10.dp)
-                                )
-                                if (selectedEventValue == 2) {
-                                    MyDropDownMenu(
-                                        label = "Fund",
-                                        expanded = expandedFundsDestination,
-                                        setExpanded = setExpandedFundsDestination,
-                                        selectedOptionText = selectedOptionFundDestinationText,
-                                        setSelectedOptionText = setSelectedOptionFundDestinationText,
-                                        options = optionsFunds,
-                                        omitOption = selectedOptionFundOriginText,
-                                        modifier = Modifier.padding(horizontal = 10.dp)
                                     )
                                 } else {
-                                    MyDropDownMenu(
-                                        label = "Category",
-                                        expanded = expandedCategories,
-                                        setExpanded = setExpandedCategories,
-                                        selectedOptionText = selectedOptionCategoryText,
-                                        setSelectedOptionText = setSelectedOptionCategoryText,
-                                        options = optionsCategories,
-                                        modifier = Modifier.padding(horizontal = 10.dp)
+                                    setters[position](
+                                        it.substring(
+                                            0, min(300, it.length)
+                                        )
                                     )
                                 }
-                                Row(
-                                    horizontalArrangement = Arrangement.Center,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    TextButton(onClick = { openTimeDialog.value = true }) {
-                                        Text(
-                                            text = "Time: ${
-                                                "${timeState.hour}:${timeState.minute}".timeFormat(
-                                                    timeState.is24hour
-                                                )
-                                            }",
-                                            modifier = Modifier
+                                if (position == 0) errorName.value = false
+                                if (position == 1) errorAmount.value = false
+                            },
+                            colors = OutlinedTextFieldDefaults.colors(
+                                errorBorderColor = MaterialTheme.colorScheme.error,
+                            ),
+                            maxLines = 1,
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = if (position == 1) KeyboardType.Number else KeyboardType.Text),
+                            label = {
+                                if (position == 1 && values[position] != "") {
+                                    val text = try {
+                                        values[position].toDouble()
+                                            .toMoneyFormat(default = true)
+                                    } catch (e: Exception) {
+                                        "Must be a number"
+                                    }
+                                    Text(text)
+                                } else if (position == 0) {
+                                    Text("${labels[position]} - ${25 - eventName.length}")
+                                } else Text(labels[position])
+                            },
+                            shape = MaterialTheme.shapes.small,
+                            isError = (position == 0 && errorName.value) || (position == 1 && errorAmount.value),
+                            modifier = Modifier
+                                .fillParentMaxWidth()
+                                .padding(horizontal = 10.dp)
+                                .padding(top = 10.dp)
+                        )
+                    }
+                    if (selectedOptionFundOriginText == selectedOptionFundDestinationText && optionsFunds.size > 1) {
+                        // if is the same, change the destination to the other one
+                        setSelectedOptionFundDestinationText(
+                            try {
+                                optionsFunds[optionsFunds.indexOf(
+                                    selectedOptionFundOriginText
+                                ) - 1]
+                            } catch (_: Exception) {
+                                optionsFunds[optionsFunds.indexOf(
+                                    selectedOptionFundOriginText
+                                ) + 1]
+                            }
+                        )
+                    }
+                    item {
+                        MyDropDownMenu(
+                            label = "Fund",
+                            expanded = expandedFundsOrigin,
+                            setExpanded = setExpandedFundsOrigin,
+                            selectedOptionText = selectedOptionFundOriginText,
+                            setSelectedOptionText = setSelectedOptionFundOriginText,
+                            options = optionsFunds,
+                            modifier = Modifier
+                                .padding(top = 10.dp)
+                                .padding(horizontal = 10.dp)
+                        )
+                        if (selectedEventValue == 2) {
+                            MyDropDownMenu(
+                                label = "Fund",
+                                expanded = expandedFundsDestination,
+                                setExpanded = setExpandedFundsDestination,
+                                selectedOptionText = selectedOptionFundDestinationText,
+                                setSelectedOptionText = setSelectedOptionFundDestinationText,
+                                options = optionsFunds,
+                                omitOption = selectedOptionFundOriginText,
+                                modifier = Modifier.padding(horizontal = 10.dp)
+                            )
+                        } else {
+                            MyDropDownMenu(
+                                label = "Category",
+                                expanded = expandedCategories,
+                                setExpanded = setExpandedCategories,
+                                selectedOptionText = selectedOptionCategoryText,
+                                setSelectedOptionText = setSelectedOptionCategoryText,
+                                options = optionsCategories,
+                                modifier = Modifier.padding(horizontal = 10.dp)
+                            )
+                        }
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            TextButton(onClick = { openTimeDialog.value = true }) {
+                                Text(
+                                    text = "Time: ${
+                                        "${timeState.hour}:${timeState.minute}".timeFormat(
+                                            timeState.is24hour
                                         )
-                                    }
-                                    calendar.timeInMillis = dateState.selectedDateMillis!!
-                                    TextButton(onClick = { openDateDialog.value = true }) {
-                                        Text(
-                                            text = calendar.timeInMillis.dateFormat(),
-                                            modifier = Modifier
-                                        )
-                                    }
+                                    }",
+                                    modifier = Modifier
+                                )
+                            }
+                            calendar.timeInMillis = dateState.selectedDateMillis!!
+                            TextButton(onClick = { openDateDialog.value = true }) {
+                                Text(
+                                    text = calendar.timeInMillis.dateFormat(),
+                                    modifier = Modifier
+                                )
+                            }
+                        }
+                        if (openTimeDialog.value) {
+                            AlertDialog(
+                                onDismissRequest = {}
+                            ) {
+                                MyTimePicker(
+                                    state = timeState,
+                                    setState = { timeState = it },
+                                    setDialog = { openTimeDialog.value = it })
+                            }
+                        }
+                        if (openDateDialog.value) {
+                            AlertDialog(
+                                onDismissRequest = {},
+                                modifier = Modifier
+                                    .fillParentMaxWidth()
+                                    .padding(horizontal = 10.dp)
+                            ) {
+                                MyDatePicker(
+                                    state = dateState,
+                                    setState = {
+                                        dateState = it
+                                        calendar.timeInMillis = it.selectedDateMillis!!
+                                    },
+                                    setDialog = { openDateDialog.value = it })
+                            }
+                        }
+                    }
+                }
+            }
+            if (optionsFunds[0] == "") {
+                viewController.startActivity(Activities.createNewFund)
+                viewController.finishActivity()
+                return@Scaffold
+            }
+            if (optionsCategories[0] == "") {
+                viewController.startActivity(Activities.createNewCategory)
+                viewController.finishActivity()
+                return@Scaffold
+            }
+        },
+        floatingActionButtonPosition = FabPosition.End,
+        floatingActionButton = {
+            MyFloatingActionButton(
+                text = "Save",
+                withIcon = true,
+                onClick = {
+                    if (selectedOptionFundOriginText == selectedOptionFundDestinationText && selectedEventValue == 2) return@MyFloatingActionButton
+                    when (selectedEventValue) {
+                        0, 1 -> {
+                            val response = appController.addEvent(
+                                date = dateState.selectedDateMillis!!,
+                                time = "${timeState.hour}:${timeState.minute}".timeFormat(),
+                                category = optionsCategories.indexOf(
+                                    selectedOptionCategoryText
+                                ),
+                                fund = optionsFunds.indexOf(
+                                    selectedOptionFundOriginText
+                                ),
+                                name = values[0],
+                                amount = values[1],
+                                description = values[2],
+                                type = selectedEventValue == 1,
+                            )
+                            when (response) {
+                                1 -> {
+                                    errorName.value = true
                                 }
-                                if (openTimeDialog.value) {
-                                    AlertDialog(
-                                        onDismissRequest = {}
-                                    ) {
-                                        MyTimePicker(
-                                            state = timeState,
-                                            setState = { timeState = it },
-                                            setDialog = { openTimeDialog.value = it })
-                                    }
+
+                                2 -> {
+                                    errorAmount.value = true
                                 }
-                                if (openDateDialog.value) {
-                                    AlertDialog(
-                                        onDismissRequest = {},
-                                        modifier = Modifier
-                                            .fillParentMaxWidth()
-                                            .padding(horizontal = 10.dp)
-                                    ) {
-                                        MyDatePicker(
-                                            state = dateState,
-                                            setState = {
-                                                dateState = it
-                                                calendar.timeInMillis = it.selectedDateMillis!!
-                                            },
-                                            setDialog = { openDateDialog.value = it })
-                                    }
+
+                                else -> {
+                                    errorName.value = false
+                                    errorAmount.value = false
+                                    viewController.finishActivityWithActualize()
+                                }
+                            }
+                        }
+
+                        2 -> {
+                            val response = appController.addTransfer(
+                                description = values[2],
+                                amount = values[1],
+                                date = dateState.selectedDateMillis!!,
+                                time = "${timeState.hour}:${timeState.minute}",
+                                originFund = optionsFunds.indexOf(
+                                    selectedOptionFundOriginText
+                                ),
+                                targetFund = optionsFunds.indexOf(
+                                    selectedOptionFundDestinationText
+                                )
+                            )
+                            when (response) {
+                                1 -> {
+                                    errorAmount.value = true
+                                }
+
+                                else -> {
+                                    errorAmount.value = false
+                                    viewController.finishActivityWithActualize()
                                 }
                             }
                         }
                     }
-                    if (optionsFunds[0] == "") {
-                        viewController.startActivity(Activities.createNewFund)
-                        viewController.finishActivity()
-                        return@Scaffold
-                    }
-                    if (optionsCategories[0] == "") {
-                        viewController.startActivity(Activities.createNewCategory)
-                        viewController.finishActivity()
-                        return@Scaffold
-                    }
                 },
-                floatingActionButtonPosition = FabPosition.End,
-                floatingActionButton = {
-                    MyFloatingActionButton(
-                        text = "Save",
-                        withIcon = true,
-                        onClick = {
-                            if (selectedOptionFundOriginText == selectedOptionFundDestinationText && selectedEventValue == 2) return@MyFloatingActionButton
-                            when (selectedEventValue) {
-                                0, 1 -> {
-                                    val response = appController.addEvent(
-                                        date = dateState.selectedDateMillis!!,
-                                        time = "${timeState.hour}:${timeState.minute}".timeFormat(),
-                                        category = optionsCategories.indexOf(
-                                            selectedOptionCategoryText
-                                        ),
-                                        fund = optionsFunds.indexOf(
-                                            selectedOptionFundOriginText
-                                        ),
-                                        name = values[0],
-                                        amount = values[1],
-                                        description = values[2],
-                                        type = selectedEventValue == 1,
-                                    )
-                                    when (response) {
-                                        1 -> {
-                                            errorName.value = true
-                                        }
-
-                                        2 -> {
-                                            errorAmount.value = true
-                                        }
-
-                                        else -> {
-                                            errorName.value = false
-                                            errorAmount.value = false
-                                            viewController.finishActivityWithActualize()
-                                        }
-                                    }
-                                }
-
-                                2 -> {
-                                    val response = appController.addTransfer(
-                                        description = values[2],
-                                        amount = values[1],
-                                        date = dateState.selectedDateMillis!!,
-                                        time = "${timeState.hour}:${timeState.minute}",
-                                        originFund = optionsFunds.indexOf(
-                                            selectedOptionFundOriginText
-                                        ),
-                                        targetFund = optionsFunds.indexOf(
-                                            selectedOptionFundDestinationText
-                                        )
-                                    )
-                                    when (response) {
-                                        1 -> {
-                                            errorAmount.value = true
-                                        }
-                                        else -> {
-                                            errorAmount.value = false
-                                            viewController.finishActivityWithActualize()
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                    )
-                }
             )
         }
-    }
+    )
 }
 
 

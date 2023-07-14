@@ -19,8 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
+import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
+import com.feraxhp.billmate.controllers.dependencies.Activities
 import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
-import com.feraxhp.billmate.layauts.tabs.components.funds.MyCardsFunds
+import com.feraxhp.billmate.layauts.tabs.components.funds.MyCardFund
 import com.feraxhp.billmate.layauts.tabs.components.components.MyAlertDialog
 
 @SuppressLint("RememberReturnType")
@@ -46,7 +48,7 @@ fun FundsTab(
     ) {
         items(list.toMutableList()) { fund ->
             var showDialog by remember { mutableStateOf(false) }
-            MyCardsFunds(
+            MyCardFund(
                 accountName = fund.accountName,
                 balance = fund.amount.toMoneyFormat(),
                 titularName = fund.titularName,
@@ -54,6 +56,10 @@ fun FundsTab(
                 type = fund.type,
                 onClick = {
                     showDialog = true
+                },
+                onBodyClick = {
+                    viewController.fund2Edit = fund
+                    viewController.startActivity(Activities.editFunds)
                 }
             )
             Spacer(modifier = Modifier.padding(8.dp))

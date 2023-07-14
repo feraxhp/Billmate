@@ -7,21 +7,24 @@ import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
-import com.feraxhp.billmate.activitys.CreateNewCategory
-import com.feraxhp.billmate.activitys.CreateNewEvents
-import com.feraxhp.billmate.activitys.CreateNewFund
-import com.feraxhp.billmate.activitys.EditEvents
-import com.feraxhp.billmate.activitys.EditTransfers
+import com.feraxhp.billmate.activitys.newItems.CreateNewCategory
+import com.feraxhp.billmate.activitys.newItems.CreateNewEvents
+import com.feraxhp.billmate.activitys.newItems.CreateNewFund
+import com.feraxhp.billmate.activitys.editItems.EditEvents
+import com.feraxhp.billmate.activitys.editItems.EditTransfers
 import com.feraxhp.billmate.activitys.MainActivity
+import com.feraxhp.billmate.activitys.editItems.EditFunds
 import com.feraxhp.billmate.controllers.dependencies.Activities
+import com.feraxhp.billmate.logic_database.database.entities.Categories
 import com.feraxhp.billmate.logic_database.database.entities.Events
+import com.feraxhp.billmate.logic_database.database.entities.Funds
 import com.feraxhp.billmate.logic_database.database.entities.Transfers
 
 class ViewController(private val fatherContext: Context) {
+    var fund2Edit: Funds? = null
+    var category2Edit: Categories? = null
     var event2Edit: Events? = null
     var transfer2Edit: Transfers? = null
-
-
 
     private val fatherActivity = fatherContext as Activity
 
@@ -31,7 +34,8 @@ class ViewController(private val fatherContext: Context) {
         Activities.createNewEvents to CreateNewEvents::class.java,
         Activities.createNewFund to CreateNewFund::class.java,
         Activities.editEvents to EditEvents::class.java,
-        Activities.editTransfers to EditTransfers::class.java
+        Activities.editTransfers to EditTransfers::class.java,
+        Activities.editFunds to EditFunds::class.java
     )
 
     fun startActivity(activityKey: Activities) {
@@ -49,13 +53,18 @@ class ViewController(private val fatherContext: Context) {
     @SuppressLint("ComposableNaming")
     @Composable
     fun finishActivityWithActualize() {
-        this.event2Edit = null
-        this.transfer2Edit = null
+        this.cleanVariables()
         this.finishActivity()
         this.startActivity(Activities.main)
         fatherActivity.finish()
     }
 
+    private fun cleanVariables() {
+        this.fund2Edit = null
+        this.category2Edit = null
+        this.event2Edit = null
+        this.transfer2Edit = null
+    }
 
 //    fun startMainActivity() {
 //        ContextCompat.startActivity(

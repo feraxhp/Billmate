@@ -17,7 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
-import com.feraxhp.billmate.activitys.ui.theme.Elevations
+import com.feraxhp.billmate.ui.theme.Elevations
 
 val items = listOf("Home", "Funds", "CashFlow", "Categories")
 private val icons =
