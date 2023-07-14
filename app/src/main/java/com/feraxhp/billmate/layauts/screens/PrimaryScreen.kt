@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
+import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.controllers.dependencies.Activities
 import com.feraxhp.billmate.layauts.screens.components.primary.MyFloatingActionButton
@@ -38,6 +39,10 @@ fun PrimaryScreen() {
         listOf("Home", "Funds", if (scrollState == 0) "Cash Flow " else cashFlowTitle, "Categories")
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
+    val noItemsInFunds = appController.getAllFunds().isEmpty()
+    val noItemsInCashFlow = remember {mutableStateOf(true)}
+    val noItemsInCategory = appController.getAllCategories().isEmpty()
 
 
     MyModalNavigation(
@@ -66,8 +71,12 @@ fun PrimaryScreen() {
                     1 -> FundsTab(innerPadding) { scrollState = it }
                     2 -> CashFlowTab(
                         innerPadding,
+                        hasNoItems = {noItemsInCashFlow.value = it},
                         setScrollState = { scrollState = it },
-                        setTitle = { cashFlowTitle = it })
+                        setTitle = { cashFlowTitle = it },
+                        fundsNote = noItemsInFunds,
+                        categoriesNote = noItemsInCategory
+                    )
 
                     3 -> CategoryTab(innerPadding) { scrollState = it }
                     else -> {}
@@ -81,6 +90,13 @@ fun PrimaryScreen() {
             },
             floatingActionButton = {
                 MyFloatingActionButton(
+                    text = when (selectedTab) {
+                        0 -> ""
+                        1 -> if (noItemsInFunds) "Create" else ""
+                        2 -> if (noItemsInCashFlow.value) "Create" else ""
+                        3 -> if (noItemsInCategory) "Create" else ""
+                        else -> ""
+                    },
                     onClick = {
                         when (selectedTab) {
                             0 -> viewController.startActivity(Activities.createNewEvents)

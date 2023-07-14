@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -29,8 +30,11 @@ fun CashFlowTab(
     padding: PaddingValues = PaddingValues(0.dp),
     setScrollState: (Int) -> Unit = {},
     setTitle: (String) -> Unit = {},
+    hasNoItems: (Boolean) -> Unit = {},
     fundId: Long? = null,
-    horizontalPadding: Dp = 24.dp
+    horizontalPadding: Dp = 24.dp,
+    fundsNote: Boolean = false,
+    categoriesNote: Boolean = false
 ) {
 
     val (selectedIndex, setSelectedIndex) = remember { mutableStateOf(0) }
@@ -50,8 +54,23 @@ fun CashFlowTab(
             else -> ""
         }
     )
+
+    if (listEvents.isEmpty() && listTransfers.isEmpty()) {
+        hasNoItems(true)
+    }
+    else if (listEvents.isEmpty()) {
+        setSelectedIndex(1)
+        hasNoItems(false)
+    }
+    else if (listTransfers.isEmpty()) {
+        setSelectedIndex(0)
+        hasNoItems(false)
+    }
+
     LazyColumn(
-        modifier = Modifier.padding(top = 0.dp).padding(horizontal = horizontalPadding),
+        modifier = Modifier
+            .padding(top = 0.dp)
+            .padding(horizontal = horizontalPadding),
         verticalArrangement = Arrangement.Top,
         state = lazyListState,
         contentPadding = padding
@@ -89,6 +108,18 @@ fun CashFlowTab(
                     }
                 )
             }
+        }
+        if (fundsNote){
+            item {
+                Text(text = "Please Create a Fund first!!")
+            }
+            return@LazyColumn
+        }
+        if (categoriesNote){
+            item {
+                Text(text = "Please Create a Category first!!")
+            }
+            return@LazyColumn
         }
         if (selectedIndex == 0) {
             items(listEvents.toMutableList().size) {index ->

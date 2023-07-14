@@ -91,7 +91,7 @@ fun FundEditable(
                         setIsError(false)
                         wasOnFocus = true
                     }
-                    if (position == 1) setIsErrorAmount!!(false)
+                    if (position == 2) setIsErrorAmount!!(false)
                 },
                 maxLines = 1,
                 colors = OutlinedTextFieldDefaults.colors(

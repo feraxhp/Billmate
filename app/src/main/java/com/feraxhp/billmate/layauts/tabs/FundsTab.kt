@@ -29,13 +29,20 @@ import com.feraxhp.billmate.layauts.tabs.components.components.MyAlertDialog
 @Composable
 fun FundsTab(
     innerPadding: PaddingValues = PaddingValues(0.dp),
-    setScrollState: (Int) -> Unit = {},
+    hasNoItems: (Boolean) -> Unit = {},
+    setScrollState: (Int) -> Unit = {}
 ) {
 
     var list by remember { mutableStateOf(appController.getAllFunds()) }
     val lazyListState = rememberLazyListState()
     val scrollValue by remember { derivedStateOf { lazyListState.firstVisibleItemScrollOffset } }
     setScrollState(scrollValue)
+
+    if (list.isEmpty()) {
+        hasNoItems(true)
+    }else {
+        hasNoItems(false)
+    }
 
     LazyColumn(
         modifier = Modifier

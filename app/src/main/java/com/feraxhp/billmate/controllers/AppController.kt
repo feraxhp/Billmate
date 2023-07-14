@@ -453,7 +453,6 @@ class AppController(context: Context) {
         return true
     }
     fun editCategory(editedCategory: Categories): Boolean {
-//
         return false
     }
 }

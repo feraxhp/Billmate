@@ -21,12 +21,20 @@ import com.feraxhp.billmate.layauts.tabs.components.components.MyAlertDialog
 @Composable
 fun CategoryTab(
     padding: PaddingValues = PaddingValues(0.dp),
+    hasNoItems: (Boolean) -> Unit = {},
     setScrollState: (Int) -> Unit = {},
     ) {
     var list by remember { mutableStateOf(appController.getAllCategories()) }
     val lazyListState = rememberLazyListState()
     val scrollValue by remember { derivedStateOf { lazyListState.firstVisibleItemScrollOffset } }
     setScrollState(scrollValue)
+
+    if (list.isEmpty()) {
+        hasNoItems(true)
+    }else {
+        hasNoItems(false)
+    }
+
     LazyColumn(
         modifier = Modifier
             .padding(horizontal = 24.dp)
