@@ -54,17 +54,15 @@ fun CashFlowTab(
             else -> ""
         }
     )
-
+    hasNoItems(false)
     if (listEvents.isEmpty() && listTransfers.isEmpty()) {
         hasNoItems(true)
     }
     else if (listEvents.isEmpty()) {
         setSelectedIndex(1)
-        hasNoItems(false)
     }
     else if (listTransfers.isEmpty()) {
         setSelectedIndex(0)
-        hasNoItems(false)
     }
 
     LazyColumn(
