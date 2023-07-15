@@ -25,6 +25,7 @@ class ViewController(private val fatherContext: Context) {
     var category2Edit: Categories? = null
     var event2Edit: Events? = null
     var transfer2Edit: Transfers? = null
+    var restoreBackUpPath: String? = null
 
     private val fatherActivity = fatherContext as Activity
 
