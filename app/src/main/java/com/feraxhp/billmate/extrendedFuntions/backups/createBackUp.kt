@@ -4,12 +4,9 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Environment
 import android.app.Activity
-import android.content.Intent
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -21,31 +18,36 @@ fun backupDatabase(context: Context): String {
             requestPermissions(context as Activity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
         }
 
-        val sourceDBFile = context.getDatabasePath("User.xml")
-        val backupDBFile = File(context.getExternalFilesDir(null), "User-b.xml")
 
-        val sourceChannel = FileInputStream(sourceDBFile).channel
-        val backupChannel = FileOutputStream(backupDBFile).channel
+        val baseDBFile = context.getDatabasePath("billmateDB").absoluteFile.toString()
+        val shmDBFile = baseDBFile.replace("billmateDB", "billmateDB-shm")
+        val walDBFile = baseDBFile.replace("billmateDB", "billmateDB-shm")
 
-        backupChannel.transferFrom(sourceChannel, 0, sourceChannel.size())
+        val externalDataBaseDirectory = File(context.getExternalFilesDir(null), "")
+        val backupBaseDBFile = externalDataBaseDirectory.absoluteFile.toString() + "/billmateDB-backup"
+        val backupShmDBFile = backupBaseDBFile.replace("billmateDB-backup", "billmateDB-backup-shm")
+        val backupWalDBFile = backupBaseDBFile.replace("billmateDB-backup", "billmateDB-backup-wal")
 
-        sourceChannel.close()
-        backupChannel.close()
+        val sprefs = baseDBFile.replace("databases/billmateDB", "shared_prefs/User.xml")
+        val backUpSprefs = backupBaseDBFile.replace("billmateDB-backup", "User-backup.xml")
 
-        val backupDBUri = FileProvider.getUriForFile(context, context.packageName + ".fileprovider", backupDBFile)
+//        return backUpSprefs
 
-        val shareIntent = Intent(Intent.ACTION_SEND)
-        shareIntent.type = "application/octet-stream"
-        shareIntent.putExtra(Intent.EXTRA_STREAM, backupDBUri)
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        copyInExternalDirectory(baseDBFile, backupBaseDBFile)
+        copyInExternalDirectory(shmDBFile, backupShmDBFile)
+        copyInExternalDirectory(walDBFile, backupWalDBFile)
+        copyInExternalDirectory(sprefs, backUpSprefs)
 
-        val chooserIntent = Intent.createChooser(shareIntent, "Compartir archivo de respaldo")
 
-        if (shareIntent.resolveActivity(context.packageManager) != null) {
-            context.startActivity(chooserIntent)
-        }
 
-        return ""
+//        return backupBaseDirectory.absolutePath
+        val zipName = "billmateBackup.zip"
+
+        compressDirectoryToZip(context, externalDataBaseDirectory, externalDataBaseDirectory, zipName)
+
+        shareFile(context, File(context.getExternalFilesDir(null), zipName))
+
+        return "All backups have been created"
         // Mostrar mensaje o realizar otras acciones después de la copia de seguridad exitosa
     } catch (e: Exception) {
         // Manejar cualquier excepción que pueda ocurrir durante la copia de seguridad
