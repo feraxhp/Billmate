@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
@@ -26,13 +24,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.extrendedFuntions.backups.backupDatabase
-import com.feraxhp.billmate.extrendedFuntions.backups.restoreBackup
 import com.feraxhp.billmate.layauts.tabs.components.components.MyAlertDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyModalNavigation(
     items: List<ImageVector> = listOf(Icons.Outlined.Home),
@@ -98,12 +94,7 @@ fun MyModalNavigation(
                         onClick = {
                             scope.launch { drawerState.close() }
                             message.value = backupDatabase(appController.context)
-                            if (message.value != "") {
-                                isBackuted = true
-                            }
-                            else{
-                                isBackuted = true
-                            }
+                            isBackuted = true
                         },
                         modifier = Modifier
                             .padding(NavigationDrawerItemDefaults.ItemPadding)
@@ -120,13 +111,8 @@ fun MyModalNavigation(
                         selected = false,
                         onClick = {
                             scope.launch { drawerState.close() }
-                            message.value = restoreBackup(appController.context)
-                            if (message.value != "") {
-                                isBackuted = true
-                            }
-                            else{
-                                isBackuted = true
-                            }
+
+                            isBackuted = true
                         },
                         modifier = Modifier
                             .padding(NavigationDrawerItemDefaults.ItemPadding)
