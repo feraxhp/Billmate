@@ -1,5 +1,6 @@
 package com.feraxhp.billmate.layauts.screens.components.primary
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -23,12 +24,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
+import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
+import com.feraxhp.billmate.controllers.dependencies.Activities
 import com.feraxhp.billmate.extrendedFuntions.backups.backupDatabase
 import com.feraxhp.billmate.layauts.tabs.components.components.MyAlertDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun MyModalNavigation(
     items: List<ImageVector> = listOf(Icons.Outlined.Home),
@@ -94,7 +98,7 @@ fun MyModalNavigation(
                         onClick = {
                             scope.launch { drawerState.close() }
                             message.value = backupDatabase(appController.context)
-                            isBackuted = true
+                            isBackuted = if (message.value.isNotEmpty()) true else true
                         },
                         modifier = Modifier
                             .padding(NavigationDrawerItemDefaults.ItemPadding)
@@ -111,8 +115,7 @@ fun MyModalNavigation(
                         selected = false,
                         onClick = {
                             scope.launch { drawerState.close() }
-
-                            isBackuted = true
+                            viewController.startActivity(Activities.getFiles)
                         },
                         modifier = Modifier
                             .padding(NavigationDrawerItemDefaults.ItemPadding)

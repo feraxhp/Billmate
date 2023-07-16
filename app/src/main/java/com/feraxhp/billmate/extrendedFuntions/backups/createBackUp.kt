@@ -1,22 +1,13 @@
 package com.feraxhp.billmate.extrendedFuntions.backups
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager
-import android.app.Activity
-import androidx.core.app.ActivityCompat.requestPermissions
-import androidx.core.content.ContextCompat
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 
 @SuppressLint("QueryPermissionsNeeded")
 fun backupDatabase(context: Context): String {
     try {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(context as Activity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
-        }
+//        Permissions.ReadAndWriteExternalStorage(context)
 
 
         val baseDBFile = context.getDatabasePath("billmateDB").absoluteFile.toString()
@@ -46,7 +37,7 @@ fun backupDatabase(context: Context): String {
 
     } catch (e: Exception) {
 
-        return e.message.toString()
+        return "error: " + e.message.toString()
     }
 }
 //fun restoreBackup(context: Context): String {

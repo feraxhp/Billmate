@@ -1,17 +1,12 @@
 package com.feraxhp.billmate.activitys
 
 import android.annotation.SuppressLint
-import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.AdaptiveIconDrawable
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.TypedValue
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -35,39 +30,6 @@ class MainActivity : ComponentActivity() {
         lateinit var appController: AppController
 
     }
-
-    private val pickFileLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            viewController.restoreBackUpPath = getFileFromUri(uri)
-            // Utiliza la ruta del archivo seleccionado según tus necesidades
-        }
-    }
-    private fun pickFile() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "*/*"
-
-        try {
-            pickFileLauncher.launch(intent.toString())
-        } catch (e: ActivityNotFoundException) {
-            // Manejar la excepción si no hay una aplicación para manejar la selección de archivos
-        }
-    }
-
-    private fun getFileFromUri(uri: Uri): String? {
-        val projection = arrayOf(MediaStore.Files.FileColumns.DATA)
-        val cursor = contentResolver.query(uri, projection, null, null, null)
-        val filePath: String? = if (cursor != null && cursor.moveToFirst()) {
-            val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA)
-            cursor.getString(columnIndex)
-        } else {
-            null
-        }
-
-
-        cursor?.close()
-        return filePath
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

@@ -8,5 +8,6 @@ enum class Activities {
     editEvents,
     editTransfers,
     editFunds,
-    editCategories
+    editCategories,
+    getFiles
 }
