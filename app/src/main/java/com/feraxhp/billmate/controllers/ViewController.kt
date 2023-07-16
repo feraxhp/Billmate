@@ -63,6 +63,13 @@ class ViewController(
         fatherActivity.finish()
     }
 
+    fun finishActivityWithActualize(context: Context) {
+        this.cleanVariables()
+        (context as Activity).finish()
+        this.startActivity(Activities.main)
+        fatherActivity.finish()
+    }
+
     private fun cleanVariables() {
         this.fund2Edit = null
         this.category2Edit = null

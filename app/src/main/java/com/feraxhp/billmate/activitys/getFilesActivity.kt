@@ -14,6 +14,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
+import com.feraxhp.billmate.extrendedFuntions.backups.restoreBackup
+import com.feraxhp.billmate.extrendedFuntions.zipUnzipFuntions.unzipFile
 import com.feraxhp.billmate.ui.theme.BillmateTheme
 import java.io.File
 
@@ -40,12 +43,23 @@ class getFilesActivity : ComponentActivity() {
                         input.copyTo(output)
                     }
                 }
+                val zipFilePath = destinationFile.absolutePath
+                val outputFolderPath = zipFilePath.replace("/$displayName", "")
+
+                unzipFile(zipFilePath, outputFolderPath)
+
+                restoreBackup(this)
+
                 val message = "File copied to: ${destinationFile.absolutePath}"
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, /*this.getDatabasePath("billmateDB").absolutePath*/message, Toast.LENGTH_SHORT).show()
+
+                viewController.finishActivityWithActualize(this)
             } else {
                 Toast.makeText(this, "Unable to get filename.", Toast.LENGTH_SHORT).show()
             }
         }
+
+
     }
 
     private fun getFileNameFromUri(uri: Uri): String? {
@@ -77,9 +91,6 @@ class getFilesActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     PickFile()
-
-
-//                    viewController.finishActivity()
                 }
             }
         }
