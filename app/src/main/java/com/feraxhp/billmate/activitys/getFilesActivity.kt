@@ -57,7 +57,12 @@ class getFilesActivity : ComponentActivity() {
                 viewController.finishActivityWithActualize(this)
             } else {
                 Toast.makeText(this, "Unable to get file", Toast.LENGTH_SHORT).show()
+                viewController.finishActivityWithActualize(this)
             }
+        }
+        if (uri == null) {
+            Toast.makeText(this, "You didn't select a file", Toast.LENGTH_SHORT).show()
+            viewController.finishActivity(this)
         }
     }
 

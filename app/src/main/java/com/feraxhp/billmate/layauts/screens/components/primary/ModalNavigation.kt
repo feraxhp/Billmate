@@ -1,6 +1,8 @@
 package com.feraxhp.billmate.layauts.screens.components.primary
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -22,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
@@ -51,10 +54,6 @@ fun MyModalNavigation(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            var isBackuted by remember { mutableStateOf(false) }
-            val message = remember {
-                mutableStateOf("")
-            }
 
             ModalDrawerSheet {
                 Column {
@@ -79,13 +78,6 @@ fun MyModalNavigation(
                                 .height(50.dp)
                         )
                     }
-                    if (isBackuted) MyAlertDialog(
-                        title = "Backup Database",
-                        message = message.value,
-                        onDismissRequestComposable = {
-                            isBackuted = false
-                        }
-                    )
                     NavigationDrawerItem(
                         icon = {
                             Icon(
@@ -97,8 +89,7 @@ fun MyModalNavigation(
                         selected = false,
                         onClick = {
                             scope.launch { drawerState.close() }
-                            message.value = backupDatabase(appController.context)
-                            isBackuted = if (message.value.isNotEmpty()) true else true
+                            Toast.makeText(viewController.fatherContext, backupDatabase(appController.context), Toast.LENGTH_SHORT).show()
                         },
                         modifier = Modifier
                             .padding(NavigationDrawerItemDefaults.ItemPadding)

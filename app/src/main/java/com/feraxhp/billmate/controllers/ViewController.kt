@@ -62,7 +62,9 @@ class ViewController(
         this.startActivity(Activities.main)
         fatherActivity.finish()
     }
-
+    fun finishActivity(context: Context) {
+        (context as Activity).finish()
+    }
     fun finishActivityWithActualize(context: Context) {
         this.cleanVariables()
         (context as Activity).finish()
