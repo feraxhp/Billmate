@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string-array name="icons">
+		<item>@drawable/payments_android</item>
 		<item>@drawable/abc_android</item>
 		<item>@drawable/accessibility_android</item>
 		<item>@drawable/accessibility_new_android</item>
@@ -1345,7 +1346,6 @@
 		<item>@drawable/pause_circle_filled_android</item>
 		<item>@drawable/pause_circle_outline_android</item>
 		<item>@drawable/pause_presentation_android</item>
-		<item>@drawable/payments_android</item>
 		<item>@drawable/payment_android</item>
 		<item>@drawable/pedal_bike_android</item>
 		<item>@drawable/pending_actions_android</item>

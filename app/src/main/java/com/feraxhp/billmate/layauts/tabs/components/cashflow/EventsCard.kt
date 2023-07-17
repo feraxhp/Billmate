@@ -75,9 +75,9 @@ fun EventsCard(
         val state = rememberTimePickerState()
         Icon(
             painter = if (type_) painterResource(
-                id = appController.icons.getResourceId(1, 0)
+                id = appController.icons.getResourceId(2120, 0)
             ) else painterResource(
-                id = R.drawable.manual_baseline_output_24
+                id = appController.icons.getResourceId(2121, 0)
             ),
             contentDescription = "",
             tint = color,

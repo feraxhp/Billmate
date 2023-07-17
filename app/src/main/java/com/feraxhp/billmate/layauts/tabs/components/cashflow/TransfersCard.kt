@@ -1,5 +1,6 @@
 package com.feraxhp.billmate.layauts.tabs.components.cashflow
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
@@ -28,9 +29,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.feraxhp.billmate.R
+import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.extrendedFuntions.timeFormat
 import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 
+@SuppressLint("ResourceType")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TransfersCard(
@@ -57,7 +60,7 @@ fun TransfersCard(
     ) {
         val state = rememberTimePickerState()
         Icon(
-            painter = painterResource(id = R.drawable.manual_baseline_sync_alt_24),
+            painter = painterResource(id = appController.icons.getResourceId(2122, 0)),
             contentDescription = "",
             tint = color,
             modifier = Modifier

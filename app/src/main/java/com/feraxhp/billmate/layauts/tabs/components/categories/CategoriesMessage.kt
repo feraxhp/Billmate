@@ -17,13 +17,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.feraxhp.billmate.activitys.MainActivity
+import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 
 @Composable
 fun CategoriesMessage(
+    icon: Int = 0,
     name: String = "Example",
     amount: Double = 0.0,
     onClick: () -> Unit = {}
@@ -44,7 +48,9 @@ fun CategoriesMessage(
             .padding(10.dp)
     ) {
         Icon(
-            imageVector = Icons.Filled.Edit,
+            painterResource(
+                id = appController.icons.getResourceId(icon, 0)
+            ),
             contentDescription = "",
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier

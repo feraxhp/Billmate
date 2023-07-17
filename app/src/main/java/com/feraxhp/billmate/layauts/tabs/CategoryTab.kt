@@ -44,7 +44,7 @@ fun CategoryTab(
         items(list.toMutableList().size) {
             // Confirmation alert dialog
             var showDialog by remember { mutableStateOf(false) }
-            CategoriesMessage(list[it].name, list[it].amount) {
+            CategoriesMessage(icon = list[it].icon, name = list[it].name, amount = list[it].amount) {
                 showDialog = true
             }
             Spacer(modifier = Modifier.padding(8.dp))
