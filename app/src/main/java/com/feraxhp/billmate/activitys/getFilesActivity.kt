@@ -48,18 +48,17 @@ class getFilesActivity : ComponentActivity() {
 
                 unzipFile(zipFilePath, outputFolderPath)
 
+                this.deleteSharedPreferences("User")
                 restoreBackup(this)
 
-                val message = "File copied to: ${destinationFile.absolutePath}"
-                Toast.makeText(this, /*this.getDatabasePath("billmateDB").absolutePath*/message, Toast.LENGTH_SHORT).show()
+                val message = "BackUp restored!!!!"
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
                 viewController.finishActivityWithActualize(this)
             } else {
-                Toast.makeText(this, "Unable to get filename.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Unable to get file", Toast.LENGTH_SHORT).show()
             }
         }
-
-
     }
 
     private fun getFileNameFromUri(uri: Uri): String? {

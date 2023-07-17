@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
 
         this.setDinamicColorToAppIcon()
 
+
         setContent {
 
             appController = AppController(this)

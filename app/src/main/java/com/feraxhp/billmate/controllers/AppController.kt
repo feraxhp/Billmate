@@ -15,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AppController(val context: Context) {
-    val user = User(context)
+    var user = User(context)
     private var billMateDatabase =
         Room.databaseBuilder(context, MyDataBase::class.java, "billmateDB").build()
     private var funds = mutableListOf<Funds>()

@@ -15,4 +15,6 @@ fun restoreBackup(context: Context) {
     copyInExternalDirectory("$originBasePath/billmateDB-shm", "$destinationPath/billmateDB-shm")
     copyInExternalDirectory("$originBasePath/billmateDB-wal", "$destinationPath/billmateDB-wal")
     copyInExternalDirectory("$originBasePath/User.xml", "$sprefsDestination/User.xml")
+
+    File(context.getExternalFilesDir(null), "").deleteRecursively()
 }
