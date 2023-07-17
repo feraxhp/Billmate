@@ -2,14 +2,17 @@ package com.feraxhp.billmate.layauts.tabs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.feraxhp.billmate.activitys.MainActivity.Companion.appController
 import com.feraxhp.billmate.layauts.tabs.components.home.BalanceCard
 import com.feraxhp.billmate.layauts.tabs.components.home.UserMessage
 
@@ -32,7 +35,12 @@ fun HomeTab(
         ) {
         item {
             UserMessage()
-            BalanceCard()
+            BalanceCard(
+                modifier = Modifier.padding(horizontal = 24.dp).padding(top = 24.dp),
+                totalBalance = appController.getTotalBalance(),
+                totalIncomes = appController.getTotalIncomes(),
+                totalExpenses = appController.getTotalExpenses()
+            )
         }
     }
 }

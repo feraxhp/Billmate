@@ -47,13 +47,20 @@ fun EventsCard(
     onClick: @Composable () -> Unit = {},
     onBodyClick: @Composable () -> Unit = {}
 ) {
-    val color = if (type) Color(0XFF008C37) else Color(0xFFff0000)
+    val color by remember {mutableStateOf(if (type) Color(0XFF008C37) else Color(0xFFff0000))}
 
     var isClicked by remember { mutableStateOf(false) }
     if (isClicked) onClick(); isClicked = false
 
     var isBodyClicked by remember { mutableStateOf(false) }
     if (isBodyClicked) onBodyClick(); isBodyClicked = false
+
+    val type_ by remember {mutableStateOf(type)}
+    val name_ by remember {mutableStateOf(name)}
+    val amount_ by remember {mutableStateOf(amount)}
+    val date_ by remember {mutableStateOf(date)}
+    val time_ by remember {mutableStateOf(time)}
+
 
 
     Row(
@@ -64,7 +71,7 @@ fun EventsCard(
     ) {
         val state = rememberTimePickerState()
         Icon(
-            painter = if (type) painterResource(
+            painter = if (type_) painterResource(
                 id = R.drawable.baseline_input_24
             ) else painterResource(
                 id = R.drawable.baseline_output_24
@@ -88,7 +95,7 @@ fun EventsCard(
                     .wrapContentWidth()
             ) {
                 Text(
-                    text = name,
+                    text = name_,
                     fontSize = 20.sp,
                     color = color,
                     overflow = TextOverflow.Ellipsis,
@@ -98,7 +105,7 @@ fun EventsCard(
                         .widthIn(0.dp, 100.dp)
                 )
                 Text(
-                    text = ": ${amount.toMoneyFormat()}",
+                    text = ": ${amount_.toMoneyFormat()}",
                     fontSize = 20.sp,
                     overflow = TextOverflow.Ellipsis,
                     color = color,
@@ -108,7 +115,7 @@ fun EventsCard(
             }
 
             Text(
-                text = "$date ~ ${time.timeFormat(state.is24hour)}",
+                text = "${date_} ~ ${time_.timeFormat(state.is24hour)}",
                 maxLines = 1,
                 color = MaterialTheme.colorScheme.onBackground,
 

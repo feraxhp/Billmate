@@ -61,8 +61,10 @@ fun MyCardFund(
     if (isBodyClicked) onBodyClick(); isBodyClicked = false
 
     val padding = 24.dp
-    val startFloat = 0.4f
-    val endFloat = 10.0f
+
+    val startFloat = 0.2f
+    val endFloat = 1f
+
     val brushes =  listOf(
         Brush.linearGradient(
             startFloat to MaterialTheme.colorScheme.primaryContainer,

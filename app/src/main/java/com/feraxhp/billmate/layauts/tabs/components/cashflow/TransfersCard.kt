@@ -16,6 +16,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,7 +42,14 @@ fun TransfersCard(
     onClick: () -> Unit = {},
     onBodyClick: () -> Unit = {}
 ) {
-    val color = Color(0xFF008C8C)
+    val color by  remember { mutableStateOf(Color(0xFF008C8C))}
+
+    val amount_ by remember { mutableStateOf(amount) }
+    val date_ by remember { mutableStateOf(date) }
+    val time_ by remember { mutableStateOf(time) }
+    val origin_ by remember { mutableStateOf(origin) }
+    val destination_ by remember { mutableStateOf(destination) }
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -61,11 +71,12 @@ fun TransfersCard(
                 }
                 .weight(2f)
         ) {
-            Text(text = "$origin ➤ $destination: ${amount.toMoneyFormat()}",
+            Text(text = "$origin_ ➤ $destination_: ${amount_.toMoneyFormat()}",
                 fontSize = 20.sp,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 color = color)
-            Text(text = "$date ~ ${time.timeFormat(state.is24hour)}", color = MaterialTheme.colorScheme.onBackground)
+            Text(text = "$date_ ~ ${time_.timeFormat(state.is24hour)}", color = MaterialTheme.colorScheme.onBackground)
         }
         IconButton(onClick = { onClick() }) {
             Icon(
