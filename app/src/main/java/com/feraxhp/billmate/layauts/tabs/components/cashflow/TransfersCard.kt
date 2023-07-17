@@ -57,7 +57,7 @@ fun TransfersCard(
     ) {
         val state = rememberTimePickerState()
         Icon(
-            painter = painterResource(id = R.drawable.baseline_sync_alt_24),
+            painter = painterResource(id = R.drawable.manual_baseline_sync_alt_24),
             contentDescription = "",
             tint = color,
             modifier = Modifier

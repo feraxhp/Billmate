@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.AdaptiveIconDrawable
 import android.os.Bundle
 import android.util.TypedValue
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,6 +41,8 @@ class MainActivity : ComponentActivity() {
 
             appController = AppController(this)
             viewController = ViewController(this)
+
+            Toast.makeText(this, appController.icons.getResourceId(0, 0).toString(), Toast.LENGTH_SHORT).show()
 
             var hasName by remember { mutableStateOf(appController.user.getName() != null) }
             BillmateTheme {

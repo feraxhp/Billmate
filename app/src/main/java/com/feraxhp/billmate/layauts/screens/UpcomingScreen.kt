@@ -62,7 +62,7 @@ fun UpcomingScreen(
         ) {
             Icon(
                 painter = painterResource(
-                    id = R.drawable.ic_stat_name
+                    id = R.drawable.manual_ic_stat_name
                 ),
                 contentDescription = "App Icon",
                 tint = MaterialTheme.colorScheme.onPrimaryContainer,

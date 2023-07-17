@@ -1,7 +1,10 @@
 package com.feraxhp.billmate.controllers
 
 import android.content.Context
+import android.widget.Toast
 import androidx.room.Room
+import com.feraxhp.billmate.R
+import com.feraxhp.billmate.activitys.MainActivity
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 import com.feraxhp.billmate.logic_database.User
@@ -26,6 +29,8 @@ class AppController(val context: Context) {
     private var transfers = mutableListOf<Transfers>()
     private var events = mutableListOf<Events>()
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
+
+    val icons = context.resources.obtainTypedArray(R.array.icons)
 
     init {
         coroutineScope.launch {
