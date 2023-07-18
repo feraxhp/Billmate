@@ -42,6 +42,11 @@ class MainActivity : ComponentActivity() {
             appController = AppController(this)
             viewController = ViewController(this)
 
+            if (appController.user.getName() == "YaaD") {
+                val mensage = Toast.makeText(this, "¡Te amo!", Toast.LENGTH_SHORT)
+                mensage.show()
+            }
+
             var hasName by remember { mutableStateOf(appController.user.getName() != null) }
             BillmateTheme {
                 Surface(

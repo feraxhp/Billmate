@@ -35,7 +35,8 @@ fun BalanceCard(
     val onColor = MaterialTheme.colorScheme.onPrimaryContainer
     val colorStops = arrayOf(
         0.0f to MaterialTheme.colorScheme.primaryContainer,
-        0.2f to MaterialTheme.colorScheme.secondaryContainer,
+        0.45f to MaterialTheme.colorScheme.secondaryContainer,
+        0.55f to MaterialTheme.colorScheme.secondaryContainer,
         1f to MaterialTheme.colorScheme.tertiaryContainer
     )
     MyCards(
