@@ -1,13 +1,11 @@
 package com.feraxhp.billmate.controllers
 
 import android.content.Context
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.room.Room
 import com.feraxhp.billmate.R
-import com.feraxhp.billmate.activitys.MainActivity
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
 import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 import com.feraxhp.billmate.logic_database.User

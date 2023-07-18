@@ -37,6 +37,7 @@ import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 @Composable
 fun CategoriesMessage(
     icon: Int? = null,
+//    father: Long = 0L,
     name: String = "Example",
     amount: Double = 0.0,
     persentage: Float = 0f,
