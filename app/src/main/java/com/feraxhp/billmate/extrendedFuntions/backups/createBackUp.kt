@@ -8,9 +8,6 @@ import java.io.File
 @SuppressLint("QueryPermissionsNeeded")
 fun backupDatabase(context: Context): String {
     try {
-//        Permissions.ReadAndWriteExternalStorage(context)
-
-
         val baseDBFile = context.getDatabasePath("billmateDB").absoluteFile.toString()
         val shmDBFile = baseDBFile.replace("billmateDB", "billmateDB-shm")
         val walDBFile = baseDBFile.replace("billmateDB", "billmateDB-shm")
@@ -34,7 +31,7 @@ fun backupDatabase(context: Context): String {
 
         shareFile(context, File(context.getExternalFilesDir(null), zipName))
 
-        return "All backups have been created"
+        return "Backup Created!!!"
 
     } catch (e: Exception) {
 
