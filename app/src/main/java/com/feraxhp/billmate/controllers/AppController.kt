@@ -2,6 +2,9 @@ package com.feraxhp.billmate.controllers
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.room.Room
 import com.feraxhp.billmate.R
 import com.feraxhp.billmate.activitys.MainActivity
@@ -162,6 +165,10 @@ class AppController(val context: Context) {
     }
 
     // Getters
+    @Composable
+    fun getIcon(id: Int): Painter {
+        return painterResource(id = icons.getResourceId(id-4, 0))
+    }
     fun getAllFunds(): List<Funds> {
         return funds
     }

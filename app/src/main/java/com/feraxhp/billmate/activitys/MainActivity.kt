@@ -42,8 +42,6 @@ class MainActivity : ComponentActivity() {
             appController = AppController(this)
             viewController = ViewController(this)
 
-            Toast.makeText(this, appController.icons.getResourceId(0, 0).toString(), Toast.LENGTH_SHORT).show()
-
             var hasName by remember { mutableStateOf(appController.user.getName() != null) }
             BillmateTheme {
                 Surface(
