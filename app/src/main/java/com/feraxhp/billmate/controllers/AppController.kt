@@ -7,6 +7,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.room.Room
 import com.feraxhp.billmate.R
 import com.feraxhp.billmate.activitys.MainActivity.Companion.viewController
+import com.feraxhp.billmate.controllers.dependencies.CategoryStructure
 import com.feraxhp.billmate.extrendedFuntions.toMoneyFormat
 import com.feraxhp.billmate.logic_database.User
 import com.feraxhp.billmate.logic_database.database.MyDataBase
@@ -26,7 +27,8 @@ class AppController(val context: Context) {
     private var normalFunds = mutableListOf<Funds>()
     private var savesFunds = mutableListOf<Funds>()
     private var loansFunds = mutableListOf<Funds>()
-    private var categories = mutableListOf<Categories>()
+    private var categories = mutableListOf<CategoryStructure>()
+    private var allCategories = mutableListOf<Categories>()
     private var transfers = mutableListOf<Transfers>()
     private var events = mutableListOf<Events>()
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
@@ -41,7 +43,12 @@ class AppController(val context: Context) {
                     titularName = "",
                     accountName = "Default",
                     amount = "0.0",
-                    description = "This is a description"
+                    description = "This is an example of a fund"
+                )
+                this@AppController.addCategory(
+                    categoryName = "Default",
+                    amount = "0.0",
+                    description = "This is an example of a category"
                 )
             }
         }
@@ -68,7 +75,17 @@ class AppController(val context: Context) {
 
     private suspend fun actualizeCategories() {
         categories.clear()
-        categories = billMateDatabase.CategoriesDao().getAllCategories() as MutableList<Categories>
+        allCategories.clear()
+        val fathers = billMateDatabase.CategoriesDao().getAllCategoriesByFather(0) as MutableList<Categories>
+        fathers.onEach { this.categories.add(CategoryStructure(it)) }
+        this.categories.onEach { fillSubCategories(it, it.self.id) }
+        allCategories = billMateDatabase.CategoriesDao().getAllCategories() as MutableList<Categories>
+    }
+    private suspend fun fillSubCategories(structure: CategoryStructure, father: Long) {
+        if (structure.isTooDeep()) return
+        val sons = billMateDatabase.CategoriesDao().getAllCategoriesByFather(father) as MutableList<Categories>
+        if (sons.isEmpty()) return
+        sons.onEach { fillSubCategories(CategoryStructure(it), structure.self.id) }
     }
 
     private suspend fun actualizeTransfers() {
@@ -176,7 +193,7 @@ class AppController(val context: Context) {
     }
 
     fun getCategoryByID(categoryId: Long): Categories? {
-        return categories.find { it.id == categoryId }
+        return allCategories.find { it.id == categoryId }
     }
 
     fun getAllFundsOnString(): List<String> {
@@ -208,11 +225,11 @@ class AppController(val context: Context) {
     }
 
     fun getAllCategories(): List<Categories> {
-        return categories
+        return allCategories
     }
 
     fun getAllCategoriesOnString(): List<String> {
-        return if (categories.isNotEmpty()) categories.map { "${it.name}: ${it.amount.toMoneyFormat()}" } else {
+        return if (allCategories.isNotEmpty()) allCategories.map { "${it.name}: ${it.amount.toMoneyFormat()}" } else {
             listOf("")
         }
     }
@@ -300,7 +317,7 @@ class AppController(val context: Context) {
         category: Int
     ): Int {
         val currentFund = this.funds[fund]
-        val currentCategory = this.categories[category]
+        val currentCategory = this.allCategories[category]
 
         if (name == "") return 1
         if (amount == "") return 2

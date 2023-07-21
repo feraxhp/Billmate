@@ -73,24 +73,6 @@ fun CategoriesMessage(
 
         val tint = MaterialTheme.colorScheme.onSurfaceVariant
         val modifier = Modifier
-
-//            .background(
-//                brush = Brush.(
-//                    center = Offset(45f, 60.8f),
-//                    colorStops = if (persentage < 1.0f) arrayOf(
-//                        0.0f to MaterialTheme.colorScheme.primary.copy(alpha = .4f),
-//                        persentage - 0.02f to MaterialTheme.colorScheme.primary.copy(alpha = .3f),
-//                        persentage - 0.01f to MaterialTheme.colorScheme.primary.copy(alpha = .15f),
-//                        persentage - 0.005f to MaterialTheme.colorScheme.primary.copy(alpha = .0f),
-//                        persentage to MaterialTheme.colorScheme.primary.copy(alpha = 0f),
-//                        1.0f to MaterialTheme.colorScheme.primary.copy(alpha = 0f)
-//                    ) else arrayOf(
-//                        0.0f to MaterialTheme.colorScheme.primary.copy(alpha = .5f),
-//                        1.0f to MaterialTheme.colorScheme.primary.copy(alpha = .5f),
-//                    )
-//                ),
-//                shape = MaterialTheme.shapes.small
-//            )
             .padding(10.dp)
         if (icon == null) Icon(
             Icons.Default.Build,

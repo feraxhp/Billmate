@@ -8,8 +8,10 @@ import com.feraxhp.billmate.logic_database.database.entities.Categories
 
 @Dao
 interface CategoriesDao {
-    @Query("SELECT * FROM Categories WHERE father = 0")
+    @Query("SELECT * FROM Categories")
     suspend fun getAllCategories(): List<Categories>
+    @Query("SELECT * FROM Categories WHERE father = :father")
+    suspend fun getAllCategoriesByFather(father: Long): List<Categories>
 
     @Query("SELECT * FROM Categories WHERE id = :id")
     suspend fun getCategoryById(id: Long): Categories
