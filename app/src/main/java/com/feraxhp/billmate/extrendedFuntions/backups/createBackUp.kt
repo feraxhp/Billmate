@@ -10,7 +10,7 @@ fun backupDatabase(context: Context): String {
     try {
         val baseDBFile = context.getDatabasePath("billmateDB").absoluteFile.toString()
         val shmDBFile = baseDBFile.replace("billmateDB", "billmateDB-shm")
-        val walDBFile = baseDBFile.replace("billmateDB", "billmateDB-shm")
+        val walDBFile = baseDBFile.replace("billmateDB", "billmateDB-wal")
 
         val externalDataBaseDirectory = File(context.getExternalFilesDir(null), "")
         val backupBaseDBFile = externalDataBaseDirectory.absoluteFile.toString() + "/billmateDB"
