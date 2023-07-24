@@ -18,7 +18,7 @@ fun backupDatabase(context: Context): String {
         val backupWalDBFile = backupBaseDBFile.replace("billmateDB", "billmateDB-wal")
 
         val sprefs = baseDBFile.replace("databases/billmateDB", "shared_prefs/User.xml")
-        val backUpSprefs = backupBaseDBFile.replace("billmateDB-backup", "User.xml")
+        val backUpSprefs = backupBaseDBFile.replace("billmateDB", "User.xml")
 
         copyInExternalDirectory(baseDBFile, backupBaseDBFile)
         copyInExternalDirectory(shmDBFile, backupShmDBFile)
